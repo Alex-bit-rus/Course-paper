@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <windows.h>
 #include <conio.h>
+#include <list.hpp>
 
 struct Exams {
     char* nameLesson;
@@ -26,7 +27,7 @@ private:
 public:
     
 
-    Student operator=(Student& );
+    
 };
 
 struct ListStudents {
@@ -34,11 +35,9 @@ struct ListStudents {
     ListStudents* next;
 };
 
-class Group {
+class Lisdt {
 private:
-    char* nameGroup;
-    ListStudents* students;
-    unsigned short countStudens = 0;
+    
 public:
     char* getNameGroup();
     void addElem(Student);
@@ -49,22 +48,6 @@ public:
 
 };
 
-char* Group::getNameGroup() {
-    return nameGroup;
-}
-
-void Group::addElem(Student _newStudent) {
-    ListStudents* newListStudents = new ListStudents();
-    newListStudents->data = _newStudent;
-    if (countStudens == 0) {
-        newListStudents->next = NULL;
-    }
-    else {
-        newListStudents->next = students;
-    }
-    students = newListStudents;
-    countStudens++;
-}
 
 
 
@@ -124,7 +107,7 @@ void menu() {
 
 int main()
 {
-    menu();
+    
     
 
 }
