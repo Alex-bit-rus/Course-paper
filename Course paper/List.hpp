@@ -17,6 +17,7 @@ public:
     void removeElem(size_t);
     void editElem(size_t, T);
     void insertElem(size_t, T);
+    int findElem(T);
     ~List();
 };
 
@@ -83,10 +84,10 @@ void List<T>::insertElem(size_t _index, T _editT) {
     if (_index > 0 && _index < sizeList + 1 && sizeList > 0) {
         node* _current = new node();
         node* _newList = new node();
+        _current = head;
         _newList->data = _editT;
-        if (_index == 1) _current = head;
         for (int _i = 0; _i < _index - 1; _i++) {
-            _current = head->next;
+            _current = _current->next;
         }
         _newList->next = _current->next;
         _current->next = _newList;
@@ -95,8 +96,26 @@ void List<T>::insertElem(size_t _index, T _editT) {
 
 }
 template<typename T>
+int List<T>::findElem(T _elem) {
+    node* current = new node;
+    size_t _index = 0;
+    current = head;
+    while (current) {
+        if (current->data == _elem) {
+            return _index;
+        }
+        current = current->next;
+        _index++;
+    }
+    return -1;
+}
+
+
+
+template<typename T>
 List<T>::~List() {
-    node* _current = new node;
+    node* _current;
+    _current = new node;
     for (int i = 0; i < sizeList; i++) {
         _current = head->next;
         delete head;

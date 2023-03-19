@@ -3,7 +3,7 @@
 #include <conio.h>
 #include "list.hpp"
 #include "Student.h"
-
+#define use_CRT_SECURE_NO_WARNINGS 
 
 
 
@@ -61,14 +61,18 @@ void menu() {
 }
 
 
-
 int main()
 {
     
-    List<int> B;
+   /* List<int> B;
     B.addElem(1);
     B.addElem(2);
     B.addElem(3);
-    B.insertElem(3,56);
-
+    B.addElem(4);
+    B.addElem(5);
+    cout << B.findElem(89);*/
+    List<Student> group;
+    Student Boris("ddd", "22", "22", 17, 8, 2004, 2022, "IKB", "KB-2", "БАСО-05-20", "757", "M");
+    group.addElem(Boris);
+    return 0;
 }
