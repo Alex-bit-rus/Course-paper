@@ -3,6 +3,7 @@
 #include <conio.h>
 #include "list.hpp"
 #include "Student.h"
+#include "Exams.h"
 #define use_CRT_SECURE_NO_WARNINGS 
 
 

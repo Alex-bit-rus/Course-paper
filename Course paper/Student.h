@@ -20,7 +20,7 @@ private:
     char* group;
     char* id;
     char* sex; // 0 - man, 1 - human
-    Exams exams;
+    Exams exam;
 public:
     Student();
     Student(const char*, const char*, const char*, const unsigned short, const unsigned short, const unsigned short,\

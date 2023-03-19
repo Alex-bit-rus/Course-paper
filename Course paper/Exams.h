@@ -10,6 +10,7 @@ private:
         unsigned short mark;
         bool empty = true;
     };
+public:
     Exam lessons[9][10];
     int firstEmpty(const unsigned short);
     int addLesson(const unsigned short, const char* ,const unsigned short);
