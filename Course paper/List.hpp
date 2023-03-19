@@ -11,7 +11,7 @@ class List
     size_t sizeList = 0;
 
 public:
-    List() {};
+     List() {};
     List(size_t) {};
     void addElem(T);
     void removeElem(size_t);

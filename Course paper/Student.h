@@ -1,12 +1,9 @@
 #pragma once
 #include <string.h>
 #include <string>
-#define _CRT_SECURE_NO_WARNINGS 
+#include "Exams.h"
 
-struct Exams {
-    char* nameLesson;
-    unsigned short scoreExam;
-};
+
 
 
 class Student {
@@ -23,7 +20,7 @@ private:
     char* group;
     char* id;
     char* sex; // 0 - man, 1 - human
-    Exams exams[9][10];
+    Exams exams;
 public:
     Student();
     Student(const char*, const char*, const char*, const unsigned short, const unsigned short, const unsigned short,\
@@ -32,9 +29,7 @@ public:
 
     bool operator== (const Student&);
     Student operator= (const Student&);
-
     ~Student();
-
 };
 
 Student::Student() {
@@ -58,7 +53,6 @@ Student::Student() {
     memcpy(this->id, "id", strlen("id") + 1);
     this->sex = new char[strlen("sex") + 1];
     memcpy(this->sex, "sex", strlen("sex") + 1);
-
 }
 
 

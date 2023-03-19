@@ -135,6 +135,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Exams.h" />
     <ClInclude Include="list.hpp" />
     <ClInclude Include="Student.h" />
   </ItemGroup>
