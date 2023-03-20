@@ -89,13 +89,15 @@ void menu() {
 
 int main()
 {
-
+    List<Student> name;
     pair<int,const char*> p1;
     p1 = make_pair(1, "e");
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
     MenuClass menuClass;
-    menuClass.findMaxLen(menuClass.list.listOne);
-  
+    //menuClass.findMaxLen(menuClass.listMenu.listOne);
+    Student Alex;
+    Student Boris("ddd", "22", "22", 17, 8, 2004, 2022, "IKB", "KB-2", "БАСО-05-20", "757", "M");
+    cout << menuClass.findMaxLen(menuClass.listMenu.listOne);
     return 0;
 }

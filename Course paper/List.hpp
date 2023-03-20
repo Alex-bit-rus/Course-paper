@@ -18,6 +18,10 @@ public:
     void editElem(size_t, T);
     void insertElem(size_t, T);
     int findElem(T);
+    T& operator[] (int);
+    size_t getSize() {
+        return sizeList;
+    };
     ~List();
 };
 
@@ -122,4 +126,26 @@ List<T>::~List() {
         head = _current;
     }
     sizeList = 0;
+}
+
+template<typename T>
+T& List<T>::operator[](int index)
+{
+  
+        if (index >= 0 and index < sizeList) {
+            node* current = new node();
+            current = head;
+            for (int i = 0; i < index; i++)
+                current = current->next;
+            return current->data;
+        }
+        else if (sizeList + index > 0) {
+            node* current = new node();
+            current = head;
+            for (int i = 0; i < sizeList + index; i++) {
+                current = current->next;
+            }
+            return current->data;
+        }
+    
 }

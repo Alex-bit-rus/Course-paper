@@ -40,6 +40,6 @@ int Exams::addLesson(const unsigned short _numSess, const char* _nameLesson,cons
 Exams::~Exams() {
     for (int i = 0; i < 9; i++) 
         for (int j = 0; j < 10; j++) {
-            delete[] this->lessons[i][j].nameLesson;
+            if(!lessons[i][j].empty)delete[] this->lessons[i][j].nameLesson;
         }
 }

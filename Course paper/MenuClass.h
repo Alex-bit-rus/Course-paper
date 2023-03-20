@@ -38,9 +38,13 @@ public:
 }
 	
 
-	void findMaxLen(string str[]) {
-		cout << sizeof(str) << endl;
-		for (int i = 0; i < 4; i++) cout << str[i].length() << "\n";
+	size_t findMaxLen(List<string> str) {
+		size_t maxLen = 0;
+		for (int i = 0; i < str.getSize(); i++) {
+			if (maxLen < str[i].size()) maxLen = str[i].size();
+		}
+		return maxLen;
+		
 	}
 
 	void drawTopLine(size_t lenTopLine) {
