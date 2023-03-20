@@ -14,6 +14,7 @@ public:
     Exam lessons[9][10];
     int firstEmpty(const unsigned short);
     int addLesson(const unsigned short, const char* ,const unsigned short);
+    ~Exams();
 };
 
 int Exams::firstEmpty(const unsigned short _numSess) {
@@ -36,3 +37,9 @@ int Exams::addLesson(const unsigned short _numSess, const char* _nameLesson,cons
     else return 1;
 }
 
+Exams::~Exams() {
+    for (int i = 0; i < 9; i++) 
+        for (int j = 0; j < 10; j++) {
+            delete[] this->lessons[i][j].nameLesson;
+        }
+}
