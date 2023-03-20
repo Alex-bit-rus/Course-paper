@@ -11,7 +11,10 @@ class List
     size_t sizeList = 0;
 
 public:
-     List() {};
+     List() {
+         head = NULL;
+         sizeList = 0;
+     };
     List(size_t) {};
     void addElem(T);
     void removeElem(size_t);
@@ -70,6 +73,7 @@ void List<T>::removeElem(size_t _index) {
 }
 
 template<typename T>
+
 void List<T>::editElem(size_t _index, T _editT) {
     if (_index > 0 && _index < sizeList && sizeList > 0) {
         node* _current = new node();
@@ -121,17 +125,21 @@ List<T>::~List() {
     node* _current;
     _current = new node;
     for (int i = 0; i < sizeList; i++) {
+        if (head == NULL) 
+            break;
         _current = head->next;
         delete head;
         head = _current;
     }
+    delete _current;
     sizeList = 0;
+    head = NULL;
 }
 
 template<typename T>
 T& List<T>::operator[](int index)
 {
-  
+        
         if (index >= 0 and index < sizeList) {
             node* current = new node();
             current = head;
@@ -149,3 +157,4 @@ T& List<T>::operator[](int index)
         }
     
 }
+

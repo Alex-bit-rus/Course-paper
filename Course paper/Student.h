@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <string.h>
 #include <string>
 #include "Exams.h"
@@ -29,8 +30,10 @@ public:
 
     bool operator== (const Student&);
     Student operator= (const Student&);
+    friend std::ostream& operator<< (std::ostream& out, const Student& student);
     ~Student();
 };
+
 
 Student::Student() {
     this->firstname = new char[strlen("firstname") + 1];
@@ -59,55 +62,55 @@ Student::Student() {
 
 Student::Student(const char* firstname, const char* name, const char* patronymic, const unsigned short dayBirds, const unsigned short monthBirds\
     , const unsigned short yearBirds, const unsigned short yearStart, const char* faculty, const char* department, const char* group, const char* id, const char* sex) {
-    this->firstname = new char [strlen(firstname) + 1];
-    memcpy(this->firstname, firstname,strlen(firstname)+1);
+    this->firstname = new char[strlen(firstname) + 1];
+    memcpy(this->firstname, firstname, strlen(firstname) + 1);
     this->name = new char[strlen(name) + 1];
-    memcpy(this->name, name, strlen(name)+1);
+    memcpy(this->name, name, strlen(name) + 1);
     this->patronymic = new char[strlen(patronymic) + 1];
-    memcpy(this->patronymic, patronymic, strlen(patronymic)+1);
+    memcpy(this->patronymic, patronymic, strlen(patronymic) + 1);
     this->dayBirds = dayBirds;
     this->monthBirds = monthBirds;
     this->yearBirds = yearBirds;
     this->yearStart = yearStart;
     this->faculty = new char[strlen(faculty) + 1];
-    memcpy(this->faculty, faculty, strlen(faculty)+1);
+    memcpy(this->faculty, faculty, strlen(faculty) + 1);
     this->department = new char[strlen(department) + 1];
-    memcpy(this->department, department, strlen(department)+1);
+    memcpy(this->department, department, strlen(department) + 1);
     this->group = new char[strlen(group) + 1];
-    memcpy(this->group, group, strlen(group)+1);
+    memcpy(this->group, group, strlen(group) + 1);
     this->id = new char[strlen(id) + 1];
-    memcpy(this->id, id, strlen(id)+1);
+    memcpy(this->id, id, strlen(id) + 1);
     this->sex = new char[strlen(sex) + 1];
-    memcpy(this->sex, sex, strlen(sex)+1);
+    memcpy(this->sex, sex, strlen(sex) + 1);
 
 }
 
 Student::Student(const Student& student) {
     this->firstname = new char[strlen(student.firstname) + 1];
-    memcpy(this->firstname, student.firstname, strlen(student.firstname)+1);
+    memcpy(this->firstname, student.firstname, strlen(student.firstname) + 1);
     this->name = new char[strlen(student.name) + 1];
-    memcpy(this->name, student.name, strlen(student.name)+1);
+    memcpy(this->name, student.name, strlen(student.name) + 1);
     this->patronymic = new char[strlen(student.patronymic) + 1];
-    memcpy(this->patronymic, student.patronymic, strlen(student.patronymic)+1);
+    memcpy(this->patronymic, student.patronymic, strlen(student.patronymic) + 1);
     this->dayBirds = student.dayBirds;
     this->monthBirds = student.monthBirds;
     this->yearBirds = student.yearBirds;
     this->yearStart = student.yearStart;
     this->faculty = new char[strlen(student.faculty) + 1];
-    memcpy(this->faculty, student.faculty, strlen(student.faculty)+1);
+    memcpy(this->faculty, student.faculty, strlen(student.faculty) + 1);
     this->department = new char[strlen(student.department) + 1];
-    memcpy(this->department, student.department, strlen(student.department)+1);
+    memcpy(this->department, student.department, strlen(student.department) + 1);
     this->group = new char[strlen(student.group) + 1];
-    memcpy(this->group, student.group, strlen(student.group)+1);
+    memcpy(this->group, student.group, strlen(student.group) + 1);
     this->id = new char[strlen(student.id) + 1];
-    memcpy(this->id, student.id, strlen(student.id)+1);
+    memcpy(this->id, student.id, strlen(student.id) + 1);
     this->sex = new char[strlen(student.sex) + 1];
-    memcpy(this->sex, student.sex, strlen(student.sex)+1);
+    memcpy(this->sex, student.sex, strlen(student.sex) + 1);
 }
 
 
 bool Student::operator==(const Student& student) {
-    return (strcmp(this->id,student.id)==0);
+    return (strcmp(this->id, student.id) == 0);
 }
 
 Student Student::operator=(const Student& student) {
@@ -144,9 +147,17 @@ Student::~Student() {
     delete[] department;
     delete[] group;
     delete[] id;
-    
-    
+
+
 }
 
 
 
+
+
+std::ostream& operator<<(std::ostream& out, const Student& student)
+{
+    out << student.firstname << " " << student.name \
+        << " " << student.patronymic << " " << student.group;
+    return out;
+}

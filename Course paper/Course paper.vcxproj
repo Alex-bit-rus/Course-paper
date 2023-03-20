@@ -133,6 +133,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"C:\Users\aleks\YandexDisk\repos\Course paper\Course paper\list.hpp"</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"C:\Users\aleks\YandexDisk\repos\Course paper\Course paper\list.hpp"</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="Student.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Exams.h" />
