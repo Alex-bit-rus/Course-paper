@@ -20,7 +20,9 @@ public:
     void removeElem(size_t);
     void editElem(size_t, T);
     void insertElem(size_t, T);
+    void clear();
     int findElem(T);
+    
     T& operator[] (int);
     size_t getSize() {
         return sizeList;
@@ -156,5 +158,20 @@ T& List<T>::operator[](int index)
             return current->data;
         }
     
+}
+template <typename T>
+void List<T>::clear() {
+    node* _current;
+    _current = new node;
+    for (int i = 0; i < sizeList; i++) {
+        if (head == NULL)
+            break;
+        _current = head->next;
+        delete head;
+        head = _current;
+    }
+    delete _current;
+    sizeList = 0;
+    head = NULL;
 }
 
