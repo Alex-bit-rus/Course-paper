@@ -20,6 +20,8 @@ public:
     void removeElem(size_t);
     void editElem(size_t, T);
     void insertElem(size_t, T);
+    void writeToFile(FILE*);
+    void readToFile(FILE*);
     void clear();
     int findElem(T);
     
@@ -174,4 +176,13 @@ void List<T>::clear() {
     sizeList = 0;
     head = NULL;
 }
+template <typename T>
+void List<T>::writeToFile(FILE* file) {
+    fwrite(this, sizeof(List), 1, file);
+}
 
+template <typename T>
+void List<T>::readToFile(FILE* file) {
+    fseek(file, 0, SEEK_SET);
+    fread(this, sizeof(List), 1, file);
+}

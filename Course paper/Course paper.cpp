@@ -89,17 +89,18 @@ void menu() {
 
 int main()
 {
-    List<Student> name;
+    FILE* file;
+    fopen_s(&file, "file.bin", "wb+");
+    
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
-    MenuClass menuClass;
-    menuClass.findMaxLen(menuClass.listMenu.listOne);
-    Student Alex("Алекс", "Жик", "Михайлович", 127, 82, 2004, 2022, "IKB2", "KB-22", "БАСО-07-20", "7527", "M");
-    Student Boris("Борямба", "Русал", "Алексеич", 17, 8, 2004, 2022, "IKB", "KB-2", "БАСО-05-20", "757", "M");
-    name.addElem(Boris);
-    cout << menuClass.findMaxLen(menuClass.listMenu.listOne) << '\n' << menuClass.findMaxLen(menuClass.listMenu.listOne_2) << '\n';
-    cout << Boris << '\n' << Alex;
-    name.clear();
-    name.addElem(Alex);
-    return 0;
+    List <Student> list;
+    Student Alex("Алекс", "Жик", "Миха1234567899 ", 127, 82, 2004, 2022, "IKB2", "KB-22", "БАСО-07-20", "7527", "M");
+    //Student Boris("Борямба", "Русал", "Алексеич", 17, 8, 2004, 2022, "IKB", "KB-2", "БАСО-05-20", "757", "M");
+    //Alex.writeToFile(file);
+    //Dany.readToFile(file);
+    list.addElem(Alex);
+    list.writeToFile(file);
+    list.readToFile(file);
+    fclose(file);
 }

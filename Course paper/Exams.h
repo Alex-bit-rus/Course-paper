@@ -1,19 +1,22 @@
 #pragma once
 #include <string.h>
-
+struct Exam {
+    char* nameLesson;
+    unsigned short mark;
+    bool empty = true;
+};
 
 class Exams
 {
 private:
-    struct Exam {
-        char* nameLesson;
-        unsigned short mark;
-        bool empty = true;
-    };
+    
 public:
     Exam lessons[9][10];
     int firstEmpty(const unsigned short);
     int addLesson(const unsigned short, const char* ,const unsigned short);
+    void writeExamsToFile(FILE*);
+    void readExamsToFile(FILE*);
+    
     ~Exams();
 };
 
@@ -40,6 +43,18 @@ int Exams::addLesson(const unsigned short _numSess, const char* _nameLesson,cons
 Exams::~Exams() {
     for (int i = 0; i < 9; i++) 
         for (int j = 0; j < 10; j++) {
-            if(!lessons[i][j].empty)delete[] this->lessons[i][j].nameLesson;
+            if(!lessons[i][j].empty) delete[] this->lessons[i][j].nameLesson;
         }
+}
+
+void Exams::writeExamsToFile(FILE* file) {
+    fwrite(lessons, sizeof(lessons), 1, file);
+    /*for (int i = 0; i < 9; i++)
+        for (int j = 0; j < 10; j++) {*/
+            
+}void Exams::readExamsToFile(FILE* file) {
+    fread(lessons, sizeof(lessons), 1, file);
+    /*for (int i = 0; i < 9; i++)
+        for (int j = 0; j < 10; j++) {*/
+            
 }
