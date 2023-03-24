@@ -9,18 +9,18 @@
 
 class Student {
 private:
-    char* firstname;
-    char* name;
-    char* patronymic;
-    unsigned short dayBirds;
-    unsigned short monthBirds;
-    unsigned short yearBirds;
+    char firstname[40];
+    char name[40];
+    char patronymic[40];
+    unsigned short dayBirth;
+    unsigned short monthBirth;
+    unsigned short yearBirth;
     unsigned short yearStart;
-    char* faculty;
-    char* department;
-    char* group;
-    char* id;
-    char* sex; // 0 - man, 1 - human
+    char faculty[40];
+    char department[40];
+    char group[40];
+    char id[40];
+    char sex[40]; // 0 - man, 1 - human
     Exams exam;
     
 public:
@@ -39,78 +39,54 @@ public:
 
 
 Student::Student() {
-    this->firstname = new char[strlen("f") + 1];
-    memcpy(this->firstname, "f", strlen("f") + 1);
-    this->name = new char[strlen("n") + 1];
-    memcpy(this->name, "n", strlen("n") + 1);
-    this->patronymic = new char[strlen("p") + 1];
-    memcpy(this->patronymic, "p", strlen("p") + 1);
-    this->dayBirds = 0;
-    this->monthBirds = 0;
-    this->yearBirds = 0;
+    strcpy_s(this->firstname, "f");
+    strcpy_s(this->name, "n");
+    strcpy_s(this->patronymic, "p");
+    this->dayBirth = 0;
+    this->monthBirth = 0;
+    this->yearBirth = 0;
     this->yearStart = 0;
-    this->faculty = new char[strlen("f") + 1];
-    memcpy(this->faculty, "f", strlen("f") + 1);
-    this->department = new char[strlen("d") + 1];
-    memcpy(this->department, "d", strlen("d") + 1);
-    this->group = new char[strlen("g") + 1];
-    memcpy(this->group, "g", strlen("g") + 1);
-    this->id = new char[strlen("i") + 1];
-    memcpy(this->id, "i", strlen("i") + 1);
-    this->sex = new char[strlen("s") + 1];
-    memcpy(this->sex, "s", strlen("s") + 1);
+    strcpy_s(this->faculty, "f");
+    strcpy_s(this->department, "d");
+    strcpy_s(this->group, "g");
+    strcpy_s(this->id, "i");
+    strcpy_s(this->sex, "s");
     
 }
 
 
 
-Student::Student(const char* firstname, const char* name, const char* patronymic, const unsigned short dayBirds, const unsigned short monthBirds\
-    , const unsigned short yearBirds, const unsigned short yearStart, const char* faculty, const char* department, const char* group, const char* id, const char* sex) {
-    this->firstname = new char[strlen(firstname) + 1];
-    memcpy(this->firstname, firstname, strlen(firstname) + 1);
-    this->name = new char[strlen(name) + 1];
-    memcpy(this->name, name, strlen(name) + 1);
-    this->patronymic = new char[strlen(patronymic) + 1];
-    memcpy(this->patronymic, patronymic, strlen(patronymic) + 1);
-    this->dayBirds = dayBirds;
-    this->monthBirds = monthBirds;
-    this->yearBirds = yearBirds;
+Student::Student(const char* firstname, const char* name, const char* patronymic, const unsigned short dayBirth, const unsigned short monthBirth\
+    , const unsigned short yearBirth, const unsigned short yearStart, const char* faculty, const char* department, const char* group, const char* id, const char* sex) {
+    strcpy_s(this->firstname, firstname);
+    strcpy_s(this->name, name);
+    strcpy_s(this->patronymic, patronymic);
+    this->dayBirth = dayBirth;
+    this->monthBirth = monthBirth;
+    this->yearBirth = yearBirth;
     this->yearStart = yearStart;
-    this->faculty = new char[strlen(faculty) + 1];
-    memcpy(this->faculty, faculty, strlen(faculty) + 1);
-    this->department = new char[strlen(department) + 1];
-    memcpy(this->department, department, strlen(department) + 1);
-    this->group = new char[strlen(group) + 1];
-    memcpy(this->group, group, strlen(group) + 1);
-    this->id = new char[strlen(id) + 1];
-    memcpy(this->id, id, strlen(id) + 1);
-    this->sex = new char[strlen(sex) + 1];
-    memcpy(this->sex, sex, strlen(sex) + 1);
+    strcpy_s(this->faculty, faculty);
+    strcpy_s(this->department, department);
+    strcpy_s(this->group, group);
+    strcpy_s(this->id, id);
+    strcpy_s(this->sex, sex);
     
 
 }
 
 Student::Student(const Student& student) {
-    this->firstname = new char[strlen(student.firstname) + 1];
-    memcpy(this->firstname, student.firstname, strlen(student.firstname) + 1);
-    this->name = new char[strlen(student.name) + 1];
-    memcpy(this->name, student.name, strlen(student.name) + 1);
-    this->patronymic = new char[strlen(student.patronymic) + 1];
-    memcpy(this->patronymic, student.patronymic, strlen(student.patronymic) + 1);
-    this->dayBirds = student.dayBirds;
-    this->monthBirds = student.monthBirds;
-    this->yearBirds = student.yearBirds;
+    strcpy_s(this->firstname, student.firstname);
+    strcpy_s(this->name, student.name);
+    strcpy_s(this->patronymic, student.patronymic);
+    this->dayBirth = student.dayBirth;
+    this->monthBirth = student.monthBirth;
+    this->yearBirth = student.yearBirth;
     this->yearStart = student.yearStart;
-    this->faculty = new char[strlen(student.faculty) + 1];
-    memcpy(this->faculty, student.faculty, strlen(student.faculty) + 1);
-    this->department = new char[strlen(student.department) + 1];
-    memcpy(this->department, student.department, strlen(student.department) + 1);
-    this->group = new char[strlen(student.group) + 1];
-    memcpy(this->group, student.group, strlen(student.group) + 1);
-    this->id = new char[strlen(student.id) + 1];
-    memcpy(this->id, student.id, strlen(student.id) + 1);
-    this->sex = new char[strlen(student.sex) + 1];
-    memcpy(this->sex, student.sex, strlen(student.sex) + 1);
+    strcpy_s(this->faculty, student.faculty);
+    strcpy_s(this->department, student.department);
+    strcpy_s(this->group, student.group);
+    strcpy_s(this->id, student.id);
+    strcpy_s(this->sex, student.sex);
     
 }
 
@@ -120,26 +96,18 @@ bool Student::operator==(const Student& student) {
 }
 
 Student Student::operator=(const Student& student) {
-    this->firstname = new char[strlen(student.firstname) + 1];
-    memcpy(this->firstname, student.firstname, strlen(student.firstname) + 1);
-    this->name = new char[strlen(student.name) + 1];
-    memcpy(this->name, student.name, strlen(student.name) + 1);
-    this->patronymic = new char[strlen(student.patronymic) + 1];
-    memcpy(this->patronymic, student.patronymic, strlen(student.patronymic) + 1);
-    this->dayBirds = student.dayBirds;
-    this->monthBirds = student.monthBirds;
-    this->yearBirds = student.yearBirds;
+    strcpy_s(this->firstname, student.firstname);
+    strcpy_s(this->name, student.name);
+    strcpy_s(this->patronymic, student.patronymic);
+    this->dayBirth = student.dayBirth;
+    this->monthBirth = student.monthBirth;
+    this->yearBirth = student.yearBirth;
     this->yearStart = student.yearStart;
-    this->faculty = new char[strlen(student.faculty) + 1];
-    memcpy(this->faculty, student.faculty, strlen(student.faculty) + 1);
-    this->department = new char[strlen(student.department) + 1];
-    memcpy(this->department, student.department, strlen(student.department) + 1);
-    this->group = new char[strlen(student.group) + 1];
-    memcpy(this->group, student.group, strlen(student.group) + 1);
-    this->id = new char[strlen(student.id) + 1];
-    memcpy(this->id, student.id, strlen(student.id) + 1);
-    this->sex = new char[strlen(student.sex) + 1];
-    memcpy(this->sex, student.sex, strlen(student.sex) + 1);
+    strcpy_s(this->faculty, student.faculty);
+    strcpy_s(this->department, student.department);
+    strcpy_s(this->group, student.group);
+    strcpy_s(this->id, student.id);
+    strcpy_s(this->sex, student.sex);
     
     return (*this);
 }
@@ -147,26 +115,14 @@ Student Student::operator=(const Student& student) {
 
 
 Student::~Student() {
-        delete[] firstname;
-        delete[] name;
-        delete[] patronymic;
-        delete[] faculty;
-        delete[] department;
-        delete[] group;
-        delete[] id;
+     
     
 
 
 }
 
 void Student::clear() {
-    delete[] firstname;
-    delete[] name;
-    delete[] patronymic;
-    delete[] faculty;
-    delete[] department;
-    delete[] group;
-    delete[] id;
+
 
 }
 
@@ -191,9 +147,9 @@ void Student::writeToFile(FILE* file) {
     len = strlen(patronymic);
     fwrite(&len, sizeof(size_t), 1, file);
     fwrite(this->patronymic, sizeof(patronymic), 1, file);
-    fwrite(&this->dayBirds, sizeof(unsigned short), 1, file);
-    fwrite(&this->monthBirds, sizeof(unsigned short), 1, file);
-    fwrite(&this->yearBirds, sizeof(unsigned short), 1, file);
+    fwrite(&this->dayBirth, sizeof(unsigned short), 1, file);
+    fwrite(&this->monthBirth, sizeof(unsigned short), 1, file);
+    fwrite(&this->yearBirth, sizeof(unsigned short), 1, file);
     fwrite(&this->yearStart, sizeof(unsigned short), 1, file);
     len = strlen(faculty);
     fwrite(&len, sizeof(size_t), 1, file);
@@ -217,6 +173,7 @@ void Student::writeToFile(FILE* file) {
 }
 void Student::readToFile(FILE* file) {
     fseek(file, 0, SEEK_SET);
+    Student temp = Student();
     /*
     char* f;
     char* n;
@@ -234,9 +191,9 @@ void Student::readToFile(FILE* file) {
     p = new char[len + 1];
   
     fread(p, sizeof(p), 1, file);
-    fread(&this->dayBirds, sizeof(unsigned short), 1, file);
-    fread(&this->monthBirds, sizeof(unsigned short), 1, file);
-    fread(&this->yearBirds, sizeof(unsigned short), 1, file);
+    fread(&this->dayBirth, sizeof(unsigned short), 1, file);
+    fread(&this->monthBirth, sizeof(unsigned short), 1, file);
+    fread(&this->yearBirth, sizeof(unsigned short), 1, file);
     fread(&this->yearStart, sizeof(unsigned short), 1, file);
     fread(&len, sizeof(size_t), 1, file);
     delete[]faculty;

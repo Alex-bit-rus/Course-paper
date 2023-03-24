@@ -1,7 +1,7 @@
 #pragma once
 #include <string.h>
 struct Exam {
-    char* nameLesson;
+    char nameLesson[40];
     unsigned short mark;
     bool empty = true;
 };
@@ -31,8 +31,7 @@ int Exams::firstEmpty(const unsigned short _numSess) {
 int Exams::addLesson(const unsigned short _numSess, const char* _nameLesson,const unsigned short _mark) {
     int firstEmp = firstEmpty(_numSess);
     if (firstEmp > -1) {
-        this->lessons[_numSess][firstEmp].nameLesson = new char[strlen(_nameLesson) + 1];
-        memcpy(this->lessons[_numSess][firstEmp].nameLesson, _nameLesson, strlen(_nameLesson) + 1);
+        strcpy_s(this->lessons[_numSess][firstEmp].nameLesson, _nameLesson);
         this->lessons[_numSess][firstEmp].mark = _mark;
         this->lessons[_numSess][firstEmp].empty = false;
         return 0;

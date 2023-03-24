@@ -90,17 +90,17 @@ void menu() {
 int main()
 {
     FILE* file;
-    fopen_s(&file, "file.bin", "wb+");
+    fopen_s(&file, "file.bin", "w+");
     
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
     List <Student> list;
     Student Alex("Алекс", "Жик", "Миха1234567899 ", 127, 82, 2004, 2022, "IKB2", "KB-22", "БАСО-07-20", "7527", "M");
-    //Student Boris("Борямба", "Русал", "Алексеич", 17, 8, 2004, 2022, "IKB", "KB-2", "БАСО-05-20", "757", "M");
-    //Alex.writeToFile(file);
-    //Dany.readToFile(file);
-    list.addElem(Alex);
-    list.writeToFile(file);
-    list.readToFile(file);
+    Student Boris("Борямба", "Русал", "Алексеич", 17, 8, 2004, 2022, "IKB", "KB-2", "БАСО-05-20", "757", "M");
+    Student Dany;
+    fwrite(&Alex, sizeof(Student),1, file);
+    fseek(file, 0, SEEK_SET);
+    fread(&Dany, sizeof(Student),1, file);
+   
     fclose(file);
 }
