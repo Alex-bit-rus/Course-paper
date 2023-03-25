@@ -138,37 +138,7 @@ std::ostream& operator<<(std::ostream& out, const Student& student)
 }
 
 void Student::writeToFile(FILE* file) {
-   /* size_t len = strlen(firstname);
-    fwrite(&len, sizeof(size_t), 1, file);
-    fwrite(this->firstname, sizeof(firstname), 1, file);
-    len = strlen(name);
-    fwrite(&len, sizeof(size_t), 1, file);
-    fwrite(this->name, sizeof(name), 1, file);
-    len = strlen(patronymic);
-    fwrite(&len, sizeof(size_t), 1, file);
-    fwrite(this->patronymic, sizeof(patronymic), 1, file);
-    fwrite(&this->dayBirth, sizeof(unsigned short), 1, file);
-    fwrite(&this->monthBirth, sizeof(unsigned short), 1, file);
-    fwrite(&this->yearBirth, sizeof(unsigned short), 1, file);
-    fwrite(&this->yearStart, sizeof(unsigned short), 1, file);
-    len = strlen(faculty);
-    fwrite(&len, sizeof(size_t), 1, file);
-    fwrite(this->faculty, sizeof(faculty), 1, file);
-    len = strlen(department);
-    fwrite(&len, sizeof(size_t), 1, file);
-    fwrite(this->department, sizeof(department), 1, file);
-    len = strlen(group);
-    fwrite(&len, sizeof(size_t), 1, file);
-    fwrite(this->group, sizeof(group), 1, file);
-    len = strlen(id);
-    fwrite(&len, sizeof(size_t), 1, file);
-    fwrite(this->id, sizeof(id), 1, file);
-    len = strlen(sex);
-    fwrite(&len, sizeof(size_t), 1, file);
-    fwrite(this->sex, sizeof(sex), 1, file);
-    exam.writeExamsToFile(file);*/
-    fwrite((char*)this, sizeof(Student), 1, file);
-    //clear();
+    fwrite(this, sizeof(Student),1, file);
     
 }
 void Student::readToFile(FILE* file) {
