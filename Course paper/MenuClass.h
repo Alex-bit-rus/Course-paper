@@ -60,8 +60,10 @@ public:
 		HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 		COORD c;
 		char key;
-		for (int i = 0; i < ftell(file) / 4288; i++) {
-			fseek(file, 4288 * (i - 1), SEEK_SET);
+		fseek(file, 0, SEEK_END);
+		size_t lenFile = ftell(file) / 4288;
+		for (int i = 0; i < lenFile; i++) {
+			fseek(file, 4288 * (i), SEEK_SET);
 			Student tempStudent;
 			fread(&tempStudent, sizeof(Student), 1, file);
 			students.addElem(tempStudent);
@@ -84,7 +86,7 @@ public:
 				}
 				if (page == 1) {
 					fseek(file, 0, SEEK_END);
-					len = ftell(file)/ 4288;
+					len = lenFile + 1;
 					fseek(file, 4288*(i-1), SEEK_SET);
 					Student tempStudent;
 					fread(&tempStudent, sizeof(Student), 1, file);
