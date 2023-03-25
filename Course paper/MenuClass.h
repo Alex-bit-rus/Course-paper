@@ -51,13 +51,21 @@ public:
 		for (int i = 0; i < lenTopLine; i++) cout << '_';
 	}
 
-	void draw() {
+	void draw(FILE* file) {
+		fopen_s(&file, "file.bin", "a+");
+		List<Student> students;
 		unsigned short page = 0;
 		size_t len;
 		int choice = 1;
 		HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 		COORD c;
 		char key;
+		for (int i = 0; i < ftell(file) / 4288; i++) {
+			fseek(file, 4288 * (i - 1), SEEK_SET);
+			Student tempStudent;
+			fread(&tempStudent, sizeof(Student), 1, file);
+			students.addElem(tempStudent);
+		}
 
 		while (true) {
 
@@ -66,6 +74,8 @@ public:
 			cout << "Меню:" << endl;
 
 			for (int i = 1; i < 15; i++) {
+				
+			
 				if (page == 0) {
 					len = listMenu.listOne.getSize();
 					(choice == i ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); 
@@ -73,9 +83,14 @@ public:
 					if (i == len) break;
 				}
 				if (page == 1) {
-					len = ;
+					fseek(file, 0, SEEK_END);
+					len = ftell(file)/ 4288;
+					fseek(file, 4288*(i-1), SEEK_SET);
+					Student tempStudent;
+					fread(&tempStudent, sizeof(Student), 1, file);
 					(choice == i ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
-					cout << listMenu.listOne_2[i - 1] << endl;
+					if (i != len)cout << tempStudent << endl;
+					else cout << "Назад";
 					if (i == len) break;
 				}
 				if (page == 2) {
@@ -117,8 +132,8 @@ public:
 		}
 
 
-
+		fclose(file);
 
 	}
-
+	
 };

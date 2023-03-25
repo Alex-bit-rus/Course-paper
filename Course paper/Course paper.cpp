@@ -6,10 +6,8 @@
 #include "Exams.h"
 #include "MenuClass.h"
 
-
-
-
 using namespace std;
+
 
 
 //void menu() {
@@ -89,8 +87,8 @@ using namespace std;
 
 int main()
 {
-    FILE* file;
-    fopen_s(&file, "file.bin", "a+");
+    FILE* file = NULL;
+    
     
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
@@ -111,8 +109,8 @@ int main()
    
     
    
-    fclose(file);
+    
 
     MenuClass menu;
-    menu.draw();
+    menu.draw(file);
 }
