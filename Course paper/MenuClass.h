@@ -16,11 +16,13 @@ class MenuClass
 public:
 	ListMenu listMenu;
 	MenuClass() {
+		listMenu.listOne.addElem("Выход");
 		listMenu.listOne.addElem("Выполнить вариант 75");
-		listMenu.listOne.addElem("Удалить студента");
+		listMenu.listOne.addElem("Сохранить БД студентов в файл");
 		listMenu.listOne.addElem("Добавить студента");
 		listMenu.listOne.addElem("Вывыести список студентов (добавить сведения о студенте)");
 		
+		listMenu.listOne_2.addElem("Назад");
 		listMenu.listOne_2.addElem("Добавить результаты сессий");
 		listMenu.listOne_2.addElem("Введите пол");
 		listMenu.listOne_2.addElem("Введите номер зачетной книжки");
@@ -95,7 +97,13 @@ public:
 				break;
 			case 13: // Enter
 				system("cls");
-				page = choice;
+				if (choice == len) {
+					if (page == 0) return;
+					else page = page / 10;
+				
+				}
+				else page = page*10+choice;
+				choice = 1;
 
 			}
 		}
