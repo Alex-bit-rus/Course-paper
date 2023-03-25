@@ -90,27 +90,28 @@ using namespace std;
 int main()
 {
     FILE* file;
-    fopen_s(&file, "file.bin", "w+");
+    fopen_s(&file, "file.bin", "a+");
     
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
-    /*List <Student> list;
+    List <Student> list;
     Student Alex("Алекс", "Жик", "Миха1234567899 ", 127, 82, 2004, 2022, "IKB2", "KB-22", "БАСО-07-20", "7527", "M");
     Student Boris("Борямба", "Русал", "Алексеич", 17, 8, 2004, 2022, "IKB", "KB-2", "БАСО-05-20", "757", "M"); 
     Student Rusakov("Русаков", "Алексей", "Михайлович", 11, 11, 1911, 2002, "IKB3", "KB-2", "БИСО-01-11", "7526", "M");
     Student Filatov("Филатов", "Валерий", "Вячеславович", 22, 12, 1922, 2002, "IKB4", "KB-2", "БИСО-02-11", "7525", "M");
     Student Dany;
-    char a[40];
-    fwrite(&Alex, sizeof(Student),1, file);
+    //char a[40];
+    /*fwrite(&Alex, sizeof(Student),1, file);
     fwrite(&Boris, sizeof(Student),1, file);
     fwrite(&Rusakov, sizeof(Student),1, file);
-    fwrite(&Filatov, sizeof(Student),1, file);
-    fseek(file, 4288, SEEK_SET);
-    fread(a, sizeof(a), 1, file);
+    fwrite(&Filatov, sizeof(Student),1, file);*/
+    //fseek(file, 0, SEEK_SET);
+    //fread(&Dany, sizeof(Student), 1, file);
+    //cout << Dany;
    
     
    
-    fclose(file);*/
+    fclose(file);
 
     MenuClass menu;
     menu.draw();

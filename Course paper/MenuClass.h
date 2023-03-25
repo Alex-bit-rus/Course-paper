@@ -20,7 +20,7 @@ public:
 		listMenu.listOne.addElem("Выполнить вариант 75");
 		listMenu.listOne.addElem("Сохранить БД студентов в файл");
 		listMenu.listOne.addElem("Добавить студента");
-		listMenu.listOne.addElem("Вывыести список студентов (добавить сведения о студенте)");
+		listMenu.listOne.addElem("Выести список студентов (добавить сведения о студенте)");
 		
 		listMenu.listOne_2.addElem("Назад");
 		listMenu.listOne_2.addElem("Добавить результаты сессий");
@@ -72,12 +72,20 @@ public:
 					cout << listMenu.listOne[i-1] << endl;
 					if (i == len) break;
 				}
+				if (page == 1) {
+					len = ;
+					(choice == i ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+					cout << listMenu.listOne_2[i - 1] << endl;
+					if (i == len) break;
+				}
 				if (page == 2) {
 					len = listMenu.listOne_2.getSize();
 					(choice == i ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 					cout << listMenu.listOne_2[i - 1] << endl;
 					if (i == len) break;
 				}
+				
+				
 				
 			}
 			
