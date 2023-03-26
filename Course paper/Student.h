@@ -28,9 +28,7 @@ public:
     Student(const char*, const char*, const char*, const unsigned short, const unsigned short, const unsigned short,\
         const unsigned short, const char*, const char*, const char*, const char*, const char*);
     Student(const Student&);
-    void writeToFile(FILE*);
-    void readToFile(FILE*);
-    void clear();
+    int addExam(const unsigned short, const char[], const unsigned short);
     bool operator== (const Student&);
     Student operator= (const Student&);
     friend std::ostream& operator<< (std::ostream& out, const Student& student);
@@ -87,8 +85,9 @@ Student::Student(const Student& student) {
     strcpy_s(this->group, student.group);
     strcpy_s(this->id, student.id);
     strcpy_s(this->sex, student.sex);
-    
+    this->exam = student.exam;
 }
+
 
 
 bool Student::operator==(const Student& student) {
@@ -108,26 +107,10 @@ Student Student::operator=(const Student& student) {
     strcpy_s(this->group, student.group);
     strcpy_s(this->id, student.id);
     strcpy_s(this->sex, student.sex);
+    this->exam = student.exam;
     
     return (*this);
 }
-
-
-
-Student::~Student() {
-     
-    
-
-
-}
-
-void Student::clear() {
-
-
-}
-
-
-
 
 
 std::ostream& operator<<(std::ostream& out, const Student& student)
@@ -137,3 +120,6 @@ std::ostream& operator<<(std::ostream& out, const Student& student)
     return out;
 }
 
+int Student::addExam(const unsigned short _numSess, const char _nameLesson[40], const unsigned short _mark) {
+    return exam.addLesson(_numSess, _nameLesson, _mark);
+}
