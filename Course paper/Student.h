@@ -123,3 +123,7 @@ std::ostream& operator<<(std::ostream& out, const Student& student)
 int Student::addExam(const unsigned short _numSess, const char _nameLesson[40], const unsigned short _mark) {
     return exam.addLesson(_numSess, _nameLesson, _mark);
 }
+
+Student::~Student() {
+
+}

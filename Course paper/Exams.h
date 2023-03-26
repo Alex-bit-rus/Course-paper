@@ -22,7 +22,7 @@ public:
 
 int Exams::firstEmpty(const unsigned short _numSess) {
     for (size_t i = 0; i < 10; i++) {
-        if (!lessons[_numSess][i].empty)  return i;
+        if (lessons[_numSess][i].empty)  return i;
     }
     return -1;
 }
@@ -42,7 +42,7 @@ int Exams::addLesson(const unsigned short _numSess, const char _nameLesson[40], 
 Exams::~Exams() {
     for (int i = 0; i < 9; i++) 
         for (int j = 0; j < 10; j++) {
-            if(!lessons[i][j].empty) delete[] this->lessons[i][j].nameLesson;
+            //if(!lessons[i][j].empty) delete[] this->lessons[i][j].nameLesson;
         }
 }
 
@@ -61,9 +61,12 @@ void Exams::writeExamsToFile(FILE* file) {
 Exams Exams::operator=(const Exams& exam) {
     for (int i = 0; i < 9; i++) 
         for (int j = 0; i < 10; i++) {
-            strcpy_s(this->lessons[i][j].nameLesson, exam.lessons[i][j].nameLesson);
-            this->lessons[i][j].mark = exam.lessons[i][j].mark;
-            this->lessons[i][j].empty = exam.lessons[i][j].empty;
+            if (!this->lessons[i][j].empty) {
+                strcpy_s(this->lessons[i][j].nameLesson, exam.lessons[i][j].nameLesson);
+                this->lessons[i][j].mark = exam.lessons[i][j].mark;
+                this->lessons[i][j].empty = exam.lessons[i][j].empty;
+            }
+            
     }
     return(*this);
 }
