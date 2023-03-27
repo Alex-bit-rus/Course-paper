@@ -21,7 +21,7 @@ public:
 };
 
 int Exams::firstEmpty(const unsigned short _numSess) {
-    for (size_t i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++) {
         if (lessons[_numSess][i].empty)  return i;
     }
     return -1;
