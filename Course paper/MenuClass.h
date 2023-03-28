@@ -9,6 +9,7 @@ struct ListMenu {
 	List <string> listOne_2;
 	List <string> listSex;
 	List <string> listSafeStudent;
+	List <string> listExams;
 	};
 struct StructStudent {
 	char firstname[40] = "";
@@ -58,6 +59,15 @@ class MenuClass
 		listMenu.listSafeStudent.addElem("Да");
 		listMenu.listSafeStudent.addElem("Нет");
 		
+		listMenu.listExams.addElem("Сессия 9");
+		listMenu.listExams.addElem("Сессия 8");
+		listMenu.listExams.addElem("Сессия 7");
+		listMenu.listExams.addElem("Сессия 6");
+		listMenu.listExams.addElem("Сессия 5");
+		listMenu.listExams.addElem("Сессия 4");
+		listMenu.listExams.addElem("Сессия 3");
+		listMenu.listExams.addElem("Сессия 2");
+		listMenu.listExams.addElem("Сессия 1");
 		
 
 	}
@@ -82,7 +92,7 @@ class MenuClass
 		List<Student> students;
 		unsigned long long page = 0;
 		size_t len;
-		size_t choice = 1;
+		size_t CHOICE = 1, choice = 1;
 		HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 		COORD c;
 		char key;
@@ -101,20 +111,20 @@ startWhile:	system("cls"); // очищаем экран
 			SetConsoleTextAttribute(h, 0x0007);
 			cout << "Меню:" << endl;
 			bool page2_is_first = true;
-			bool page2011_is_first = true;
+			bool page2012_is_first = true;
 			for (int i = 0; i < 15; i++) {
 
 
 				if (page == 0) {
 					len = listMenu.listOne.getSize();
-					(choice == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 					cout << listMenu.listOne[i] << endl;
 					if (i + 1 == len) break;
 				}
 				if (page == 1) {
 				len = lenFile + 2;
 				Student tempStudent;
-				(choice == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 				if (i == 0) cout << "Удалить студента" << endl;
 
 				else if (i + 1 <= len-1) {
@@ -134,14 +144,14 @@ startWhile:	system("cls"); // очищаем экран
 					page2_is_first = false;
 				}
 				len = listMenu.listOne_2.getSize();
-				(choice == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 				cout << listMenu.listOne_2[i] << endl;
 				if (i + 1 == len) break;
 			}
 			if (page == 1001) {
 				len = lenFile + 1;
 				Student tempStudent;
-				(choice == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 				if (i + 1 != len) {
 					fseek(file, 4288 * (i), SEEK_SET);
 					fread(&tempStudent, sizeof(Student), 1, file);
@@ -165,7 +175,7 @@ startWhile:	system("cls"); // очищаем экран
 				fclose(file);
 				fopen_s(&file, "file.bin", "a+");
 				system("cls");
-				page = 1; choice = 1; i = 0;
+				page = 1; CHOICE = 1; i = 0;
 				goto startWhile;
 				
 			}
@@ -273,7 +283,7 @@ startWhile:	system("cls"); // очищаем экран
 				 
 					if (page == 2010) {
 						len = 3;
-						(choice == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+						(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 						if (i + 1 < len) cout << listMenu.listSex[i] << endl;
 						else {
 							cout << "Назад";
@@ -288,13 +298,35 @@ startWhile:	system("cls"); // очищаем экран
 						system("cls");
 						goto startWhile;
 					}
+					if (page == 2011) {
+						len = listMenu.listExams.getSize();
+						(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+						cout << listMenu.listExams[i] << endl;
+						if (i + 1 == len) break;
+
+						
+				}
+					if (page >= 2011001 and page < 2011009) {
+						unsigned short numSessia = page % 10, mark;
+						char nameLesson[40] = "";
+						cout << "Введите название дисциплины: ";
+						cin.getline(nameLesson, 40);
+						cout << "\nВведите оценку за экзамен от 2 до 5 или 0 - незачет, 1 - зачет: ";
+						cin >> mark;
+						while (mark < 0 or mark > 5) {
+							cout << "Выход из диапазона значений!Повторите попытку : ";
+							cin >> mark;
+						}
+						menuStudent.exam.addLesson(numSessia, nameLesson, mark);
+
+					}
 				
-				if (page == 2011) {
+				if (page == 2012) {
 					len = 2;
 					if (menuStudent.countFill == 13) {
 						Student newStudent(menuStudent.firstname, menuStudent.name, menuStudent.patronymic, menuStudent.dayBirth, \
 							menuStudent.monthBirth, menuStudent.yearBirth, menuStudent.yearStart, menuStudent.faculty, menuStudent.department, \
-							menuStudent.group, menuStudent.id, menuStudent.sex);
+							menuStudent.group, menuStudent.id, menuStudent.sex, menuStudent.exam);
 						students.addElem(newStudent);
 						fwrite(&newStudent, sizeof(Student), 1, file);
 						page = 0;
@@ -303,15 +335,16 @@ startWhile:	system("cls"); // очищаем экран
 					}
 					else {
 						
-						if (page2011_is_first)cout << "Вы ввели не все данные о студенте, вы уверенны что хотите выйти, студент не будет занесен в базу данных\n";
-						(choice == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+						if (page2012_is_first)cout << "Вы ввели не все данные о студенте, вы уверенны что хотите выйти, студент не будет занесен в базу данных\n";
+						(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 						cout << listMenu.listSafeStudent[i] << endl;
 						if (i + 1 == len) break;
-						page2011_is_first = false;
+						page2012_is_first = false;
 					}
 				}
-				if (page > 2010 and page < 2001000 and page != 2011) goto startWhile;
+				//if (page > 2010 and page < 2001000 and page != 2012) goto startWhile;
 			}
+			
 
 
 
@@ -324,30 +357,31 @@ startWhile:	system("cls"); // очищаем экран
 			// обрабатываем нажатие клавиши
 			switch (key) {
 			case 72: // стрелка вверх
-				choice--;
-				if (choice < 1) choice = len;
+				CHOICE--;
+				if (CHOICE < 1) CHOICE = len;
 				break;
 			case 80: // стрелка вниз
-				choice++;
-				if (choice > len) choice = 1;
+				CHOICE++;
+				if (CHOICE > len) CHOICE = 1;
 				break;
 			case 13: // Enter
 				system("cls");
-				if (choice == len) {
+				if (CHOICE == len) {
 					if (page == 0) return;
 					else if (page == 2) {
-						page = 2011;
+						page = 2012;
 					}
-					else if (page == 2011) page = 0;
+					else if (page == 2012) page = 0;
 					else page = page / 1000;
 
 				}
 				else {
-					if (page == 2011) page = page / 1000;
-					else page = page * 1000 + choice;
+					if (page == 2012) page = page / 1000;
+					else page = page * 1000 + CHOICE;
 
 				}
-				choice = 1;
+				choice = CHOICE;
+				CHOICE = 1;
 
 			}
 		}

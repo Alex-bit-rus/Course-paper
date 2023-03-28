@@ -14,7 +14,7 @@ using namespace std;
 //    
 //    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 //    COORD c;
-//    int choice = 1; // начальный выбор
+//    int CHOICE = 1; // начальный выбор
 //    char key; // переменная для хранения нажатой клавиши
 //
 //    while (true) {
@@ -24,10 +24,10 @@ using namespace std;
 //        cout << "Меню:" << endl;
 //
 //
-//        (choice == 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Вывыести список студентов (добавить сведения о студенте)" << endl;
-//        (choice == 2 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Добавить студента" << endl;
-//        (choice == 3 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Удалить студента" << endl;
-//        (choice == 4 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Выполнить вариант 75" << endl;
+//        (CHOICE == 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Вывыести список студентов (добавить сведения о студенте)" << endl;
+//        (CHOICE == 2 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Добавить студента" << endl;
+//        (CHOICE == 3 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Удалить студента" << endl;
+//        (CHOICE == 4 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Выполнить вариант 75" << endl;
 //
 //
 //        // ждем нажатия клавиши
@@ -36,38 +36,38 @@ using namespace std;
 //        // обрабатываем нажатие клавиши
 //        switch (key) {
 //        case 72: // стрелка вверх
-//            choice--;
-//            if (choice < 1) choice = 4;
+//            CHOICE--;
+//            if (CHOICE < 1) CHOICE = 4;
 //            break;
 //        case 80: // стрелка вниз
-//            choice++;
-//            if (choice > 4) choice = 1;
+//            CHOICE++;
+//            if (CHOICE > 4) CHOICE = 1;
 //            break;
 //        case 13: // Enter
 //            system("cls");
-//            switch (choice)
+//            switch (CHOICE)
 //            {
 //            case 1: {
 //                break;
 //            }
 //            case 2: {
 //                while (true) {
-//                    int choice_2 = 1; char key_2;
-//                    (choice_2 == 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Вывыести список студентов (добавить сведения о студенте)" << endl;
-//                    (choice_2 == 2 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Добавить студента" << endl;
-//                    (choice_2 == 3 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Удалить студента" << endl;
-//                    (choice_2 == 4 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Выполнить вариант 75" << endl;
+//                    int CHOICE_2 = 1; char key_2;
+//                    (CHOICE_2 == 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Вывыести список студентов (добавить сведения о студенте)" << endl;
+//                    (CHOICE_2 == 2 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Добавить студента" << endl;
+//                    (CHOICE_2 == 3 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Удалить студента" << endl;
+//                    (CHOICE_2 == 4 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007)); cout << "Выполнить вариант 75" << endl;
 //                    key_2 = _getch();
 //
 //                    // обрабатываем нажатие клавиши
 //                    switch (key_2) {
 //                    case 72: // стрелка вверх
-//                        choice_2--;
-//                        if (choice_2 < 1) choice_2 = 4;
+//                        CHOICE_2--;
+//                        if (CHOICE_2 < 1) CHOICE_2 = 4;
 //                        break;
 //                    case 80: // стрелка вниз
-//                        choice++;
-//                        if (choice_2 > 4) choice_2 = 1;
+//                        CHOICE++;
+//                        if (CHOICE_2 > 4) CHOICE_2 = 1;
 //                        break;
 //                    case 13: // Enter
 //                        system("cls");

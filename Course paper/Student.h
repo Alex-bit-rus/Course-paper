@@ -27,6 +27,8 @@ public:
     Student();
     Student(char[]);
     Student(const char*, const char*, const char*, const unsigned short, const unsigned short, const unsigned short,\
+        const unsigned short, const char*, const char*, const char*, const char*, const char*, Exams);
+    Student(const char*, const char*, const char*, const unsigned short, const unsigned short, const unsigned short,\
         const unsigned short, const char*, const char*, const char*, const char*, const char*);
     Student(const Student&);
     int addExam(const unsigned short, const char[], const unsigned short);
@@ -70,6 +72,25 @@ Student::Student(char id[40]) {
 
 
 Student::Student(const char* firstname, const char* name, const char* patronymic, const unsigned short dayBirth, const unsigned short monthBirth\
+    , const unsigned short yearBirth, const unsigned short yearStart, const char* faculty, const char* department, const char* group, const char* id, const char* sex, Exams exam) {
+    strcpy_s(this->firstname, firstname);
+    strcpy_s(this->name, name);
+    strcpy_s(this->patronymic, patronymic);
+    this->dayBirth = dayBirth;
+    this->monthBirth = monthBirth;
+    this->yearBirth = yearBirth;
+    this->yearStart = yearStart;
+    strcpy_s(this->faculty, faculty);
+    strcpy_s(this->department, department);
+    strcpy_s(this->group, group);
+    strcpy_s(this->id, id);
+    strcpy_s(this->sex, sex);
+    this->exam = exam;
+    
+
+}
+
+Student::Student(const char* firstname, const char* name, const char* patronymic, const unsigned short dayBirth, const unsigned short monthBirth\
     , const unsigned short yearBirth, const unsigned short yearStart, const char* faculty, const char* department, const char* group, const char* id, const char* sex) {
     strcpy_s(this->firstname, firstname);
     strcpy_s(this->name, name);
@@ -83,7 +104,8 @@ Student::Student(const char* firstname, const char* name, const char* patronymic
     strcpy_s(this->group, group);
     strcpy_s(this->id, id);
     strcpy_s(this->sex, sex);
-    
+    this->exam = exam;
+
 
 }
 
