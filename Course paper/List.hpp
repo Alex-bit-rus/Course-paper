@@ -24,6 +24,7 @@ public:
     void readToFile(FILE*);
     void clear();
     int findElem(T);
+    int findElem(int);
     
     T& operator[] (int);
     size_t getSize() {

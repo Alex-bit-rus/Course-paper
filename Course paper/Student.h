@@ -25,6 +25,7 @@ private:
     
 public:
     Student();
+    Student(char[]);
     Student(const char*, const char*, const char*, const unsigned short, const unsigned short, const unsigned short,\
         const unsigned short, const char*, const char*, const char*, const char*, const char*);
     Student(const Student&);
@@ -50,6 +51,20 @@ Student::Student() {
     strcpy_s(this->id, "i");
     strcpy_s(this->sex, "s");
     
+}
+Student::Student(char id[40]) {
+    strcpy_s(this->firstname, "f");
+    strcpy_s(this->name, "n");
+    strcpy_s(this->patronymic, "p");
+    this->dayBirth = 0;
+    this->monthBirth = 0;
+    this->yearBirth = 0;
+    this->yearStart = 0;
+    strcpy_s(this->faculty, "f");
+    strcpy_s(this->department, "d");
+    strcpy_s(this->group, "g");
+    strcpy_s(this->id, id);
+    strcpy_s(this->sex, "s");
 }
 
 

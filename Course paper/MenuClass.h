@@ -7,23 +7,24 @@ struct ListMenu {
 	List <string> listOne;
 	List <string> listOne_1;
 	List <string> listOne_2;
-	List <string> listOne_3;
+	List <string> listSex;
 	List <string> listOne_4;
 	};
 struct StructStudent {
-	char firstname[40];
-	char name[40];
-	char patronymic[40];
-	unsigned short dayBirth;
-	unsigned short monthBirth;
-	unsigned short yearBirth;
-	unsigned short yearStart;
-	char faculty[40];
-	char department[40];
-	char group[40];
-	char id[40];
-	char sex[40];
+	char firstname[40] = "";
+	char name[40] = "";
+	char patronymic[40] = "";
+	unsigned short dayBirth = 0;
+	unsigned short monthBirth = 0;
+	unsigned short yearBirth = 0;
+	unsigned short yearStart = 0;
+	char faculty[40] = "";
+	char department[40] = "";
+	char group[40] = "";
+	char id[40] = "";
+	char sex[40] = "";
 	Exams exam;
+	int countFill = 0;
 };
 
 class MenuClass
@@ -44,11 +45,14 @@ class MenuClass
 		listMenu.listOne_2.addElem("Введите номер зачетной книжки");
 		listMenu.listOne_2.addElem("Введите институт");
 		listMenu.listOne_2.addElem("Введите группу");
-		listMenu.listOne_2.addElem("Введите год поступление");
+		listMenu.listOne_2.addElem("Введите год поступления");
 		listMenu.listOne_2.addElem("Введите дату рождения");
 		listMenu.listOne_2.addElem("Введите отчество");
 		listMenu.listOne_2.addElem("Введите имя");
 		listMenu.listOne_2.addElem("Введите фамилию");
+
+		listMenu.listSex.addElem("Мужской");
+		listMenu.listSex.addElem("Женский");
 
 	}
 
@@ -90,7 +94,7 @@ class MenuClass
 startWhile:	system("cls"); // очищаем экран
 			SetConsoleTextAttribute(h, 0x0007);
 			cout << "Меню:" << endl;
-
+			bool page2_is_first = true;
 			for (int i = 0; i < 15; i++) {
 
 
@@ -115,6 +119,13 @@ startWhile:	system("cls"); // очищаем экран
 				if (i + 1 == len) break;
 			}
 			if (page == 2) {
+				if (page2_is_first) {
+					cout << "Фамилия: " << menuStudent.firstname << " Имя: " << menuStudent.name << " Отчество: " << menuStudent.patronymic << endl;
+					cout << "Дата рождения: " << menuStudent.dayBirth << "." << menuStudent.monthBirth << "." << menuStudent.yearBirth << " Год начала обучения: "\
+						<< menuStudent.yearStart << " Пол: "<< menuStudent.sex << endl;
+					cout << "Номер зачетной книжки: " << menuStudent.id << " Группа: " << menuStudent.group << " Институт: " << menuStudent.department << endl;
+					page2_is_first = false;
+				}
 				len = listMenu.listOne_2.getSize();
 				(choice == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 				cout << listMenu.listOne_2[i] << endl;
@@ -153,21 +164,114 @@ startWhile:	system("cls"); // очищаем экран
 			}
 			if (page > 2000) {
 				if (page == 2001) {
-					cout << "Ddtlbnt afvbkb.";
+					cout << "Введите фамилию студента: ";
 					cin.getline(menuStudent.firstname, 40);
+					menuStudent.countFill++;
 					page = 2;
 					system("cls");
 					goto startWhile;
 
 				}
 				if (page == 2002) {
-					cout << "Ddtlbnt afvbkb.";
+					cout << "Введите имя студента: ";
 					cin.getline(menuStudent.name, 40);
+					menuStudent.countFill++;
 					page = 2;
 					system("cls");
 					goto startWhile;
 
 				}
+				if (page == 2003) {
+					cout << "Введите отчество студента: ";
+					cin.getline(menuStudent.patronymic, 40);
+					menuStudent.countFill++;
+					page = 2;
+					system("cls");
+					goto startWhile;
+
+				}
+				if (page == 2004) {
+					cout << "Введите день рождения студента: ";
+					cin >> menuStudent.dayBirth;
+					while (menuStudent.dayBirth > 31 or menuStudent.dayBirth < 1) {
+						cout << "Выход из диапазона значений! Повторите попытку: ";
+						cin >> menuStudent.dayBirth;
+					}
+					cout << "\nВведите месяц рождения студента: ";
+					cin >> menuStudent.monthBirth;
+					cout << "\nВведите год рождения студента: ";
+					cin >> menuStudent.yearBirth;
+					menuStudent.countFill += 3;
+					page = 2;
+					system("cls");
+					goto startWhile;
+
+				}
+				if (page == 2005) {
+					cout << "Введите год начала обучения студента: ";
+					cin >> menuStudent.yearStart;
+					while (menuStudent.yearStart > 2022 or menuStudent.yearStart < 2020) {
+						cout << "Выход из диапазона значений! Повторите попытку: ";
+						cin >> menuStudent.yearStart;
+					}
+					menuStudent.countFill++;
+					page = 2;
+					system("cls");
+					goto startWhile;
+
+				}
+				if (page == 2006) {
+					cout << "Введите группу студента: ";
+					cin.getline(menuStudent.group, 40);
+					menuStudent.countFill++;
+					page = 2;
+					system("cls");
+					goto startWhile;
+
+				}if (page == 2007) {
+					cout << "Введите институт студента: ";
+					cin.getline(menuStudent.department, 40);
+					menuStudent.countFill++;
+					page = 2;
+					system("cls");
+					goto startWhile;
+
+				}
+				if (page == 2008) {
+					cout << "Введите номер зачетной книжки студента: ";
+					cin.getline(menuStudent.id, 40);
+					Student tempStudent(menuStudent.id);
+					while (students.findElem(tempStudent) != -1) {
+						cout << "Студент с таким номером зачетной книжки уже есть! Повторите попытку: ";
+						cin.getline(menuStudent.id, 40);
+						Student tempStudent(menuStudent.id);
+					}
+					menuStudent.countFill++;
+					page = 2;
+					system("cls");
+					goto startWhile;
+
+				}
+				if (page >= 2009 and page < 2009003) {
+					if (page == 2009) {
+						len = 3;
+						(choice == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+						if (i + 1 < len) cout << listMenu.listSex[i] << endl;
+						else {
+							cout << "Назад";
+							break;
+						}
+					}
+					else {
+						if (page == 2009001) strcpy_s(menuStudent.sex, "Женский");
+						else strcpy_s(menuStudent.sex, "Мужской");
+						menuStudent.countFill++;
+						page = 2;
+						system("cls");
+						goto startWhile;
+					}
+				}
+				if (page > 2009 and page < 2001000) goto startWhile;
 			}
 
 
