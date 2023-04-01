@@ -16,6 +16,7 @@ public:
     int addLesson(const unsigned short, const char[], const unsigned short);
     void writeExamsToFile(FILE*);
     void readExamsToFile(FILE*);
+    void clear();
     Exams operator= (const Exams&);
     ~Exams();
 };
@@ -40,12 +41,18 @@ int Exams::addLesson(const unsigned short _numSess, const char _nameLesson[40], 
 }
 
 Exams::~Exams() {
-    for (int i = 0; i < 9; i++) 
+    
+}
+void Exams::clear()
+{
+    for (int i = 0; i < 9; i++)
         for (int j = 0; j < 10; j++) {
-            //if(!lessons[i][j].empty) delete[] this->lessons[i][j].nameLesson;
+            if (!lessons[i][j].empty) {
+                strcpy_s(this->lessons[i][j].nameLesson,"");
+                lessons[i][j].empty = true;
+            }
         }
 }
-
 void Exams::writeExamsToFile(FILE* file) {
     fwrite(lessons, sizeof(lessons), 1, file);
     /*for (int i = 0; i < 9; i++)

@@ -30,6 +30,8 @@ struct StructStudent {
 
 class MenuClass
 {
+private:
+	List<Student> students;
 	public:
 	ListMenu listMenu;
 	StructStudent menuStudent;
@@ -58,7 +60,8 @@ class MenuClass
 
 		listMenu.listSafeStudent.addElem("Да");
 		listMenu.listSafeStudent.addElem("Нет");
-		
+
+		listMenu.listExams.addElem("Назад");
 		listMenu.listExams.addElem("Сессия 9");
 		listMenu.listExams.addElem("Сессия 8");
 		listMenu.listExams.addElem("Сессия 7");
@@ -72,6 +75,34 @@ class MenuClass
 
 	}
 
+
+	void clearStudent() {
+		strcpy_s(menuStudent.firstname,"");
+		strcpy_s(menuStudent.name,"");
+		strcpy_s(menuStudent.patronymic, "");
+		menuStudent.dayBirth = 0;
+		menuStudent.monthBirth = 0;
+		menuStudent.yearBirth = 0;
+		menuStudent.yearStart = 0;
+		strcpy_s(menuStudent.faculty,"");
+		strcpy_s(menuStudent.department,"");
+		strcpy_s(menuStudent.group,"");
+		strcpy_s(menuStudent.id, "");
+		strcpy_s(menuStudent.sex, "");
+		menuStudent.exam.clear();
+		menuStudent.countFill = 0;
+	}
+
+	void writeToFile(char* nameFile) {
+		FILE* file;
+		fopen_s(&file, nameFile, "a+");
+		for (int i = 0; i < students.getSize(); i++) {
+			fwrite(&students[i], sizeof(Student), 1, file);
+		}
+		fclose(file);
+
+
+	}
 
 
 	size_t findMaxLen(List<string>& str) {
@@ -89,7 +120,7 @@ class MenuClass
 
 	void draw(FILE* file) {
 		fopen_s(&file, "file.bin", "a+");
-		List<Student> students;
+		
 		unsigned long long page = 0;
 		size_t len;
 		size_t CHOICE = 1, choice = 1;
@@ -147,6 +178,18 @@ startWhile:	system("cls"); // очищаем экран
 				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 				cout << listMenu.listOne_2[i] << endl;
 				if (i + 1 == len) break;
+			}
+			if (page == 3) {
+				len = 1;
+				cout << "Введите название файла: ";
+				char nameFile[40] = "";
+				cin.getline(nameFile, 40);
+				writeToFile(nameFile);
+				cout << "бД записана в файл'" << nameFile << "'\n";
+				system("PAUSE");
+				page = 0;
+				goto startWhile;
+
 			}
 			if (page == 1001) {
 				len = lenFile + 1;
@@ -343,6 +386,7 @@ startWhile:	system("cls"); // очищаем экран
 					}
 				}
 				//if (page > 2010 and page < 2001000 and page != 2012) goto startWhile;
+				
 			}
 			
 
@@ -367,11 +411,17 @@ startWhile:	system("cls"); // очищаем экран
 			case 13: // Enter
 				system("cls");
 				if (CHOICE == len) {
-					if (page == 0) return;
+					if (page == 0) {
+						SetConsoleTextAttribute(h, 0x0007);
+						return;
+					}
 					else if (page == 2) {
 						page = 2012;
 					}
-					else if (page == 2012) page = 0;
+					else if (page == 2012) {
+						clearStudent();
+						page = 0;
+					}
 					else page = page / 1000;
 
 				}
