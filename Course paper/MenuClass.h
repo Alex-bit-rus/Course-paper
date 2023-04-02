@@ -7,6 +7,7 @@ struct ListMenu {
 	List <string> listOne;
 	List <string> listOne_1;
 	List <string> listOne_2;
+	List <string> listOne_1000;
 	List <string> listSex;
 	List <string> listSafeStudent;
 	List <string> listExams;
@@ -32,15 +33,37 @@ class MenuClass
 {
 private:
 	List<Student> students;
+	bool firstEditSes = true;
+	bool skipInput = false;
+	unsigned long long page = 0;
+	size_t len;
+	size_t CHOICE = 1, choice = 1;
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD c;
+	char key;
 	public:
 	ListMenu listMenu;
 	StructStudent menuStudent;
 	MenuClass() {
+
 		listMenu.listOne.addElem("Выход");
 		listMenu.listOne.addElem("Выполнить вариант 75");
 		listMenu.listOne.addElem("Сохранить БД студентов в файл");
 		listMenu.listOne.addElem("Добавить студента");
 		listMenu.listOne.addElem("Вывести список студентов (добавить сведения о студенте)");
+
+		listMenu.listOne_1000.addElem("Выход");
+		listMenu.listOne_1000.addElem("Добавить результаты сессии");
+		listMenu.listOne_1000.addElem("Изменить пол");
+		listMenu.listOne_1000.addElem("Изменить номер зачетной книжки");
+		listMenu.listOne_1000.addElem("Изменить институт");
+		listMenu.listOne_1000.addElem("Изменить кафедру");
+		listMenu.listOne_1000.addElem("Изменить группу");
+		listMenu.listOne_1000.addElem("Изменить год поступления");
+		listMenu.listOne_1000.addElem("Изменить дату рождения");
+		listMenu.listOne_1000.addElem("Изменить отчество");
+		listMenu.listOne_1000.addElem("Изменить имя");
+		listMenu.listOne_1000.addElem("Изменить фамилию");
 
 		listMenu.listOne_2.addElem("Назад");
 		listMenu.listOne_2.addElem("Добавить результаты сессий");
@@ -93,6 +116,138 @@ private:
 		menuStudent.countFill = 0;
 	}
 
+	void setFirstname() {
+		cout << "Введите фамилию студента: ";
+		cin.getline(menuStudent.firstname, 40);
+		menuStudent.countFill++;
+		CHOICE = page % 1000;
+		page = 2;
+		system("cls");
+		skipInput = true;
+	}
+	void setName() {
+		cout << "Введите имя студента: ";
+		cin.getline(menuStudent.name, 40);
+		menuStudent.countFill++;
+		CHOICE = page % 1000;
+		page = 2;
+		system("cls");
+		skipInput = true;
+	}
+	void setPatronymic() {
+		cout << "Введите отчество студента: ";
+		cin.getline(menuStudent.patronymic, 40);
+		menuStudent.countFill++;
+		CHOICE = page % 1000;
+		page = 2;
+		system("cls");
+		skipInput = true;
+	}
+	void setBirthday() {
+		cout << "Введите день рождения студента: ";
+		cin >> menuStudent.dayBirth;
+		while (menuStudent.dayBirth > 31 or menuStudent.dayBirth < 1) {
+			cout << "Выход из диапазона значений! Повторите попытку: ";
+			cin >> menuStudent.dayBirth;
+		}
+		cout << "\nВведите месяц рождения студента: ";
+		cin >> menuStudent.monthBirth;
+		cout << "\nВведите год рождения студента: ";
+		cin >> menuStudent.yearBirth;
+		menuStudent.countFill += 3;
+		CHOICE = page % 1000;
+		page = 2;
+		system("cls");
+		skipInput = true;
+	}
+	void setStartYear() {
+		cout << "Введите год начала обучения студента: ";
+		cin >> menuStudent.yearStart;
+		while (menuStudent.yearStart > 2022 or menuStudent.yearStart < 2020) {
+			cout << "Выход из диапазона значений! Повторите попытку: ";
+			cin >> menuStudent.yearStart;
+		}
+		menuStudent.countFill++;
+		CHOICE = page % 1000;
+		page = 2;
+		system("cls");
+		skipInput = true;
+	}
+	void setGroup() {
+		cout << "Введите группу студента: ";
+		cin.ignore();
+		cin.getline(menuStudent.group, 40);
+		menuStudent.countFill++;
+		CHOICE = page % 1000;
+		page = 2;
+		system("cls");
+		skipInput = true;
+	}
+	void setDepartment() {
+		cout << "Введите кафедру студента: ";
+		cin.getline(menuStudent.department, 40);
+		menuStudent.countFill++;
+		CHOICE = page % 1000;
+		page = 2;
+		system("cls");
+		skipInput = true;
+	}
+	void setFaculty() {
+		cout << "Введите институт студента: ";
+		cin.getline(menuStudent.faculty, 40);
+		menuStudent.countFill++;
+		CHOICE = page % 1000;
+		page = 2;
+		system("cls");
+		skipInput = true;
+	}void setID() {
+		cout << "Введите номер зачетной книжки студента: ";
+		cin.getline(menuStudent.id, 40);
+		Student tempStudent(menuStudent.id);
+		int find = students.findElem(tempStudent);
+		while (find != -1) {
+			cout << "Студент с таким номером зачетной книжки уже есть! Повторите попытку: ";
+			cin.getline(menuStudent.id, 40);
+			Student tempStudent(menuStudent.id);
+			find = students.findElem(tempStudent);
+		}
+		menuStudent.countFill++;
+		CHOICE = page % 1000;
+		page = 2;
+		system("cls");
+		skipInput = true;
+
+	}void setSex() {
+		if (page % 10 == 1) strcpy_s(menuStudent.sex, "Женский");
+		else strcpy_s(menuStudent.sex, "Мужской");
+		menuStudent.countFill++;
+		CHOICE = 10;
+		page = 2;
+
+		system("cls");
+		skipInput = true;
+
+	}
+	void setExam() {
+		unsigned short numSessia = page % 10, mark;
+		char nameLesson[40] = "";
+		cout << "Введите название дисциплины: ";
+		if (!firstEditSes) cin.ignore();
+		cin.getline(nameLesson, 40);
+		cout << "\nВведите оценку за экзамен от 2 до 5 или 0 - незачет, 1 - зачет: ";
+		cin >> mark;
+		while (mark < 0 or mark > 5) {
+			cout << "Выход из диапазона значений!Повторите попытку : ";
+			cin >> mark;
+		}
+		menuStudent.exam.addLesson(numSessia, nameLesson, mark);
+		CHOICE = page % 1000;
+		page = 2011;
+		firstEditSes = false;
+		skipInput = true;
+
+	}
+
 	void writeToFile(char* nameFile) {
 		FILE* file;
 		fopen_s(&file, nameFile, "a+");
@@ -121,12 +276,6 @@ private:
 	void draw(FILE* file) {
 		fopen_s(&file, "file.bin", "a+");
 		
-		unsigned long long page = 0;
-		size_t len;
-		size_t CHOICE = 1, choice = 1;
-		HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-		COORD c;
-		char key;
 		
 		fseek(file, 0, SEEK_END);
 		size_t lenFile = ftell(file) / 4288;
@@ -138,11 +287,13 @@ private:
 		}
 
 		while (true) {
-startWhile:	system("cls"); // очищаем экран
+			system("cls"); // очищаем экран
 			SetConsoleTextAttribute(h, 0x0007);
 			cout << "Меню:" << endl;
 			bool page2_is_first = true;
 			bool page2012_is_first = true;
+			skipInput = false;
+			
 			for (int i = 0; i < 15; i++) {
 
 
@@ -185,10 +336,10 @@ startWhile:	system("cls"); // очищаем экран
 				char nameFile[40] = "";
 				cin.getline(nameFile, 40);
 				writeToFile(nameFile);
-				cout << "бД записана в файл'" << nameFile << "'\n";
+				cout << "БД записана в файл'" << nameFile << "'\n";
 				system("PAUSE");
 				page = 0;
-				goto startWhile;
+				skipInput = true;
 
 			}
 			if (page == 1001) {
@@ -205,6 +356,12 @@ startWhile:	system("cls"); // очищаем экран
 					break;
 				}
 			}
+			if (page >= 1002 and page <= 1999) {
+				len = listMenu.listOne_1000.getSize();
+				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+				cout << listMenu.listOne_1000[i] << endl;
+				if (i + 1 == len) break;
+			}
 			if (page >= 1001001 and page <= 1001999) {
 				len = lenFile + 1;
 				size_t index = lenFile - (page - 1001001)-1;
@@ -219,154 +376,41 @@ startWhile:	system("cls"); // очищаем экран
 				fopen_s(&file, "file.bin", "a+");
 				system("cls");
 				page = 1; CHOICE = 1; i = 0;
-				goto startWhile;
+				skipInput = true;
 				
 			}
 			if (page > 2000) {
-				if (page == 2001) {
-					cout << "Введите фамилию студента: ";
-					cin.getline(menuStudent.firstname, 40);
-					menuStudent.countFill++;
-					page = 2;
-					system("cls");
-					goto startWhile;
-
-				}
-				if (page == 2002) {
-					cout << "Введите имя студента: ";
-					cin.getline(menuStudent.name, 40);
-					menuStudent.countFill++;
-					page = 2;
-					system("cls");
-					goto startWhile;
-
-				}
-				if (page == 2003) {
-					cout << "Введите отчество студента: ";
-					cin.getline(menuStudent.patronymic, 40);
-					menuStudent.countFill++;
-					page = 2;
-					system("cls");
-					goto startWhile;
-
-				}
-				if (page == 2004) {
-					cout << "Введите день рождения студента: ";
-					cin >> menuStudent.dayBirth;
-					while (menuStudent.dayBirth > 31 or menuStudent.dayBirth < 1) {
-						cout << "Выход из диапазона значений! Повторите попытку: ";
-						cin >> menuStudent.dayBirth;
+				if (page == 2001) setFirstname();
+				if (page == 2002) setName();
+				if (page == 2003) setPatronymic();
+				if (page == 2004) setBirthday();
+				if (page == 2005) setStartYear();
+				if (page == 2006) setGroup();
+				if (page == 2007) setDepartment();
+				if (page == 2008) setFaculty();
+				if (page == 2009) setID();
+				if (page == 2010) {
+					len = 3;
+					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+					if (i + 1 < len) cout << listMenu.listSex[i] << endl;
+					else {
+						cout << "Назад";
+						break;
 					}
-					cout << "\nВведите месяц рождения студента: ";
-					cin >> menuStudent.monthBirth;
-					cout << "\nВведите год рождения студента: ";
-					cin >> menuStudent.yearBirth;
-					menuStudent.countFill += 3;
-					page = 2;
-					system("cls");
-					goto startWhile;
-
 				}
-				if (page == 2005) {
-					cout << "Введите год начала обучения студента: ";
-					cin >> menuStudent.yearStart;
-					while (menuStudent.yearStart > 2022 or menuStudent.yearStart < 2020) {
-						cout << "Выход из диапазона значений! Повторите попытку: ";
-						cin >> menuStudent.yearStart;
-					}
-					menuStudent.countFill++;
-					page = 2;
-					system("cls");
-					goto startWhile;
-
-				}
-				if (page == 2006) {
-					cout << "Введите группу студента: ";
-					cin.getline(menuStudent.group, 40);
-					menuStudent.countFill++;
-					page = 2;
-					system("cls");
-					goto startWhile;
-
-				}if (page == 2007) {
-					cout << "Введите кафедру студента: ";
-					cin.getline(menuStudent.department, 40);
-					menuStudent.countFill++;
-					page = 2;
-					system("cls");
-					goto startWhile;
-
-				}
-				if (page == 2008) {
-					cout << "Введите институт студента: ";
-					cin.getline(menuStudent.faculty, 40);
-					menuStudent.countFill++;
-					page = 2;
-					system("cls");
-					goto startWhile;
-
-				}
-				if (page == 2009) {
-					cout << "Введите номер зачетной книжки студента: ";
-					cin.getline(menuStudent.id, 40);
-					Student tempStudent(menuStudent.id);
-					int find = students.findElem(tempStudent);
-					while (find != -1) {
-						cout << "Студент с таким номером зачетной книжки уже есть! Повторите попытку: ";
-						cin.getline(menuStudent.id, 40);
-						Student tempStudent(menuStudent.id);
-						find = students.findElem(tempStudent);
-					}
-					menuStudent.countFill++;
-					page = 2;
-					system("cls");
-					goto startWhile;
-
-				}
-				 
-					if (page == 2010) {
-						len = 3;
-						(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
-						if (i + 1 < len) cout << listMenu.listSex[i] << endl;
-						else {
-							cout << "Назад";
-							break;
-						}
-					}
-					if (page == 2010001 or page == 2010002) {
-						if (page == 2010001) strcpy_s(menuStudent.sex, "Женский");
-						else strcpy_s(menuStudent.sex, "Мужской");
-						menuStudent.countFill++;
-						page = 2;
-						system("cls");
-						goto startWhile;
-					}
-					if (page == 2011) {
-						len = listMenu.listExams.getSize();
-						(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
-						cout << listMenu.listExams[i] << endl;
-						if (i + 1 == len) break;
-
+				if (page == 2010001 or page == 2010002) setSex();
+				if (page == 2011) {
+					len = listMenu.listExams.getSize();
+					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+					cout << listMenu.listExams[i] << endl;
+					if (i + 1 == len) break;
 						
 				}
-					if (page >= 2011001 and page < 2011009) {
-						unsigned short numSessia = page % 10, mark;
-						char nameLesson[40] = "";
-						cout << "Введите название дисциплины: ";
-						cin.getline(nameLesson, 40);
-						cout << "\nВведите оценку за экзамен от 2 до 5 или 0 - незачет, 1 - зачет: ";
-						cin >> mark;
-						while (mark < 0 or mark > 5) {
-							cout << "Выход из диапазона значений!Повторите попытку : ";
-							cin >> mark;
-						}
-						menuStudent.exam.addLesson(numSessia, nameLesson, mark);
-
-					}
+				if (page >= 2011001 and page < 2011009) setExam();
 				
 				if (page == 2012) {
 					len = 2;
-					if (menuStudent.countFill == 13) {
+					if (menuStudent.countFill == 12) {
 						Student newStudent(menuStudent.firstname, menuStudent.name, menuStudent.patronymic, menuStudent.dayBirth, \
 							menuStudent.monthBirth, menuStudent.yearBirth, menuStudent.yearStart, menuStudent.faculty, menuStudent.department, \
 							menuStudent.group, menuStudent.id, menuStudent.sex, menuStudent.exam);
@@ -374,7 +418,7 @@ startWhile:	system("cls"); // очищаем экран
 						fwrite(&newStudent, sizeof(Student), 1, file);
 						page = 0;
 						lenFile++;
-						goto startWhile;
+						skipInput = true;
 					}
 					else {
 						
@@ -385,7 +429,6 @@ startWhile:	system("cls"); // очищаем экран
 						page2012_is_first = false;
 					}
 				}
-				//if (page > 2010 and page < 2001000 and page != 2012) goto startWhile;
 				
 			}
 			
@@ -393,7 +436,7 @@ startWhile:	system("cls"); // очищаем экран
 
 
 			}
-
+			if (skipInput) continue;
 
 			// ждем нажатия клавиши
 			key = _getch();
@@ -432,6 +475,7 @@ startWhile:	system("cls"); // очищаем экран
 				}
 				choice = CHOICE;
 				CHOICE = 1;
+				firstEditSes = true;
 
 			}
 		}
