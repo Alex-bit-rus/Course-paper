@@ -32,6 +32,7 @@ public:
         const unsigned short, const char*, const char*, const char*, const char*, const char*);
     Student(const Student&);
     int addExam(const unsigned short, const char[], const unsigned short);
+    char* getFirstname();
     bool operator== (const Student&);
     Student operator= (const Student&);
     friend std::ostream& operator<< (std::ostream& out, const Student& student);
@@ -164,3 +165,5 @@ int Student::addExam(const unsigned short _numSess, const char _nameLesson[40], 
 Student::~Student() {
 
 }
+
+char* Student::getFirstname() { return firstname; }

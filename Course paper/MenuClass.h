@@ -121,7 +121,6 @@ private:
 		cin.getline(menuStudent.firstname, 40);
 		menuStudent.countFill++;
 		CHOICE = page % 1000;
-		page = 2;
 		system("cls");
 		skipInput = true;
 	}
@@ -130,7 +129,6 @@ private:
 		cin.getline(menuStudent.name, 40);
 		menuStudent.countFill++;
 		CHOICE = page % 1000;
-		page = 2;
 		system("cls");
 		skipInput = true;
 	}
@@ -139,7 +137,6 @@ private:
 		cin.getline(menuStudent.patronymic, 40);
 		menuStudent.countFill++;
 		CHOICE = page % 1000;
-		page = 2;
 		system("cls");
 		skipInput = true;
 	}
@@ -156,7 +153,6 @@ private:
 		cin >> menuStudent.yearBirth;
 		menuStudent.countFill += 3;
 		CHOICE = page % 1000;
-		page = 2;
 		system("cls");
 		skipInput = true;
 	}
@@ -169,17 +165,14 @@ private:
 		}
 		menuStudent.countFill++;
 		CHOICE = page % 1000;
-		page = 2;
 		system("cls");
 		skipInput = true;
 	}
 	void setGroup() {
 		cout << "Введите группу студента: ";
-		cin.ignore();
 		cin.getline(menuStudent.group, 40);
 		menuStudent.countFill++;
 		CHOICE = page % 1000;
-		page = 2;
 		system("cls");
 		skipInput = true;
 	}
@@ -188,7 +181,6 @@ private:
 		cin.getline(menuStudent.department, 40);
 		menuStudent.countFill++;
 		CHOICE = page % 1000;
-		page = 2;
 		system("cls");
 		skipInput = true;
 	}
@@ -197,10 +189,10 @@ private:
 		cin.getline(menuStudent.faculty, 40);
 		menuStudent.countFill++;
 		CHOICE = page % 1000;
-		page = 2;
 		system("cls");
 		skipInput = true;
-	}void setID() {
+	}
+	void setID() {
 		cout << "Введите номер зачетной книжки студента: ";
 		cin.getline(menuStudent.id, 40);
 		Student tempStudent(menuStudent.id);
@@ -213,7 +205,6 @@ private:
 		}
 		menuStudent.countFill++;
 		CHOICE = page % 1000;
-		page = 2;
 		system("cls");
 		skipInput = true;
 
@@ -222,7 +213,6 @@ private:
 		else strcpy_s(menuStudent.sex, "Мужской");
 		menuStudent.countFill++;
 		CHOICE = 10;
-		page = 2;
 
 		system("cls");
 		skipInput = true;
@@ -242,7 +232,6 @@ private:
 		}
 		menuStudent.exam.addLesson(numSessia, nameLesson, mark);
 		CHOICE = page % 1000;
-		page = 2011;
 		firstEditSes = false;
 		skipInput = true;
 
@@ -310,9 +299,7 @@ private:
 				if (i == 0) cout << "Удалить студента" << endl;
 
 				else if (i + 1 <= len-1) {
-					fseek(file, 4288 * (i - 1), SEEK_SET);
-					fread(&tempStudent, sizeof(Student), 1, file);
-					cout << tempStudent << endl;
+					cout << students[i-1] << endl;
 				}
 				else cout << "Назад";
 				if (i + 1 == len) break;
@@ -362,6 +349,13 @@ private:
 				cout << listMenu.listOne_1000[i] << endl;
 				if (i + 1 == len) break;
 			}
+			if (page / 1000 >= 1002 and page / 1000 <= 1999) {
+				if (page % 1000 == 1) {
+					setFirstname();	
+					strcpy_s(students[ -(int)(page%1000)].getFirstname(),40, menuStudent.firstname);
+					page = page / 1000;
+				}
+			}
 			if (page >= 1001001 and page <= 1001999) {
 				len = lenFile + 1;
 				size_t index = lenFile - (page - 1001001)-1;
@@ -380,15 +374,42 @@ private:
 				
 			}
 			if (page > 2000) {
-				if (page == 2001) setFirstname();
-				if (page == 2002) setName();
-				if (page == 2003) setPatronymic();
-				if (page == 2004) setBirthday();
-				if (page == 2005) setStartYear();
-				if (page == 2006) setGroup();
-				if (page == 2007) setDepartment();
-				if (page == 2008) setFaculty();
-				if (page == 2009) setID();
+				if (page == 2001) {
+					setFirstname();
+					page = 2;
+				}
+				if (page == 2002) {
+					setName();
+					page = 2;
+				}
+				if (page == 2003) {
+					setPatronymic();
+					page = 2;
+				}
+				if (page == 2004) {
+					setBirthday();
+					page = 2;
+				}
+				if (page == 2005) {
+					setStartYear();
+					page = 2;
+				}
+				if (page == 2006) {
+					setGroup();
+					page = 2;
+				}
+				if (page == 2007) {
+					setDepartment();
+					page = 2;
+				}
+				if (page == 2008) {
+					setFaculty();
+					page = 2;
+				}
+				if (page == 2009) {
+					setID();
+					page = 2;
+				}
 				if (page == 2010) {
 					len = 3;
 					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
@@ -406,7 +427,10 @@ private:
 					if (i + 1 == len) break;
 						
 				}
-				if (page >= 2011001 and page < 2011009) setExam();
+				if (page >= 2011001 and page < 2011009) {
+					setExam();
+					page = 2011;
+				}
 				
 				if (page == 2012) {
 					len = 2;
