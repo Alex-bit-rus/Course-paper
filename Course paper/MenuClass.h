@@ -115,6 +115,28 @@ private:
 		menuStudent.exam.clear();
 		menuStudent.countFill = 0;
 	}
+	void printDate(const unsigned short& day, const unsigned short& month,const unsigned short& year, int wLine) {
+		int w = 10;
+		int delta = (wLine - w) / 2 - 1;
+		cout.width(delta); cout << " ";
+		if (day > 9) {
+			cout << day;
+		}
+		else {
+			cout << "0" << day;
+		}
+		cout << ".";
+		if (month > 9) {
+			cout << month;
+		}
+		else {
+			cout << "0" << month;
+		}
+		cout << ".";
+		cout << year;
+		cout.width(delta); cout << " ";
+	}
+
 
 	void setFirstname() {
 		cout << "Введите фамилию студента: ";
@@ -307,8 +329,8 @@ private:
 			if (page == 2) {
 				if (page2_is_first) {
 					cout << "Фамилия: " << menuStudent.firstname << " Имя: " << menuStudent.name << " Отчество: " << menuStudent.patronymic << endl;
-					cout << "Дата рождения: " << menuStudent.dayBirth << "." << menuStudent.monthBirth << "." << menuStudent.yearBirth << " Год начала обучения: "\
-						<< menuStudent.yearStart << " Пол: "<< menuStudent.sex << endl;
+					cout << "Дата рождения: "; printDate(menuStudent.dayBirth, menuStudent.monthBirth, menuStudent.yearBirth,7);
+					cout << " Год начала обучения: " << menuStudent.yearStart << " Пол: "<< menuStudent.sex << endl;
 					cout << "Номер зачетной книжки: " << menuStudent.id << " Группа: " << menuStudent.group << " Институт: " << menuStudent.faculty << " Кафедра: " << menuStudent.department << endl;
 					page2_is_first = false;
 				}
@@ -352,9 +374,24 @@ private:
 			if (page / 1000 >= 1002 and page / 1000 <= 1999) {
 				if (page % 1000 == 1) {
 					setFirstname();	
-					strcpy_s(students[ -(int)(page%1000)].getFirstname(),40, menuStudent.firstname);
+					students[-(int)(page % 1000)].editFirstname(menuStudent.firstname);
 					page = page / 1000;
 				}
+				else if (page % 1000 == 2) {
+					setName();
+					students[-(int)(page % 1000)].editName(menuStudent.name);
+					page = page / 1000;
+				}
+				else if (page % 1000 == 3) {
+					setPatronymic();
+					students[-(int)(page % 1000)].editPatronymic(menuStudent.patronymic);
+					page = page / 1000;
+				/*}
+				else if (page % 1000 == 4) {
+					setPatronymic();
+					strcpy_s(students[-(int)(page % 1000)].getPatronymic(), 40, menuStudent.patronymic);
+					page = page / 1000;
+				}*/
 			}
 			if (page >= 1001001 and page <= 1001999) {
 				len = lenFile + 1;

@@ -32,7 +32,18 @@ public:
         const unsigned short, const char*, const char*, const char*, const char*, const char*);
     Student(const Student&);
     int addExam(const unsigned short, const char[], const unsigned short);
-    char* getFirstname();
+    void editFirstname(char*);
+    char* getName() {return name;}
+    char* getPatronymic() {return patronymic;}
+    char* getFaculty() {return faculty;}
+    char* getDepartment() {return department;}
+    char* getGroup() {return group;}
+    char* getID() {return id;}
+    char* getSex(){ return sex; }
+    unsigned short getDayBirth(){ return dayBirth; }
+    unsigned short getMonthBirth(){return monthBirth; }
+    unsigned short getYearBirth(){ return yearBirth; }
+    unsigned short getYearStart(){ return yearStart; }
     bool operator== (const Student&);
     Student operator= (const Student&);
     friend std::ostream& operator<< (std::ostream& out, const Student& student);
@@ -166,4 +177,7 @@ Student::~Student() {
 
 }
 
-char* Student::getFirstname() { return firstname; }
+
+void Student::editFirstname(char* _firstname) {
+    strcpy_s(firstname, _firstname);
+}
