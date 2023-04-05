@@ -20,7 +20,7 @@ private:
     char department[40];
     char group[40];
     char id[40];
-    char sex[40]; // 0 - man, 1 - human
+    char sex[40]; 
     Exams exam;
     
 public:
@@ -32,18 +32,16 @@ public:
         const unsigned short, const char*, const char*, const char*, const char*, const char*);
     Student(const Student&);
     int addExam(const unsigned short, const char[], const unsigned short);
-    void editFirstname(char*);
-    char* getName() {return name;}
-    char* getPatronymic() {return patronymic;}
-    char* getFaculty() {return faculty;}
-    char* getDepartment() {return department;}
-    char* getGroup() {return group;}
-    char* getID() {return id;}
-    char* getSex(){ return sex; }
-    unsigned short getDayBirth(){ return dayBirth; }
-    unsigned short getMonthBirth(){return monthBirth; }
-    unsigned short getYearBirth(){ return yearBirth; }
-    unsigned short getYearStart(){ return yearStart; }
+    void editFirstname(const char*);
+    void editName(const char*);
+    void editPatronymic(const char*);
+    void editFaculty(const char*);
+    void editDepartment(const char*);
+    void editGroup(const char*);
+    void editID(const char*);
+    void editSex(const char*);
+    void editBirth(const unsigned short&, const unsigned short&, const unsigned short&);
+    void editYearStart(const unsigned short&);
     bool operator== (const Student&);
     Student operator= (const Student&);
     friend std::ostream& operator<< (std::ostream& out, const Student& student);
@@ -178,6 +176,19 @@ Student::~Student() {
 }
 
 
-void Student::editFirstname(char* _firstname) {
-    strcpy_s(firstname, _firstname);
+void Student::editFirstname(const char* _firstname) {strcpy_s(firstname, _firstname);}
+void Student::editName(const char* _name) {strcpy_s(name, _name);}
+void Student::editPatronymic(const char* _patronymic) {strcpy_s(patronymic, _patronymic);}
+void Student::editGroup(const char* _group) {strcpy_s(group,10, _group);}
+void Student::editFaculty(const char* _faculty) {strcpy_s(faculty, _faculty);}
+void Student::editDepartment(const char* _department) {strcpy_s(department, _department);}
+void Student::editID(const char* _id) {strcpy_s(id, _id);}
+void Student::editSex(const char* _sex) {strcpy_s(sex, _sex);}
+void Student::editBirth(const unsigned short& _day, const unsigned short& _month, const unsigned short& _year) {
+    dayBirth = _day;
+    monthBirth = _month;
+    yearBirth = _year;
+}
+void Student::editYearStart(const unsigned short& _year) {
+    yearStart =_year;
 }

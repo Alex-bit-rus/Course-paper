@@ -371,27 +371,77 @@ private:
 				cout << listMenu.listOne_1000[i] << endl;
 				if (i + 1 == len) break;
 			}
-			if (page / 1000 >= 1002 and page / 1000 <= 1999) {
-				if (page % 1000 == 1) {
+			if (page / 1000 >= 1002 and page / 1000 <= 1999 or (page == 1002010001 or page == 1002010002)) {
+				if (page == 1002010001 or page == 1002010002) {
+					setSex();
+					students[(int)(page / 1000/1000 % 1000 - 2)].editSex(menuStudent.sex);
+					page = page / 1000 / 1000;
+				}
+				else if (page % 1000 == 1) {
 					setFirstname();	
-					students[-(int)(page % 1000)].editFirstname(menuStudent.firstname);
+					students[(int)(page / 1000 % 1000 - 2)].editFirstname(menuStudent.firstname);
 					page = page / 1000;
+					break;
 				}
 				else if (page % 1000 == 2) {
 					setName();
-					students[-(int)(page % 1000)].editName(menuStudent.name);
+					students[(int)(page / 1000 % 1000 - 2)].editName(menuStudent.name);
 					page = page / 1000;
+					break;
 				}
 				else if (page % 1000 == 3) {
 					setPatronymic();
-					students[-(int)(page % 1000)].editPatronymic(menuStudent.patronymic);
+					students[(int)(page / 1000 % 1000 - 2)].editPatronymic(menuStudent.patronymic);
 					page = page / 1000;
-				/*}
+					break;
+				}
 				else if (page % 1000 == 4) {
-					setPatronymic();
-					strcpy_s(students[-(int)(page % 1000)].getPatronymic(), 40, menuStudent.patronymic);
+					setBirthday();
+					students[(int)(page / 1000 % 1000 - 2)].editBirth(menuStudent.dayBirth, menuStudent.monthBirth, menuStudent.yearBirth);
 					page = page / 1000;
-				}*/
+					break;
+				}
+				else if (page % 1000 == 5) {
+					setStartYear();
+					students[(int)(page / 1000 % 1000 - 2)].editYearStart(menuStudent.yearStart);
+					page = page / 1000;
+					break;
+				}
+				else if (page % 1000 == 6) {
+					setGroup();
+					students[(int)(page / 1000 % 1000 - 2)].editGroup(menuStudent.group);
+					page = page / 1000;
+					break;
+				}
+				else if (page % 1000 == 7) {
+					setDepartment();
+					students[(int)(page / 1000 % 1000 - 2)].editDepartment(menuStudent.department);
+					page = page / 1000;
+					break;
+				}
+				else if (page % 1000 == 8) {
+					setFaculty();
+					students[(int)(page / 1000 % 1000 - 2)].editFaculty(menuStudent.faculty);
+					page = page / 1000;
+					break;
+				}
+				else if (page % 1000 == 9) {
+					setID();
+					students[(int)(page / 1000 % 1000 - 2)].editID(menuStudent.id);
+					page = page / 1000;
+					break;
+				}
+				else if (page % 1000 == 10) {
+					len = 3;
+					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+					if (i + 1 < len) cout << listMenu.listSex[i] << endl;
+					else {
+						cout << "Назад";
+						break;
+					}
+
+				}
+				
 			}
 			if (page >= 1001001 and page <= 1001999) {
 				len = lenFile + 1;
