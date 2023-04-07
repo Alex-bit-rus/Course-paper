@@ -11,6 +11,7 @@ struct ListMenu {
 	List <string> listSex;
 	List <string> listSafeStudent;
 	List <string> listExams;
+	List <string> AddLast;
 	};
 struct StructStudent {
 	char firstname[40] = "";
@@ -24,7 +25,7 @@ struct StructStudent {
 	char department[40] = "";
 	char group[40] = "";
 	char id[40] = "";
-	char sex[40] = "";
+	bool sex;
 	Exams exam;
 	int countFill = 0;
 };
@@ -35,6 +36,8 @@ private:
 	List<Student> students;
 	bool firstEditSes = true;
 	bool skipInput = false;
+	bool settingSex = false;
+	bool time_to_exam = false;
 	unsigned long long page = 0;
 	size_t len;
 	size_t CHOICE = 1, choice = 1;
@@ -94,6 +97,9 @@ private:
 		listMenu.listExams.addElem("Сессия 3");
 		listMenu.listExams.addElem("Сессия 2");
 		listMenu.listExams.addElem("Сессия 1");
+
+		listMenu.AddLast.addElem("Назад");
+		listMenu.AddLast.addElem("ADD");
 		
 
 	}
@@ -111,7 +117,7 @@ private:
 		strcpy_s(menuStudent.department,"");
 		strcpy_s(menuStudent.group,"");
 		strcpy_s(menuStudent.id, "");
-		strcpy_s(menuStudent.sex, "");
+		menuStudent.sex = 0;
 		menuStudent.exam.clear();
 		menuStudent.countFill = 0;
 	}
@@ -231,14 +237,14 @@ private:
 		skipInput = true;
 
 	}void setSex() {
-		if (page % 10 == 1) strcpy_s(menuStudent.sex, "Женский");
-		else strcpy_s(menuStudent.sex, "Мужской");
+		if (page % 10 == 1) menuStudent.sex = 0;
+		else menuStudent.sex = 1;
 		menuStudent.countFill++;
 		CHOICE = 10;
 
 		system("cls");
 		skipInput = true;
-
+		CHOICE = page % 1000;
 	}
 	void setExam() {
 		unsigned short numSessia = page % 10, mark;
@@ -253,19 +259,20 @@ private:
 			cin >> mark;
 		}
 		menuStudent.exam.addLesson(numSessia, nameLesson, mark);
-		CHOICE = page % 1000;
 		firstEditSes = false;
 		skipInput = true;
 
 	}
 
-	void writeToFile(char* nameFile) {
-		FILE* file;
-		fopen_s(&file, nameFile, "a+");
+	void writeToFile(FILE* _file) {
+		fclose(_file);
+		fopen_s(&_file, "file.bin", "w");
 		for (int i = 0; i < students.getSize(); i++) {
-			fwrite(&students[i], sizeof(Student), 1, file);
+			fwrite(&students[i], sizeof(Student), 1, _file);
 		}
-		fclose(file);
+		fclose(_file);
+		fopen_s(&_file, "file.bin", "a+");
+		
 
 
 	}
@@ -289,19 +296,20 @@ private:
 		
 		
 		fseek(file, 0, SEEK_END);
-		size_t lenFile = ftell(file) / 4288;
+		size_t lenFile = ftell(file) / sizeof(Student);
 		for (int i = 0; i < lenFile; i++) {
-			fseek(file, 4288 * (i), SEEK_SET);
+			fseek(file, sizeof(Student) * (i), SEEK_SET);
 			Student tempStudent;
 			fread(&tempStudent, sizeof(Student), 1, file);
 			students.addElem(tempStudent);
 		}
-
+		
 		while (true) {
 			system("cls"); // очищаем экран
 			SetConsoleTextAttribute(h, 0x0007);
 			cout << "Меню:" << endl;
 			bool page2_is_first = true;
+			bool page1Exam_is_first = true;
 			bool page2012_is_first = true;
 			skipInput = false;
 			
@@ -315,7 +323,7 @@ private:
 					if (i + 1 == len) break;
 				}
 				if (page == 1) {
-				len = lenFile + 2;
+				len = students.getSize() + 2;
 				Student tempStudent;
 				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 				if (i == 0) cout << "Удалить студента" << endl;
@@ -330,7 +338,7 @@ private:
 				if (page2_is_first) {
 					cout << "Фамилия: " << menuStudent.firstname << " Имя: " << menuStudent.name << " Отчество: " << menuStudent.patronymic << endl;
 					cout << "Дата рождения: "; printDate(menuStudent.dayBirth, menuStudent.monthBirth, menuStudent.yearBirth,7);
-					cout << " Год начала обучения: " << menuStudent.yearStart << " Пол: "<< menuStudent.sex << endl;
+					cout << " Год начала обучения: " << menuStudent.yearStart << " Пол: " << (settingSex?(menuStudent.sex == 0 ? "Женский" : "Мужской"):"") << endl;
 					cout << "Номер зачетной книжки: " << menuStudent.id << " Группа: " << menuStudent.group << " Институт: " << menuStudent.faculty << " Кафедра: " << menuStudent.department << endl;
 					page2_is_first = false;
 				}
@@ -341,11 +349,17 @@ private:
 			}
 			if (page == 3) {
 				len = 1;
-				cout << "Введите название файла: ";
-				char nameFile[40] = "";
-				cin.getline(nameFile, 40);
-				writeToFile(nameFile);
-				cout << "БД записана в файл'" << nameFile << "'\n";
+				writeToFile(file);
+				/*fseek(file, 0, SEEK_END);
+				lenFile = ftell(file) / 4288;
+				students.clear();
+				for (int i = 0; i < lenFile; i++) {
+					fseek(file, 4288 * (i), SEEK_SET);
+					Student tempStudent;
+					fread(&tempStudent, sizeof(Student), 1, file);
+					students.addElem(tempStudent);
+				}*/
+				cout << "БД записана в файл 'file.bin' \n";
 				system("PAUSE");
 				page = 0;
 				skipInput = true;
@@ -371,11 +385,35 @@ private:
 				cout << listMenu.listOne_1000[i] << endl;
 				if (i + 1 == len) break;
 			}
-			if (page / 1000 >= 1002 and page / 1000 <= 1999 or (page == 1002010001 or page == 1002010002)) {
+			if (page / 1000 >= 1002 and page / 1000 <= 1999 or (page == 1002010001 or page == 1002010002) or time_to_exam) {
+
 				if (page == 1002010001 or page == 1002010002) {
 					setSex();
 					students[(int)(page / 1000/1000 % 1000 - 2)].editSex(menuStudent.sex);
 					page = page / 1000 / 1000;
+				}
+				else if (time_to_exam) {
+					if (page1Exam_is_first)cout << "Bpvtybnm/lj,fdbnm:\n";
+					page1Exam_is_first = false;
+					int first_elem = menuStudent.exam.firstEmpty(page % 1000-1);
+					len = (first_elem == -1 ? 0 : (int)first_elem)+2;
+					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+					for (int j = 0; j < len-2; j++) {
+						int mark = menuStudent.exam.lessons[page % 1000-1][j].mark;
+						cout << menuStudent.exam.lessons[page % 1000-1][j].nameLesson << " Mark: ";
+						if (mark == 1 or mark == 0) {
+							if (mark == 1) cout << "Pachet\n";
+							else cout << "Nepachet\n";
+						}
+						else cout << mark << "\n";
+
+					}
+					if (i + 1 == len-1) cout << listMenu.AddLast[0] << "\n";
+					else if (i == len-1) cout << listMenu.AddLast[1] << "\n";
+					if (i  == len-1) {
+						break;
+					}
+
 				}
 				else if (page % 1000 == 1) {
 					setFirstname();	
@@ -440,6 +478,12 @@ private:
 						break;
 					}
 
+				}
+				else if (page % 1000 == 11) {
+					len = listMenu.listExams.getSize();
+					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+					cout << listMenu.listExams[i] << endl;
+					if (i + 1 == len) break;
 				}
 				
 			}
@@ -506,7 +550,11 @@ private:
 						break;
 					}
 				}
-				if (page == 2010001 or page == 2010002) setSex();
+				if (page == 2010001 or page == 2010002) {
+					setSex();
+					page = 2;
+					settingSex = true;
+				}
 				if (page == 2011) {
 					len = listMenu.listExams.getSize();
 					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
@@ -521,7 +569,7 @@ private:
 				
 				if (page == 2012) {
 					len = 2;
-					if (menuStudent.countFill == 12) {
+					if (menuStudent.countFill >= 12) {
 						Student newStudent(menuStudent.firstname, menuStudent.name, menuStudent.patronymic, menuStudent.dayBirth, \
 							menuStudent.monthBirth, menuStudent.yearBirth, menuStudent.yearStart, menuStudent.faculty, menuStudent.department, \
 							menuStudent.group, menuStudent.id, menuStudent.sex, menuStudent.exam);
@@ -576,18 +624,26 @@ private:
 						clearStudent();
 						page = 0;
 					}
+					else if (time_to_exam) {
+						time_to_exam = false;
+						page = page / 1000;
+					}
 					else page = page / 1000;
 
 				}
 				else {
+					if (page == 1005011) {
+						time_to_exam = true;
+					}
 					if (page == 2012) page = page / 1000;
 					else page = page * 1000 + CHOICE;
+					
 
 				}
 				choice = CHOICE;
 				CHOICE = 1;
 				firstEditSes = true;
-
+				settingSex = false;
 			}
 		}
 

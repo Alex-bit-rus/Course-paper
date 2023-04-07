@@ -20,16 +20,16 @@ private:
     char department[40];
     char group[40];
     char id[40];
-    char sex[40]; 
+    bool sex = 0; 
     Exams exam;
     
 public:
     Student();
     Student(char[]);
     Student(const char*, const char*, const char*, const unsigned short, const unsigned short, const unsigned short,\
-        const unsigned short, const char*, const char*, const char*, const char*, const char*, Exams);
+        const unsigned short, const char*, const char*, const char*, const char*, const bool, Exams);
     Student(const char*, const char*, const char*, const unsigned short, const unsigned short, const unsigned short,\
-        const unsigned short, const char*, const char*, const char*, const char*, const char*);
+        const unsigned short, const char*, const char*, const char*, const char*, const bool);
     Student(const Student&);
     int addExam(const unsigned short, const char[], const unsigned short);
     void editFirstname(const char*);
@@ -39,7 +39,7 @@ public:
     void editDepartment(const char*);
     void editGroup(const char*);
     void editID(const char*);
-    void editSex(const char*);
+    void editSex(const bool);
     void editBirth(const unsigned short&, const unsigned short&, const unsigned short&);
     void editYearStart(const unsigned short&);
     bool operator== (const Student&);
@@ -61,7 +61,7 @@ Student::Student() {
     strcpy_s(this->department, "d");
     strcpy_s(this->group, "g");
     strcpy_s(this->id, "i");
-    strcpy_s(this->sex, "s");
+    sex = 0;
     
 }
 Student::Student(char id[40]) {
@@ -76,13 +76,13 @@ Student::Student(char id[40]) {
     strcpy_s(this->department, "d");
     strcpy_s(this->group, "g");
     strcpy_s(this->id, id);
-    strcpy_s(this->sex, "s");
+    sex = 0;
 }
 
 
 
 Student::Student(const char* firstname, const char* name, const char* patronymic, const unsigned short dayBirth, const unsigned short monthBirth\
-    , const unsigned short yearBirth, const unsigned short yearStart, const char* faculty, const char* department, const char* group, const char* id, const char* sex, Exams exam) {
+    , const unsigned short yearBirth, const unsigned short yearStart, const char* faculty, const char* department, const char* group, const char* id, const bool sex, Exams exam) {
     strcpy_s(this->firstname, firstname);
     strcpy_s(this->name, name);
     strcpy_s(this->patronymic, patronymic);
@@ -94,14 +94,14 @@ Student::Student(const char* firstname, const char* name, const char* patronymic
     strcpy_s(this->department, department);
     strcpy_s(this->group, group);
     strcpy_s(this->id, id);
-    strcpy_s(this->sex, sex);
+    this->sex = sex;
     this->exam = exam;
     
 
 }
 
 Student::Student(const char* firstname, const char* name, const char* patronymic, const unsigned short dayBirth, const unsigned short monthBirth\
-    , const unsigned short yearBirth, const unsigned short yearStart, const char* faculty, const char* department, const char* group, const char* id, const char* sex) {
+    , const unsigned short yearBirth, const unsigned short yearStart, const char* faculty, const char* department, const char* group, const char* id, const bool sex) {
     strcpy_s(this->firstname, firstname);
     strcpy_s(this->name, name);
     strcpy_s(this->patronymic, patronymic);
@@ -113,7 +113,7 @@ Student::Student(const char* firstname, const char* name, const char* patronymic
     strcpy_s(this->department, department);
     strcpy_s(this->group, group);
     strcpy_s(this->id, id);
-    strcpy_s(this->sex, sex);
+    this->sex = sex;
     this->exam = exam;
 
 
@@ -131,7 +131,7 @@ Student::Student(const Student& student) {
     strcpy_s(this->department, student.department);
     strcpy_s(this->group, student.group);
     strcpy_s(this->id, student.id);
-    strcpy_s(this->sex, student.sex);
+    this->sex = student.sex;
     this->exam = student.exam;
 }
 
@@ -153,7 +153,7 @@ Student Student::operator=(const Student& student) {
     strcpy_s(this->department, student.department);
     strcpy_s(this->group, student.group);
     strcpy_s(this->id, student.id);
-    strcpy_s(this->sex, student.sex);
+    this->sex = student.sex;
     this->exam = student.exam;
     
     return (*this);
@@ -183,7 +183,7 @@ void Student::editGroup(const char* _group) {strcpy_s(group,10, _group);}
 void Student::editFaculty(const char* _faculty) {strcpy_s(faculty, _faculty);}
 void Student::editDepartment(const char* _department) {strcpy_s(department, _department);}
 void Student::editID(const char* _id) {strcpy_s(id, _id);}
-void Student::editSex(const char* _sex) {strcpy_s(sex, _sex);}
+void Student::editSex(const bool _sex) {sex = _sex;}
 void Student::editBirth(const unsigned short& _day, const unsigned short& _month, const unsigned short& _year) {
     dayBirth = _day;
     monthBirth = _month;
