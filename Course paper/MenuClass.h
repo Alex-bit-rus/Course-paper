@@ -38,6 +38,11 @@ private:
 	bool skipInput = false;
 	bool settingSex = false;
 	bool time_to_exam = false;
+	bool page_befor_time_to_exam = false;
+	bool page_before_add_exam = false;
+	bool page_add_exam = false;
+	bool page_before_edit_exam = false;
+	bool page_edit_exam = false;
 	unsigned long long page = 0;
 	size_t len;
 	size_t CHOICE = 1, choice = 1;
@@ -246,8 +251,8 @@ private:
 		skipInput = true;
 		CHOICE = page % 1000;
 	}
-	void setExam() {
-		unsigned short numSessia = page % 10, mark;
+	void setExam(int _lessonNum = -1) {
+		unsigned short numSessia = page % 10-1, mark;
 		char nameLesson[40] = "";
 		cout << "Введите название дисциплины: ";
 		if (!firstEditSes) cin.ignore();
@@ -258,11 +263,12 @@ private:
 			cout << "Выход из диапазона значений!Повторите попытку : ";
 			cin >> mark;
 		}
-		menuStudent.exam.addLesson(numSessia, nameLesson, mark);
+		menuStudent.exam.addLesson(numSessia, nameLesson, mark, _lessonNum);
 		firstEditSes = false;
 		skipInput = true;
 
 	}
+
 
 	void writeToFile(FILE* _file) {
 		fclose(_file);
@@ -385,7 +391,7 @@ private:
 				cout << listMenu.listOne_1000[i] << endl;
 				if (i + 1 == len) break;
 			}
-			if (page / 1000 >= 1002 and page / 1000 <= 1999 or (page == 1002010001 or page == 1002010002) or time_to_exam) {
+			if (page / 1000 >= 1002 and page / 1000 <= 1999 or (page == 1002010001 or page == 1002010002) or time_to_exam or page_add_exam or page_edit_exam) {
 
 				if (page == 1002010001 or page == 1002010002) {
 					setSex();
@@ -393,14 +399,15 @@ private:
 					page = page / 1000 / 1000;
 				}
 				else if (time_to_exam) {
-					if (page1Exam_is_first)cout << "Bpvtybnm/lj,fdbnm:\n";
+					if (page1Exam_is_first)
+						cout << "Bpvtybnm/lj,fdbnm:\n";
 					page1Exam_is_first = false;
-					int first_elem = menuStudent.exam.firstEmpty(page % 1000-1);
-					len = (first_elem == -1 ? 0 : (int)first_elem)+2;
-					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
-					for (int j = 0; j < len-2; j++) {
-						int mark = menuStudent.exam.lessons[page % 1000-1][j].mark;
-						cout << menuStudent.exam.lessons[page % 1000-1][j].nameLesson << " Mark: ";
+					students[page / 1000 / 1000 % 1000 - 2].copyExam(menuStudent.exam);
+					len = menuStudent.exam.countLessons(page % 10 - 1)+2;
+					if (i < len - 2) {
+						int mark = menuStudent.exam.lessons[page % 1000 - 1][i].mark;
+						(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+						cout << menuStudent.exam.lessons[page % 1000 - 1][i].nameLesson << " Mark: ";
 						if (mark == 1 or mark == 0) {
 							if (mark == 1) cout << "Pachet\n";
 							else cout << "Nepachet\n";
@@ -408,11 +415,37 @@ private:
 						else cout << mark << "\n";
 
 					}
-					if (i + 1 == len-1) cout << listMenu.AddLast[0] << "\n";
-					else if (i == len-1) cout << listMenu.AddLast[1] << "\n";
+					if (i + 1 == len - 1) {
+						(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+						cout << listMenu.AddLast[0] << "\n";
+					}
+					else if (i == len - 1) {
+						(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+						cout << listMenu.AddLast[1] << "\n";
+					}
+					page_before_add_exam = true;
+					page_before_edit_exam = true;
 					if (i  == len-1) {
 						break;
 					}
+
+				}
+				else if (page_add_exam) {
+					setExam();
+					students[(int)(page / 1000 / 1000 % 1000 - 2)].editExam(menuStudent.exam);
+					time_to_exam = true;
+					page_add_exam = false;
+					skipInput = true;
+					break;
+
+				}
+				else if (page_edit_exam) {
+					setExam(choice-1);
+					students[(int)(page / 1000 / 1000 % 1000 - 2)].editExam(menuStudent.exam);
+					time_to_exam = true;
+					page_add_exam = false;
+					skipInput = true;
+					break;
 
 				}
 				else if (page % 1000 == 1) {
@@ -483,6 +516,7 @@ private:
 					len = listMenu.listExams.getSize();
 					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 					cout << listMenu.listExams[i] << endl;
+					page_befor_time_to_exam = true;
 					if (i + 1 == len) break;
 				}
 				
@@ -564,6 +598,7 @@ private:
 				}
 				if (page >= 2011001 and page < 2011009) {
 					setExam();
+					students[(int)(page / 1000 % 1000 - 2)].editExam(menuStudent.exam);
 					page = 2011;
 				}
 				
@@ -632,10 +667,22 @@ private:
 
 				}
 				else {
-					if (page == 1005011) {
+					if (page_befor_time_to_exam) {
 						time_to_exam = true;
+						page_befor_time_to_exam = false;
+						page = page * 1000 + CHOICE;
 					}
-					if (page == 2012) page = page / 1000;
+					else if (page == 2012) page = page / 1000;
+					else if (CHOICE == len - 1 and page_before_add_exam) {
+						page_before_add_exam = false;
+						time_to_exam = false;
+						page_add_exam = true;
+					}
+					else if (page_before_edit_exam) {
+						page_before_edit_exam = false;
+						time_to_exam = false;
+						page_edit_exam = true;
+					}
 					else page = page * 1000 + CHOICE;
 					
 

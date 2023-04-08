@@ -31,9 +31,10 @@ public:
     Student(const char*, const char*, const char*, const unsigned short, const unsigned short, const unsigned short,\
         const unsigned short, const char*, const char*, const char*, const char*, const bool);
     Student(const Student&);
-    int addExam(const unsigned short, const char[], const unsigned short);
+    int addExam(const unsigned short, const char[], const unsigned short, const int);
     void editFirstname(const char*);
     void editName(const char*);
+    void editExam(const Exams&);
     void editPatronymic(const char*);
     void editFaculty(const char*);
     void editDepartment(const char*);
@@ -42,6 +43,7 @@ public:
     void editSex(const bool);
     void editBirth(const unsigned short&, const unsigned short&, const unsigned short&);
     void editYearStart(const unsigned short&);
+    void copyExam(Exams&);
     bool operator== (const Student&);
     Student operator= (const Student&);
     friend std::ostream& operator<< (std::ostream& out, const Student& student);
@@ -167,8 +169,8 @@ std::ostream& operator<<(std::ostream& out, const Student& student)
     return out;
 }
 
-int Student::addExam(const unsigned short _numSess, const char _nameLesson[40], const unsigned short _mark) {
-    return exam.addLesson(_numSess, _nameLesson, _mark);
+int Student::addExam(const unsigned short _numSess, const char _nameLesson[40], const unsigned short _mark, const int _lessonNum = -1) {
+    return exam.addLesson(_numSess, _nameLesson, _mark, _lessonNum);
 }
 
 Student::~Student() {
@@ -191,4 +193,11 @@ void Student::editBirth(const unsigned short& _day, const unsigned short& _month
 }
 void Student::editYearStart(const unsigned short& _year) {
     yearStart =_year;
+}
+void Student::editExam(const Exams& _exam) {
+    exam = _exam;
+}
+
+void Student::copyExam(Exams& _exam) {
+    _exam = exam;
 }
