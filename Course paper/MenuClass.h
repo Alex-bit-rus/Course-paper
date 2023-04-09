@@ -127,11 +127,19 @@ private:
 		
 		GroupMax.quickSort(0, GroupMax.getSize()-1);
 		GroupOther.quickSort(0, GroupOther.getSize()-1);
-		cout << "Студенты, поступившие в ВУЗ в " << yearMaxCount << " :\n";
+		
 		unsigned short lenMax = GroupMax.getSize(), lenOthers = GroupOther.getSize();
-		for (int i = 0; i < lenMax; i++) cout << GroupMax[i] << " " << GroupMax[i].getID() << "\n";
-		cout << "\nСтуденты, поступившие в ВУЗ в других годах:\n";
-		for (int i = 0; i < lenOthers; i++) cout << GroupOther[i] << " " << GroupOther[i].getID() << "\n";
+		char _key = 0;
+		while (_key != 13) {
+			cout << "Для возвращения назад нажмите Enter\n";
+			cout << "\nСтуденты, поступившие в ВУЗ в " << yearMaxCount << " :\n";
+			for (int i = 0; i < lenMax; i++) cout << GroupMax[i] << " " << GroupMax[i].getID() << "\n";
+			cout << "\nСтуденты, поступившие в ВУЗ в других годах:\n";
+			for (int i = 0; i < lenOthers; i++) cout << GroupOther[i] << " " << GroupOther[i].getID() << "\n";
+			_key = _getch();
+		}
+		page = 0;
+		skipInput = true;
 	}
 
 
