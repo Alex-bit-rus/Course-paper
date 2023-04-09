@@ -44,6 +44,8 @@ public:
     void editBirth(const unsigned short&, const unsigned short&, const unsigned short&);
     void editYearStart(const unsigned short&);
     void copyExam(Exams&);
+    void printDate();
+    void printAllData();
     bool operator== (const Student&);
     Student operator= (const Student&);
     friend std::ostream& operator<< (std::ostream& out, const Student& student);
@@ -200,4 +202,42 @@ void Student::editExam(const Exams& _exam) {
 
 void Student::copyExam(Exams& _exam) {
     _exam = exam;
+}
+
+void Student::printDate() {
+    int wLine = 15;
+    int w = 10;
+    int delta = (wLine - w) / 2 - 1;
+    std::cout.width(delta); std::cout << " ";
+    if (this->dayBirth > 9) {
+        std::cout << this->dayBirth;
+    }
+    else {
+        std::cout << "0" << this->dayBirth;
+    }
+    std::cout << ".";
+    if (this->monthBirth > 9) {
+        std::cout << this->monthBirth;
+    }
+    else {
+        std::cout << "0" << this->monthBirth;
+    }
+    std::cout << ".";
+    std::cout << this->yearBirth;
+    std::cout.width(delta); std::cout << " ";
+}
+
+void Student::printAllData() {
+    std::cout << "Фамилия: " << this->firstname << "\n";
+    std::cout << "Имя: " << this->name << "\n";
+    std::cout << "Отчество: " << this->patronymic << "\n";
+    std::cout << "Номер зачетной книжки: " << this->id << "\n";
+    std::cout << "Дата раждения: "; printDate(); std::cout << "\n";
+    std::cout << "Пол: " << (sex?"Мужской":"Женский") << "\n";
+    std::cout << "Год поступления: " << this->yearStart << "\n";
+    std::cout << "Группа: " << this->group << "\n";
+    std::cout << "Кафедра: " << this->department << "\n";
+    std::cout << "Институт: " << this->faculty << "\n";
+    exam.print();
+
 }

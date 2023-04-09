@@ -17,6 +17,7 @@ public:
     int addLesson(const unsigned short, const char[], const unsigned short, const int);
     unsigned short getSizeSess(const unsigned short);
     void writeExamsToFile(FILE*);
+    void print();
     void readExamsToFile(FILE*);
     void clear();
     Exams operator= (const Exams&);
@@ -71,6 +72,7 @@ int Exams::addLesson(const unsigned short _numSess, const char _nameLesson[40], 
 
 Exams::~Exams() {
     
+
 }
 void Exams::clear()
 {
@@ -106,4 +108,23 @@ Exams Exams::operator=(const Exams& exam) {
             
     }
     return(*this);
+}
+void Exams::print() {
+    for (int i = 0; i < 9; i++) {
+        std::cout << "Сессия " << i + 1 << "\n";
+        int len = countLessons(i);
+        if (len == 0) std::cout << "В этой сессии нет предметов\n";
+        else {
+            for (int j = 0; j < len; j++) {
+                std::cout << lessons[i][j].nameLesson << " ";
+                if (lessons[i][j].mark <= 2) {
+                    std::cout << (lessons[i][j].mark == 0 ? "Незачёт\n" : "Зачёт\n");
+                }
+                else {
+                    std::cout << lessons[i][j].mark << "\n";
+                }
+            }
+        }
+
+    }
 }

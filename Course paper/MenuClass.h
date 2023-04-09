@@ -38,7 +38,7 @@ private:
 	bool skipInput = false;
 	bool settingSex = false;
 	bool time_to_exam = false;
-	bool page_befor_time_to_exam = false;
+	bool page_before_time_to_exam = false;
 	bool page_before_add_exam = false;
 	bool page_add_exam = false;
 	bool page_before_edit_exam = false;
@@ -60,7 +60,8 @@ private:
 		listMenu.listOne.addElem("Добавить студента");
 		listMenu.listOne.addElem("Вывести список студентов (добавить сведения о студенте)");
 
-		listMenu.listOne_1000.addElem("Выход");
+		listMenu.listOne_1000.addElem("Назад");
+		listMenu.listOne_1000.addElem("Вывести все данные о студенте");
 		listMenu.listOne_1000.addElem("Добавить результаты сессии");
 		listMenu.listOne_1000.addElem("Изменить пол");
 		listMenu.listOne_1000.addElem("Изменить номер зачетной книжки");
@@ -104,7 +105,7 @@ private:
 		listMenu.listExams.addElem("Сессия 1");
 
 		listMenu.AddLast.addElem("Назад");
-		listMenu.AddLast.addElem("ADD");
+		listMenu.AddLast.addElem("Добавить");
 		
 
 	}
@@ -255,7 +256,8 @@ private:
 		unsigned short numSessia = page % 10-1, mark;
 		char nameLesson[40] = "";
 		cout << "Введите название дисциплины: ";
-		if (!firstEditSes) cin.ignore();
+		if (!firstEditSes) 
+			cin.ignore();
 		cin.getline(nameLesson, 40);
 		cout << "\nВведите оценку за экзамен от 2 до 5 или 0 - незачет, 1 - зачет: ";
 		cin >> mark;
@@ -278,8 +280,6 @@ private:
 		}
 		fclose(_file);
 		fopen_s(&_file, "file.bin", "a+");
-		
-
 
 	}
 
@@ -389,7 +389,9 @@ private:
 				len = listMenu.listOne_1000.getSize();
 				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 				cout << listMenu.listOne_1000[i] << endl;
-				if (i + 1 == len) break;
+				firstEditSes = true;
+				if (i + 1 == len) 
+					break;
 			}
 			if (page / 1000 >= 1002 and page / 1000 <= 1999 or (page == 1002010001 or page == 1002010002) or time_to_exam or page_add_exam or page_edit_exam) {
 
@@ -400,17 +402,17 @@ private:
 				}
 				else if (time_to_exam) {
 					if (page1Exam_is_first)
-						cout << "Bpvtybnm/lj,fdbnm:\n";
+						cout << "Изменить/добавить предмет:\n";
 					page1Exam_is_first = false;
 					students[page / 1000 / 1000 % 1000 - 2].copyExam(menuStudent.exam);
 					len = menuStudent.exam.countLessons(page % 10 - 1)+2;
 					if (i < len - 2) {
 						int mark = menuStudent.exam.lessons[page % 1000 - 1][i].mark;
 						(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
-						cout << menuStudent.exam.lessons[page % 1000 - 1][i].nameLesson << " Mark: ";
+						cout << menuStudent.exam.lessons[page % 1000 - 1][i].nameLesson << " Оценка: ";
 						if (mark == 1 or mark == 0) {
-							if (mark == 1) cout << "Pachet\n";
-							else cout << "Nepachet\n";
+							if (mark == 1) cout << "Зачёт\n";
+							else cout << "Незачёт\n";
 						}
 						else cout << mark << "\n";
 
@@ -440,6 +442,7 @@ private:
 
 				}
 				else if (page_edit_exam) {
+					//firstEditSes = false;
 					setExam(choice-1);
 					students[(int)(page / 1000 / 1000 % 1000 - 2)].editExam(menuStudent.exam);
 					time_to_exam = true;
@@ -516,8 +519,23 @@ private:
 					len = listMenu.listExams.getSize();
 					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 					cout << listMenu.listExams[i] << endl;
-					page_befor_time_to_exam = true;
+					page_before_time_to_exam = true;
 					if (i + 1 == len) break;
+				}
+				else if (page % 1000 == 12) {
+					system("cls");
+					char _key = 0;
+					while (_key != 13) {
+						cout << "Для выхода нажмите Enter\n";
+						students[(int)(page / 1000 % 1000 - 2)].printAllData();
+						_key = _getch();
+						system("cls");
+
+					}
+					page = page / 1000;
+					skipInput = true;
+					break;
+
 				}
 				
 			}
@@ -598,8 +616,8 @@ private:
 				}
 				if (page >= 2011001 and page < 2011009) {
 					setExam();
-					students[(int)(page / 1000 % 1000 - 2)].editExam(menuStudent.exam);
-					page = 2011;
+					page = 2;
+					
 				}
 				
 				if (page == 2012) {
@@ -631,7 +649,7 @@ private:
 
 			}
 			if (skipInput) continue;
-
+			
 			// ждем нажатия клавиши
 			key = _getch();
 
@@ -661,15 +679,23 @@ private:
 					}
 					else if (time_to_exam) {
 						time_to_exam = false;
+						page_before_add_exam = false;
+						page_before_edit_exam = false;
+						page_edit_exam = false;
+						page_before_time_to_exam = false;
+						page = page / 1000;
+					}
+					else if (page % 1000 == 11 and page_before_time_to_exam) {
+						page_before_time_to_exam = false;
 						page = page / 1000;
 					}
 					else page = page / 1000;
 
 				}
 				else {
-					if (page_befor_time_to_exam) {
+				if (page_before_time_to_exam) {
 						time_to_exam = true;
-						page_befor_time_to_exam = false;
+						page_before_time_to_exam = false;
 						page = page * 1000 + CHOICE;
 					}
 					else if (page == 2012) page = page / 1000;
@@ -689,7 +715,7 @@ private:
 				}
 				choice = CHOICE;
 				CHOICE = 1;
-				firstEditSes = true;
+				
 				settingSex = false;
 			}
 		}
