@@ -47,6 +47,8 @@ private:
 	unsigned short maxCount = 0;
 	unsigned short startYears[76];
 	unsigned short yearMaxCount = 0;
+	const unsigned short maxCountOfStudents = 1000;
+
 	size_t len;
 	size_t CHOICE = 1, choice = 1;
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -188,7 +190,7 @@ private:
 		cout << "Введите фамилию студента: ";
 		cin.getline(menuStudent.firstname, 40);
 		menuStudent.countFill++;
-		CHOICE = page % 1000;
+		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
@@ -196,7 +198,7 @@ private:
 		cout << "Введите имя студента: ";
 		cin.getline(menuStudent.name, 40);
 		menuStudent.countFill++;
-		CHOICE = page % 1000;
+		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
@@ -204,7 +206,7 @@ private:
 		cout << "Введите отчество студента: ";
 		cin.getline(menuStudent.patronymic, 40);
 		menuStudent.countFill++;
-		CHOICE = page % 1000;
+		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
@@ -220,7 +222,7 @@ private:
 		cout << "\nВведите год рождения студента: ";
 		cin >> menuStudent.yearBirth;
 		menuStudent.countFill += 3;
-		CHOICE = page % 1000;
+		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
@@ -232,7 +234,7 @@ private:
 			cin >> menuStudent.yearStart;
 		}
 		menuStudent.countFill++;
-		CHOICE = page % 1000;
+		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
@@ -240,7 +242,7 @@ private:
 		cout << "Введите группу студента: ";
 		cin.getline(menuStudent.group, 40);
 		menuStudent.countFill++;
-		CHOICE = page % 1000;
+		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
@@ -248,7 +250,7 @@ private:
 		cout << "Введите кафедру студента: ";
 		cin.getline(menuStudent.department, 40);
 		menuStudent.countFill++;
-		CHOICE = page % 1000;
+		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
@@ -256,7 +258,7 @@ private:
 		cout << "Введите институт студента: ";
 		cin.getline(menuStudent.faculty, 40);
 		menuStudent.countFill++;
-		CHOICE = page % 1000;
+		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
@@ -272,7 +274,7 @@ private:
 			find = students.findElem(tempStudent);
 		}
 		menuStudent.countFill++;
-		CHOICE = page % 1000;
+		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 
@@ -284,7 +286,7 @@ private:
 
 		system("cls");
 		skipInput = true;
-		CHOICE = page % 1000;
+		CHOICE = page % maxCountOfStudents;
 	}
 	void setExam(int _lessonNum = -1) {
 		unsigned short numSessia = page % 10-1, mark;
@@ -409,7 +411,7 @@ private:
 				var75();
 				break;
 			}
-			if (page == 1001) {
+			if (page == maxCountOfStudents+1) {
 				len = lenFile + 1;
 				Student tempStudent;
 				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
@@ -423,7 +425,7 @@ private:
 					break;
 				}
 			}
-			if (page >= 1002 and page <= 1999) {
+			if (page >= maxCountOfStudents+2 and page <= 2*maxCountOfStudents-1) {
 				len = listMenu.listOne_1000.getSize();
 				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 				cout << listMenu.listOne_1000[i] << endl;
@@ -431,23 +433,23 @@ private:
 				if (i + 1 == len) 
 					break;
 			}
-			if (page / 1000 >= 1002 and page / 1000 <= 1999 or (page == 1002010001 or page == 1002010002) or time_to_exam or page_add_exam or page_edit_exam) {
+			if (page / maxCountOfStudents >= maxCountOfStudents+2 and page / maxCountOfStudents <= 2*maxCountOfStudents-1 or (page ==  ((maxCountOfStudents+2)* maxCountOfStudents+10)* maxCountOfStudents+1 or page == ((maxCountOfStudents + 2) * maxCountOfStudents + 10) * maxCountOfStudents + 2) or time_to_exam or page_add_exam or page_edit_exam) {
 
-				if (page == 1002010001 or page == 1002010002) {
+				if (page == ((maxCountOfStudents + 2) * maxCountOfStudents + 10) * maxCountOfStudents + 1 or page == ((maxCountOfStudents + 2) * maxCountOfStudents + 10) * maxCountOfStudents + 2) {
 					setSex();
-					students[(int)(page / 1000/1000 % 1000 - 2)].editSex(menuStudent.sex);
-					page = page / 1000 / 1000;
+					students[(int)(page / maxCountOfStudents / maxCountOfStudents % maxCountOfStudents - 2)].editSex(menuStudent.sex);
+					page = page / maxCountOfStudents / maxCountOfStudents;
 				}
 				else if (time_to_exam) {
 					if (page1Exam_is_first)
 						cout << "Изменить/добавить предмет:\n";
 					page1Exam_is_first = false;
-					students[page / 1000 / 1000 % 1000 - 2].copyExam(menuStudent.exam);
+					students[page / maxCountOfStudents / maxCountOfStudents % maxCountOfStudents - 2].copyExam(menuStudent.exam);
 					len = menuStudent.exam.countLessons(page % 10 - 1)+2;
 					if (i < len - 2) {
-						int mark = menuStudent.exam.lessons[page % 1000 - 1][i].mark;
+						int mark = menuStudent.exam.lessons[page % maxCountOfStudents - 1][i].mark;
 						(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
-						cout << menuStudent.exam.lessons[page % 1000 - 1][i].nameLesson << " Оценка: ";
+						cout << menuStudent.exam.lessons[page % maxCountOfStudents - 1][i].nameLesson << " Оценка: ";
 						if (mark == 1 or mark == 0) {
 							if (mark == 1) cout << "Зачёт\n";
 							else cout << "Незачёт\n";
@@ -472,7 +474,7 @@ private:
 				}
 				else if (page_add_exam) {
 					setExam();
-					students[(int)(page / 1000 / 1000 % 1000 - 2)].editExam(menuStudent.exam);
+					students[(int)(page / maxCountOfStudents / maxCountOfStudents % maxCountOfStudents - 2)].editExam(menuStudent.exam);
 					time_to_exam = true;
 					page_add_exam = false;
 					skipInput = true;
@@ -482,7 +484,7 @@ private:
 				else if (page_edit_exam) {
 					//firstEditSes = false;
 					setExam(choice-1);
-					students[(int)(page / 1000 / 1000 % 1000 - 2)].editExam(menuStudent.exam);
+					students[(int)(page / maxCountOfStudents / maxCountOfStudents % maxCountOfStudents - 2)].editExam(menuStudent.exam);
 					time_to_exam = true;
 					page_add_exam = false;
 					skipInput = true;
@@ -491,59 +493,59 @@ private:
 				}
 				else if (page % 1000 == 1) {
 					setFirstname();	
-					students[(int)(page / 1000 % 1000 - 2)].editFirstname(menuStudent.firstname);
-					page = page / 1000;
+					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editFirstname(menuStudent.firstname);
+					page = page / maxCountOfStudents;
 					break;
 				}
-				else if (page % 1000 == 2) {
+				else if (page % maxCountOfStudents == 2) {
 					setName();
-					students[(int)(page / 1000 % 1000 - 2)].editName(menuStudent.name);
-					page = page / 1000;
+					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editName(menuStudent.name);
+					page = page / maxCountOfStudents;
 					break;
 				}
-				else if (page % 1000 == 3) {
+				else if (page % maxCountOfStudents == 3) {
 					setPatronymic();
-					students[(int)(page / 1000 % 1000 - 2)].editPatronymic(menuStudent.patronymic);
-					page = page / 1000;
+					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editPatronymic(menuStudent.patronymic);
+					page = page / maxCountOfStudents;
 					break;
 				}
-				else if (page % 1000 == 4) {
+				else if (page % maxCountOfStudents == 4) {
 					setBirthday();
-					students[(int)(page / 1000 % 1000 - 2)].editBirth(menuStudent.dayBirth, menuStudent.monthBirth, menuStudent.yearBirth);
-					page = page / 1000;
+					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editBirth(menuStudent.dayBirth, menuStudent.monthBirth, menuStudent.yearBirth);
+					page = page / maxCountOfStudents;
 					break;
 				}
-				else if (page % 1000 == 5) {
+				else if (page % maxCountOfStudents == 5) {
 					setStartYear();
-					students[(int)(page / 1000 % 1000 - 2)].editYearStart(menuStudent.yearStart);
-					page = page / 1000;
+					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editYearStart(menuStudent.yearStart);
+					page = page / maxCountOfStudents;
 					break;
 				}
-				else if (page % 1000 == 6) {
+				else if (page % maxCountOfStudents == 6) {
 					setGroup();
-					students[(int)(page / 1000 % 1000 - 2)].editGroup(menuStudent.group);
-					page = page / 1000;
+					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editGroup(menuStudent.group);
+					page = page / maxCountOfStudents;
 					break;
 				}
-				else if (page % 1000 == 7) {
+				else if (page % maxCountOfStudents == 7) {
 					setDepartment();
-					students[(int)(page / 1000 % 1000 - 2)].editDepartment(menuStudent.department);
-					page = page / 1000;
+					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editDepartment(menuStudent.department);
+					page = page / maxCountOfStudents;
 					break;
 				}
-				else if (page % 1000 == 8) {
+				else if (page % maxCountOfStudents == 8) {
 					setFaculty();
-					students[(int)(page / 1000 % 1000 - 2)].editFaculty(menuStudent.faculty);
-					page = page / 1000;
+					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editFaculty(menuStudent.faculty);
+					page = page / maxCountOfStudents;
 					break;
 				}
-				else if (page % 1000 == 9) {
+				else if (page % maxCountOfStudents == 9) {
 					setID();
-					students[(int)(page / 1000 % 1000 - 2)].editID(menuStudent.id);
-					page = page / 1000;
+					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editID(menuStudent.id);
+					page = page / maxCountOfStudents;
 					break;
 				}
-				else if (page % 1000 == 10) {
+				else if (page % maxCountOfStudents == 10) {
 					len = 3;
 					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 					if (i + 1 < len) cout << listMenu.listSex[i] << endl;
@@ -553,33 +555,33 @@ private:
 					}
 
 				}
-				else if (page % 1000 == 11) {
+				else if (page % maxCountOfStudents == 11) {
 					len = listMenu.listExams.getSize();
 					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 					cout << listMenu.listExams[i] << endl;
 					page_before_time_to_exam = true;
 					if (i + 1 == len) break;
 				}
-				else if (page % 1000 == 12) {
+				else if (page % maxCountOfStudents == 12) {
 					system("cls");
 					char _key = 0;
 					while (_key != 13) {
 						cout << "Для выхода нажмите Enter\n";
-						students[(int)(page / 1000 % 1000 - 2)].printAllData();
+						students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].printAllData();
 						_key = _getch();
 						system("cls");
 
 					}
-					page = page / 1000;
+					page = page / maxCountOfStudents;
 					skipInput = true;
 					break;
 
 				}
 				
 			}
-			if (page >= 1001001 and page <= 1001999) {
+			if (page >= (maxCountOfStudents+1)* maxCountOfStudents+1 and page <= (maxCountOfStudents+1)* maxCountOfStudents+ maxCountOfStudents-1) {
 				len = lenFile + 1;
-				size_t index = lenFile - (page - 1001001)-1;
+				size_t index = lenFile - (page - maxCountOfStudents + 1) * maxCountOfStudents;
 				students.removeElem(index);
 				lenFile--;
 				fclose(file);
@@ -594,44 +596,44 @@ private:
 				skipInput = true;
 				
 			}
-			if (page > 2000) {
-				if (page == 2001) {
+			if (page > 2*maxCountOfStudents) {
+				if (page == 2 * maxCountOfStudents+1) {
 					setFirstname();
 					page = 2;
 				}
-				if (page == 2002) {
+				if (page == 2 * maxCountOfStudents+2) {
 					setName();
 					page = 2;
 				}
-				if (page == 2003) {
+				if (page == 2 * maxCountOfStudents+3) {
 					setPatronymic();
 					page = 2;
 				}
-				if (page == 2004) {
+				if (page == 2 * maxCountOfStudents+4) {
 					setBirthday();
 					page = 2;
 				}
-				if (page == 2005) {
+				if (page == 2 * maxCountOfStudents+5) {
 					setStartYear();
 					page = 2;
 				}
-				if (page == 2006) {
+				if (page == 2 * maxCountOfStudents+6) {
 					setGroup();
 					page = 2;
 				}
-				if (page == 2007) {
+				if (page == 2 * maxCountOfStudents+7) {
 					setDepartment();
 					page = 2;
 				}
-				if (page == 2008) {
+				if (page == 2 * maxCountOfStudents+8) {
 					setFaculty();
 					page = 2;
 				}
-				if (page == 2009) {
+				if (page == 2 * maxCountOfStudents+9) {
 					setID();
 					page = 2;
 				}
-				if (page == 2010) {
+				if (page == 2 * maxCountOfStudents+10) {
 					len = 3;
 					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 					if (i + 1 < len) cout << listMenu.listSex[i] << endl;
@@ -640,25 +642,25 @@ private:
 						break;
 					}
 				}
-				if (page == 2010001 or page == 2010002) {
+				if (page == (2 * maxCountOfStudents+10)* maxCountOfStudents+1 or page == (2 * maxCountOfStudents + 10) * maxCountOfStudents + 2) {
 					setSex();
 					page = 2;
 					settingSex = true;
 				}
-				if (page == 2011) {
+				if (page == 2 * maxCountOfStudents+11) {
 					len = listMenu.listExams.getSize();
 					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 					cout << listMenu.listExams[i] << endl;
 					if (i + 1 == len) break;
 						
 				}
-				if (page >= 2011001 and page < 2011009) {
+				if (page >= 2 * maxCountOfStudents* maxCountOfStudents+1 and page < maxCountOfStudents * maxCountOfStudents + 9) {
 					setExam();
 					page = 2;
 					
 				}
 				
-				if (page == 2012) {
+				if (page == 2 * maxCountOfStudents+12) {
 					len = 2;
 					if (menuStudent.countFill >= 12) {
 						Student newStudent(menuStudent.firstname, menuStudent.name, menuStudent.patronymic, menuStudent.dayBirth, \
@@ -709,9 +711,9 @@ private:
 						return;
 					}
 					else if (page == 2) {
-						page = 2012;
+						page = 2*maxCountOfStudents+12;
 					}
-					else if (page == 2012) {
+					else if (page == 2* maxCountOfStudents+12) {
 						clearStudent();
 						page = 0;
 					}
@@ -721,22 +723,22 @@ private:
 						page_before_edit_exam = false;
 						page_edit_exam = false;
 						page_before_time_to_exam = false;
-						page = page / 1000;
+						page = page / maxCountOfStudents;
 					}
-					else if (page % 1000 == 11 and page_before_time_to_exam) {
+					else if (page % maxCountOfStudents == 11 and page_before_time_to_exam) {
 						page_before_time_to_exam = false;
-						page = page / 1000;
+						page = page / maxCountOfStudents;
 					}
-					else page = page / 1000;
+					else page = page / maxCountOfStudents;
 
 				}
 				else {
 				if (page_before_time_to_exam) {
 						time_to_exam = true;
 						page_before_time_to_exam = false;
-						page = page * 1000 + CHOICE;
+						page = page * maxCountOfStudents + CHOICE;
 					}
-					else if (page == 2012) page = page / 1000;
+					else if (page == 2* maxCountOfStudents+12) page = page / maxCountOfStudents;
 					else if (CHOICE == len - 1 and page_before_add_exam) {
 						page_before_add_exam = false;
 						time_to_exam = false;
@@ -747,7 +749,7 @@ private:
 						time_to_exam = false;
 						page_edit_exam = true;
 					}
-					else page = page * 1000 + CHOICE;
+					else page = page * maxCountOfStudents + CHOICE;
 					
 
 				}
