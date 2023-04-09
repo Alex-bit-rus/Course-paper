@@ -11,9 +11,11 @@ class List
     size_t sizeList = 0;
 
 public:
+    
      List() {
          head = NULL;
          sizeList = 0;
+         
      };
     List(size_t) {};
     void addElem(T);
@@ -25,6 +27,8 @@ public:
     void clear();
     int findElem(T);
     int findElem(int);
+    int partition(int , int );
+    void quickSort(int, int);
     
     T& operator[] (int);
     size_t getSize() {
@@ -186,4 +190,39 @@ template <typename T>
 void List<T>::readToFile(FILE* file) {
     fseek(file, 0, SEEK_SET);
     fread(this, sizeof(List), 1, file);
+}
+template <typename T>
+int List<T>::partition(int low, int high)
+{
+    T pivot = (*this)[high];
+    int pIndex = low;
+
+    for (int j = low; j < high; j++)
+    {
+        if ((*this)[j] < pivot)
+        {
+            T temp;
+            temp = (*this)[pIndex];
+            (*this)[pIndex] = (*this)[j];
+            (*this)[j] = temp;
+            pIndex++;
+        }
+    }
+    T temp;
+    temp = (*this)[pIndex];
+    (*this)[pIndex] = (*this)[high];
+    (*this)[high] = temp;
+    return pIndex;
+}
+template <typename T>
+void List<T>::quickSort(int low, int high)
+{
+    if (low < high)
+    {
+        int pivot = partition(low, high);
+
+        quickSort(low, pivot - 1);
+        quickSort(pivot + 1, high);
+    }
+    else return;
 }

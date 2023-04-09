@@ -46,7 +46,10 @@ public:
     void copyExam(Exams&);
     void printDate();
     void printAllData();
+    unsigned short getStartYear() { return yearStart; }
+    char* getID() { return id; }
     bool operator== (const Student&);
+    bool operator< (const Student&);
     Student operator= (const Student&);
     friend std::ostream& operator<< (std::ostream& out, const Student& student);
     ~Student();
@@ -145,6 +148,15 @@ bool Student::operator==(const Student& student) {
     return (strcmp(this->id, student.id) == 0);
 }
 
+bool Student::operator<(const Student& student)
+{
+    if (strlen(this->id) < strlen(student.id)) return true;
+    else if (strlen(this->id) > strlen(student.id)) return false;
+    if (strcmp(this->id, student.id) < 0) 
+        return true;
+    return false;
+}
+
 Student Student::operator=(const Student& student) {
     strcpy_s(this->firstname, student.firstname);
     strcpy_s(this->name, student.name);
@@ -241,3 +253,6 @@ void Student::printAllData() {
     exam.print();
 
 }
+
+
+
