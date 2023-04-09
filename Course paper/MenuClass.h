@@ -131,6 +131,7 @@ private:
 		unsigned short lenMax = GroupMax.getSize(), lenOthers = GroupOther.getSize();
 		char _key = 0;
 		while (_key != 13) {
+			system("cls");
 			cout << "Для возвращения назад нажмите Enter\n";
 			cout << "\nСтуденты, поступившие в ВУЗ в " << yearMaxCount << " :\n";
 			for (int i = 0; i < lenMax; i++) cout << GroupMax[i] << " " << GroupMax[i].getID() << "\n";
