@@ -162,6 +162,15 @@ private:
 		menuStudent.exam.clear();
 		menuStudent.countFill = 0;
 	}
+	bool correctString(char _string []) {
+		unsigned short _len = strlen(_string);
+		for (unsigned short i = 0; i < _len; i++) {
+			if ((unsigned int)_string[i] < 192) {
+				return false;
+			}
+		}
+		return true;
+	}
 	void printDate(const unsigned short& day, const unsigned short& month,const unsigned short& year, int wLine) {
 		int w = 10;
 		int delta = (wLine - w) / 2 - 1;
@@ -189,6 +198,10 @@ private:
 	void setFirstname() {
 		cout << "Введите фамилию студента: ";
 		cin.getline(menuStudent.firstname, 40);
+		while (!correctString(menuStudent.firstname)) {
+			cout << "фамилия должна состоять из кириллических символов! Повторите попытку: ";
+			cin.getline(menuStudent.firstname, 40);
+		}
 		menuStudent.countFill++;
 		CHOICE = page % maxCountOfStudents;
 		system("cls");
@@ -197,6 +210,10 @@ private:
 	void setName() {
 		cout << "Введите имя студента: ";
 		cin.getline(menuStudent.name, 40);
+		while (!correctString(menuStudent.name)) {
+			cout << "Имя должнo состоять из кириллических символов! Повторите попытку: ";
+			cin.getline(menuStudent.name, 40);
+		}
 		menuStudent.countFill++;
 		CHOICE = page % maxCountOfStudents;
 		system("cls");
@@ -205,6 +222,10 @@ private:
 	void setPatronymic() {
 		cout << "Введите отчество студента: ";
 		cin.getline(menuStudent.patronymic, 40);
+		while (!correctString(menuStudent.patronymic)) {
+			cout << "Отчество должнo состоять из кириллических символов! Повторите попытку: ";
+			cin.getline(menuStudent.patronymic, 40);
+		}
 		menuStudent.countFill++;
 		CHOICE = page % maxCountOfStudents;
 		system("cls");
