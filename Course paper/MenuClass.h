@@ -45,6 +45,9 @@ private:
 	bool page_add_exam = false;
 	bool page_before_edit_exam = false;
 	bool page_edit_exam = false;
+	bool page2_is_first = true;
+	bool page1Exam_is_first = true;
+	bool page2012_is_first = true;
 	unsigned long long page = 0;
 	unsigned short maxCount = 0;
 	unsigned short startYears[76];
@@ -358,6 +361,46 @@ private:
 		for (int i = 0; i < lenTopLine; i++) cout << '_';
 	}
 
+	bool page_0(unsigned int _currentChoice) {
+		len = listMenu.listOne.getSize();
+		(CHOICE == _currentChoice + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+		cout << listMenu.listOne[_currentChoice] << endl;
+		if (_currentChoice + 1 == len) return false;
+		return true;
+		
+		
+	}
+
+	bool page_1(unsigned int _currentChoice) {
+		len = students.getSize() + 2;
+		Student tempStudent;
+		(CHOICE == _currentChoice + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+		if (_currentChoice == 0) cout << "Удалить студента" << endl;
+
+		else if (_currentChoice + 1 <= len - 1) {
+			cout << students[_currentChoice - 1] << endl;
+		}
+		else cout << "Назад";
+		if (_currentChoice + 1 == len) return false;
+		return true;
+
+	}
+	bool page_2(unsigned int _currentChoice) {
+		if (page2_is_first) {
+			cout << "Фамилия: " << menuStudent.firstname << " Имя: " << menuStudent.name << " Отчество: " << menuStudent.patronymic << endl;
+			cout << "Дата рождения: "; printDate(menuStudent.dayBirth, menuStudent.monthBirth, menuStudent.yearBirth, 7);
+			cout << " Год начала обучения: " << menuStudent.yearStart << " Пол: " << (settingSex ? (menuStudent.sex == 0 ? "Женский" : "Мужской") : "") << endl;
+			cout << "Номер зачетной книжки: " << menuStudent.id << " Группа: " << menuStudent.group << " Институт: " << menuStudent.faculty << " Кафедра: " << menuStudent.department << endl;
+			page2_is_first = false;
+		}
+		len = listMenu.listOne_2.getSize();
+		(CHOICE == _currentChoice + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+		cout << listMenu.listOne_2[_currentChoice] << endl;
+		if (_currentChoice + 1 == len) return false;
+		return true;
+
+	}
+
 	void draw(FILE* file) {
 		fopen_s(&file, "file.bin", "a+");
 
@@ -384,44 +427,20 @@ private:
 			system("cls"); // очищаем экран
 			SetConsoleTextAttribute(h, 0x0007);
 			cout << "Меню:" << endl;
-			bool page2_is_first = true;
-			bool page1Exam_is_first = true;
-			bool page2012_is_first = true;
+			
 			skipInput = false;
 			
 			for (int i = 0; i < 15; i++) {
 
 
 				if (page == 0) {
-					len = listMenu.listOne.getSize();
-					(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
-					cout << listMenu.listOne[i] << endl;
-					if (i + 1 == len) break;
+					if(!page_0(i)) break;
 				}
 				if (page == 1) {
-				len = students.getSize() + 2;
-				Student tempStudent;
-				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
-				if (i == 0) cout << "Удалить студента" << endl;
-
-				else if (i + 1 <= len-1) {
-					cout << students[i-1] << endl;
-				}
-				else cout << "Назад";
-				if (i + 1 == len) break;
+					if (!page_1(i)) break;
 			}
 			if (page == 2) {
-				if (page2_is_first) {
-					cout << "Фамилия: " << menuStudent.firstname << " Имя: " << menuStudent.name << " Отчество: " << menuStudent.patronymic << endl;
-					cout << "Дата рождения: "; printDate(menuStudent.dayBirth, menuStudent.monthBirth, menuStudent.yearBirth,7);
-					cout << " Год начала обучения: " << menuStudent.yearStart << " Пол: " << (settingSex?(menuStudent.sex == 0 ? "Женский" : "Мужской"):"") << endl;
-					cout << "Номер зачетной книжки: " << menuStudent.id << " Группа: " << menuStudent.group << " Институт: " << menuStudent.faculty << " Кафедра: " << menuStudent.department << endl;
-					page2_is_first = false;
-				}
-				len = listMenu.listOne_2.getSize();
-				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
-				cout << listMenu.listOne_2[i] << endl;
-				if (i + 1 == len) break;
+				if (!page_2(i)) break;
 			}
 			if (page == 3) {
 				len = 1;
