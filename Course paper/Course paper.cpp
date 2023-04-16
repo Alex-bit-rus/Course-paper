@@ -124,15 +124,9 @@ void WRITE(FILE* file) {
 int main()
 {
     FILE* file = NULL;
-	WRITE(file);
-	crypt();
-	fopen_s(&file, "file.bin", "a+");
-    decrypt();
-	fclose(file);
+	//WRITE(file);
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
-	//crypt();
-   MenuClass menu;
-   menu.draw(file);
-   //crypt();
+	MenuClass menu;
+	menu.draw(file);
 }

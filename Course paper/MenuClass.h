@@ -437,13 +437,10 @@ private:
 				break;
 			}
 			if (page == maxCountOfStudents+1) {
-				len = lenFile + 1;
-				Student tempStudent;
+				len = students.getSize()+1;
 				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
-				if (i + 1 != len) {
-					fseek(file, sizeof(Student) * (i), SEEK_SET);
-					fread(&tempStudent, sizeof(Student), 1, file);
-					cout << tempStudent << endl;
+				if (i+1  != len) {
+					cout << students[i] << endl;
 				}
 				else {
 					cout << "Назад";
@@ -605,17 +602,11 @@ private:
 				
 			}
 			if (page >= (maxCountOfStudents+1)* maxCountOfStudents+1 and page <= (maxCountOfStudents+1)* maxCountOfStudents+ maxCountOfStudents-1) {
-				len = lenFile + 1;
-				size_t index = lenFile - (page - maxCountOfStudents + 1) * maxCountOfStudents;
+				len = students.getSize();
+				size_t index = (page - (maxCountOfStudents + 1)* maxCountOfStudents)-1 ;
+				cout << students[index];
 				students.removeElem(index);
-				lenFile--;
-				fclose(file);
-				fopen_s(&file, "file.bin", "w");
-				for (int j = lenFile-1; j > -1; j--) {
-					fwrite(&students[j], sizeof(Student), 1, file);
-				}
-				fclose(file);
-				fopen_s(&file, "file.bin", "a+");
+				len--;
 				system("cls");
 				page = 1; CHOICE = 1; i = 0;
 				skipInput = true;
