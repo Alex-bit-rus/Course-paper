@@ -7,6 +7,7 @@
 
 
 
+
 class Student {
 private:
     char firstname[40];

@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include "list.hpp"
+#include <time.h>
+#include <windows.h>
 using namespace std;
 struct ListMenu {
 	List <string> listOne;
@@ -58,6 +60,7 @@ private:
 	ListMenu listMenu;
 	StructStudent menuStudent;
 	MenuClass() {
+		
 		for (int i = 0; i < 76; i++) startYears[i] = 0;
 
 		listMenu.listOne.addElem("Выход");
@@ -115,6 +118,7 @@ private:
 		
 
 	}
+	
 
 	void var75() {
 		List <Student> GroupMax;
@@ -437,7 +441,7 @@ private:
 				Student tempStudent;
 				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 				if (i + 1 != len) {
-					fseek(file, 4288 * (i), SEEK_SET);
+					fseek(file, sizeof(Student) * (i), SEEK_SET);
 					fread(&tempStudent, sizeof(Student), 1, file);
 					cout << tempStudent << endl;
 				}
@@ -785,5 +789,5 @@ private:
 		fclose(file);
 
 	}
-
+	
 };
