@@ -121,6 +121,7 @@ private:
 		
 
 	}
+
 	
 
 	void var75() {
@@ -361,7 +362,11 @@ private:
 		for (int i = 0; i < lenTopLine; i++) cout << '_';
 	}
 
-	bool page_0(unsigned int _currentChoice) {
+	void printStudents(const unsigned int& _currentChoice) {
+
+	}
+
+	bool page_0(const unsigned int& _currentChoice) {
 		len = listMenu.listOne.getSize();
 		(CHOICE == _currentChoice + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 		cout << listMenu.listOne[_currentChoice] << endl;
@@ -371,7 +376,7 @@ private:
 		
 	}
 
-	bool page_1(unsigned int _currentChoice) {
+	bool page_1(const unsigned int& _currentChoice) {
 		len = students.getSize() + 2;
 		Student tempStudent;
 		(CHOICE == _currentChoice + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
@@ -385,7 +390,7 @@ private:
 		return true;
 
 	}
-	bool page_2(unsigned int _currentChoice) {
+	bool page_2(const unsigned int& _currentChoice) {
 		if (page2_is_first) {
 			cout << "Фамилия: " << menuStudent.firstname << " Имя: " << menuStudent.name << " Отчество: " << menuStudent.patronymic << endl;
 			cout << "Дата рождения: "; printDate(menuStudent.dayBirth, menuStudent.monthBirth, menuStudent.yearBirth, 7);
@@ -398,6 +403,41 @@ private:
 		cout << listMenu.listOne_2[_currentChoice] << endl;
 		if (_currentChoice + 1 == len) return false;
 		return true;
+
+	}
+	bool page_3(FILE* _file) {
+		len = 1;
+		writeToFile(_file);
+		cout << "БД записана в файл 'file.bin' \n";
+		system("PAUSE");
+		page = 0;
+		skipInput = true;
+		return false;
+
+	}
+	void page_4() {
+		var75();
+	}
+	bool page_printDeleteStudents(const unsigned int& _currentChoice) {
+		len = students.getSize() + 1;
+		(CHOICE == _currentChoice + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+		if (_currentChoice + 1 != len) {
+			cout << students[_currentChoice] << endl;
+			return true;
+		}
+		cout << "Назад";
+		return false;
+		
+
+	}
+	bool page_printEditList(const unsigned int& _currentChoice) {
+		len = listMenu.listOne_1000.getSize();
+		(CHOICE == _currentChoice + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
+		cout << listMenu.listOne_1000[_currentChoice] << endl;
+		firstEditSes = true;
+		if (_currentChoice + 1 == len) return false;
+		return true;
+		
 
 	}
 
@@ -420,6 +460,7 @@ private:
 		}
 
 		
+		
 
 	
 		
@@ -431,49 +472,28 @@ private:
 			skipInput = false;
 			
 			for (int i = 0; i < 15; i++) {
-
-
 				if (page == 0) {
 					if(!page_0(i)) break;
 				}
 				if (page == 1) {
 					if (!page_1(i)) break;
-			}
-			if (page == 2) {
-				if (!page_2(i)) break;
-			}
-			if (page == 3) {
-				len = 1;
-				writeToFile(file);
-				cout << "БД записана в файл 'file.bin' \n";
-				system("PAUSE");
-				page = 0;
-				skipInput = true;
+				}
+				if (page == 2) {
+					if (!page_2(i)) break;
+				}
+				if (page == 3) {
+					if (!page_3(file)) break;
+				}	
+				if (page == 4) {
+					page_4();
+				}
+				if (page == maxCountOfStudents+1) {
+					if (!page_printDeleteStudents(i)) break;
+				}
+				if (page >= maxCountOfStudents+2 and page <= 2*maxCountOfStudents-1) {
+					if(!page_printEditList(i)) break;
+				}
 
-			}
-			if (page == 4) {
-				var75();
-				break;
-			}
-			if (page == maxCountOfStudents+1) {
-				len = students.getSize()+1;
-				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
-				if (i+1  != len) {
-					cout << students[i] << endl;
-				}
-				else {
-					cout << "Назад";
-					break;
-				}
-			}
-			if (page >= maxCountOfStudents+2 and page <= 2*maxCountOfStudents-1) {
-				len = listMenu.listOne_1000.getSize();
-				(CHOICE == i + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
-				cout << listMenu.listOne_1000[i] << endl;
-				firstEditSes = true;
-				if (i + 1 == len) 
-					break;
-			}
 			if (page / maxCountOfStudents >= maxCountOfStudents+2 and page / maxCountOfStudents <= 2*maxCountOfStudents-1 or (page ==  ((maxCountOfStudents+2)* maxCountOfStudents+10)* maxCountOfStudents+1 or page == ((maxCountOfStudents + 2) * maxCountOfStudents + 10) * maxCountOfStudents + 2) or time_to_exam or page_add_exam or page_edit_exam) {
 
 				if (page == ((maxCountOfStudents + 2) * maxCountOfStudents + 10) * maxCountOfStudents + 1 or page == ((maxCountOfStudents + 2) * maxCountOfStudents + 10) * maxCountOfStudents + 2) {
@@ -723,6 +743,7 @@ private:
 
 
 			}
+			page2_is_first = true;
 			if (skipInput) continue;
 			
 			// ждем нажатия клавиши
@@ -792,6 +813,7 @@ private:
 				CHOICE = 1;
 				
 				settingSex = false;
+				
 			}
 		}
 
