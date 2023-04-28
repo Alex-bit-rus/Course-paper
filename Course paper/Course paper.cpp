@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <fstream>
 #include <windows.h>
 #include <conio.h>
 #include "list.hpp"
@@ -8,12 +9,13 @@
 #include <string>
 #include <time.h>
 
+
 using namespace std;
 
 void crypt() {
 	srand(time(NULL));
 	char* pass = new char[64];
-	for (int i = 0; i < 64; ++i) {
+	for (int i = 0; i < 63; ++i) {
 		switch (rand() % 3) {
 		case 0:
 			pass[i] = rand() % 10 + '0';
@@ -26,6 +28,8 @@ void crypt() {
 		}
 	}
 
+	pass[63] = '\0';
+
 
 	string command = "openssl\\bin\\openssl.exe enc -aes-256-cbc -salt -in file.bin -out file.bin.enc -pass pass:";
 	command += pass;
@@ -34,15 +38,16 @@ void crypt() {
 	if (remove("file.bin") != 0) {
 		cout << "[ERROR] - deleting file" << endl;
 	}
-	FILE* key;
-	fopen_s(&key, "key.bin", "w+");
-	fwrite(pass, 64, 1, key);
-	fclose(key);
+	ofstream file;
+	file.open("key.txt", ios::binary);
+	file.write(pass, 64);
+	file.close();
 
-	command = "openssl\\bin\\openssl.exe rsautl -encrypt -inkey rsa.public -pubin -in key.bin -out key.bin.enc";
+
+	command = "openssl\\bin\\openssl.exe rsautl -encrypt -inkey rsa.public -pubin -in key.txt -out key.txt.enc";
 	system(command.c_str());
 
-	if (remove("key.bin") != 0) {
+	if (remove("key.txt") != 0) {
 		cout << "[ERROR] - deleting file" << endl;
 	}
 
@@ -50,24 +55,27 @@ void crypt() {
 }
 
 void decrypt() {
-	string command = "openssl\\bin\\openssl.exe rsautl -decrypt -inkey rsa.private -in key.bin.enc -out key.bin";
+	string command = "openssl\\bin\\openssl.exe rsautl -decrypt -inkey rsa.private -in key.txt.enc -out key.txt";
+
 	system(command.c_str());
 
-	if (remove("key.bin.enc") != 0) {
+	if (remove("key.txt.enc") != 0) {
 		cout << "[ERROR] - deleting file" << endl;
 	}
 
 	char* pass = new char[64];
-	FILE* key;
-	fopen_s(&key, "key.bin", "r+");
-	fread(pass, 64, 1, key);
-	fclose(key);
 
-	if (remove("key.bin") != 0) {
+	ifstream file;
+	file.open("key.txt", ios::binary);
+	file.read(pass, 64);
+	file.close();
+
+	if (remove("key.txt") != 0) {
 		cout << "[ERROR] - deleting file" << endl;
 	}
 
-	command = "openssl\\bin\\openssl.exe enc -aes-256-cbc -d -in file.bin.enc -out file.bin -pass pass: ";
+	command = "openssl\\bin\\openssl.exe enc -aes-256-cbc -d -in file.bin.enc -out file.bin -pass pass:";
+	
 	command += pass;
 	system(command.c_str());
 
@@ -125,8 +133,10 @@ int main()
 {
     FILE* file = NULL;
 	//WRITE(file);
+	decrypt();
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
 	MenuClass menu;
 	menu.draw(file);
+	crypt();
 }

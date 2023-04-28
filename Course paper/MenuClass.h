@@ -248,6 +248,10 @@ private:
 		}
 		cout << "\nВведите месяц рождения студента: ";
 		cin >> menuStudent.monthBirth;
+		while (menuStudent.monthBirth > 12 or menuStudent.dayBirth < 1) {
+			cout << "Выход из диапазона значений! Повторите попытку: ";
+			cin >> menuStudent.monthBirth;
+		}
 		cout << "\nВведите год рождения студента: ";
 		cin >> menuStudent.yearBirth;
 		menuStudent.countFill += 3;
@@ -258,7 +262,7 @@ private:
 	void setStartYear() {
 		cout << "Введите год начала обучения студента: ";
 		cin >> menuStudent.yearStart;
-		while (menuStudent.yearStart > 2022 or menuStudent.yearStart < 2020) {
+		while (menuStudent.yearStart > 2023 or menuStudent.yearStart < 1947) {
 			cout << "Выход из диапазона значений! Повторите попытку: ";
 			cin >> menuStudent.yearStart;
 		}
@@ -763,6 +767,7 @@ private:
 				system("cls");
 				if (CHOICE == len) {
 					if (page == 0) {
+						fclose(file);
 						SetConsoleTextAttribute(h, 0x0007);
 						return;
 					}
@@ -818,8 +823,9 @@ private:
 		}
 
 
-		fclose(file);
+		
 
 	}
+	
 	
 };
