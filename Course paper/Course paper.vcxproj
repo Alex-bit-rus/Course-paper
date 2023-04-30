@@ -137,6 +137,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClassEditData.h" />
     <ClInclude Include="Exams.h" />
     <ClInclude Include="list.hpp" />
     <ClInclude Include="MenuClass.h" />

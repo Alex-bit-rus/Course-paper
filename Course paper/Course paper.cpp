@@ -133,6 +133,7 @@ int main()
 {
     FILE* file = NULL;
 	//WRITE(file);
+	//crypt();
 	decrypt();
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);

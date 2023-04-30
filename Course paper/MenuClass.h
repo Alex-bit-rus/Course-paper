@@ -4,6 +4,7 @@
 #include "list.hpp"
 #include <time.h>
 #include <windows.h>
+#include "ClassEditData.h"
 using namespace std;
 struct ListMenu {
 	List <string> listOne;
@@ -53,7 +54,6 @@ private:
 	unsigned short startYears[76];
 	unsigned short yearMaxCount = 0;
 	const unsigned short maxCountOfStudents = 1000;
-
 	size_t len;
 	size_t CHOICE = 1, choice = 1;
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -204,92 +204,98 @@ private:
 
 
 	void setFirstname() {
-		cout << "Введите фамилию студента: ";
+		/*cout << "Введите фамилию студента: ";
 		cin.getline(menuStudent.firstname, 40);
+		
 		while (!correctString(menuStudent.firstname)) {
 			cout << "фамилия должна состоять из кириллических символов! Повторите попытку: ";
 			cin.getline(menuStudent.firstname, 40);
-		}
+		}*/
+		ClassEditData EditFirstname;
+		EditFirstname.setLabel("Введите фамилию студента: ");
+		strcpy_s(menuStudent.firstname, EditFirstname.getData(editType::onlyAlpha, 40).c_str());
+		EditFirstname.clear();
 		menuStudent.countFill++;
 		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
 	void setName() {
-		cout << "Введите имя студента: ";
+		/*cout << "Введите имя студента: ";
 		cin.getline(menuStudent.name, 40);
 		while (!correctString(menuStudent.name)) {
 			cout << "Имя должнo состоять из кириллических символов! Повторите попытку: ";
 			cin.getline(menuStudent.name, 40);
-		}
+		}*/
+		ClassEditData EditName;
+		EditName.setLabel("Введите имя студента: ");
+		strcpy_s(menuStudent.name, EditName.getData(editType::onlyAlpha, 40).c_str());
 		menuStudent.countFill++;
 		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
 	void setPatronymic() {
-		cout << "Введите отчество студента: ";
+		/*cout << "Введите отчество студента: ";
 		cin.getline(menuStudent.patronymic, 40);
 		while (!correctString(menuStudent.patronymic)) {
 			cout << "Отчество должнo состоять из кириллических символов! Повторите попытку: ";
 			cin.getline(menuStudent.patronymic, 40);
-		}
+		}*/
+		ClassEditData EditPatronymic;
+		EditPatronymic.setLabel("Введите отчечтво студента: ");
+		strcpy_s(menuStudent.patronymic, EditPatronymic.getData(editType::onlyAlpha, 40).c_str());
 		menuStudent.countFill++;
 		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
 	void setBirthday() {
-		cout << "Введите день рождения студента: ";
-		cin >> menuStudent.dayBirth;
-		while (menuStudent.dayBirth > 31 or menuStudent.dayBirth < 1) {
-			cout << "Выход из диапазона значений! Повторите попытку: ";
-			cin >> menuStudent.dayBirth;
-		}
-		cout << "\nВведите месяц рождения студента: ";
-		cin >> menuStudent.monthBirth;
-		while (menuStudent.monthBirth > 12 or menuStudent.dayBirth < 1) {
-			cout << "Выход из диапазона значений! Повторите попытку: ";
-			cin >> menuStudent.monthBirth;
-		}
-		cout << "\nВведите год рождения студента: ";
-		cin >> menuStudent.yearBirth;
+		ClassEditData EditBirth;
+		EditBirth.setLabel("Введите день рождения студента: ");
+		menuStudent.dayBirth = EditBirth.getData(editType::onlyDigit, 1, 31);
+		EditBirth.clear();
+		EditBirth.setLabel("Введите месяц рождения студента: ");
+		menuStudent.monthBirth = EditBirth.getData(editType::onlyDigit, 1, 12);
+		EditBirth.clear();
+		EditBirth.setLabel("Введите год рождения студента: ");
+		menuStudent.yearBirth = EditBirth.getData(editType::onlyDigit, 1920, 2010);
 		menuStudent.countFill += 3;
 		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
 	void setStartYear() {
-		cout << "Введите год начала обучения студента: ";
-		cin >> menuStudent.yearStart;
-		while (menuStudent.yearStart > 2023 or menuStudent.yearStart < 1947) {
-			cout << "Выход из диапазона значений! Повторите попытку: ";
-			cin >> menuStudent.yearStart;
-		}
+		ClassEditData EditYearStart;
+		EditYearStart.setLabel("Введите год начала обучения студента: ");
+		menuStudent.yearStart = EditYearStart.getData(editType::onlyDigit, 1947, 2023);
 		menuStudent.countFill++;
 		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
 	void setGroup() {
-		cout << "Введите группу студента: ";
-		cin.getline(menuStudent.group, 40);
+		ClassEditData EditGroup;
+		EditGroup.setLabel("Введите группу студента: ");
+		strcpy_s(menuStudent.group, EditGroup.getData(editType::all).c_str());
 		menuStudent.countFill++;
 		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
 	void setDepartment() {
-		cout << "Введите кафедру студента: ";
-		cin.getline(menuStudent.department, 40);
+		ClassEditData EditDepartment;
+		EditDepartment.setLabel("Введите кафедру студента: ");
+		strcpy_s(menuStudent.department, EditDepartment.getData(editType::all).c_str());
 		menuStudent.countFill++;
 		CHOICE = page % maxCountOfStudents;
 		system("cls");
 		skipInput = true;
 	}
 	void setFaculty() {
-		cout << "Введите институт студента: ";
-		cin.getline(menuStudent.faculty, 40);
+		ClassEditData EditFaculty;
+		EditFaculty.setLabel("Введите институт студента: ");
+		strcpy_s(menuStudent.faculty, EditFaculty.getData(editType::onlyAlpha, 40).c_str());
 		menuStudent.countFill++;
 		CHOICE = page % maxCountOfStudents;
 		system("cls");
@@ -324,16 +330,13 @@ private:
 	void setExam(int _lessonNum = -1) {
 		unsigned short numSessia = page % 10-1, mark;
 		char nameLesson[40] = "";
-		cout << "Введите название дисциплины: ";
-		if (!firstEditSes) 
-			cin.ignore();
-		cin.getline(nameLesson, 40);
-		cout << "\nВведите оценку за экзамен от 2 до 5 или 0 - незачет, 1 - зачет: ";
-		cin >> mark;
-		while (mark < 0 or mark > 5) {
-			cout << "Выход из диапазона значений!Повторите попытку : ";
-			cin >> mark;
-		}
+		ClassEditData EditLesson;
+		EditLesson.setLabel("Введите название дисциплины: ");
+		strcpy_s(nameLesson, EditLesson.getData(editType::onlyAlpha, 40).c_str());
+
+		ClassEditData EditMark;
+		EditMark.setLabel("\nВведите оценку за экзамен от 2 до 5 или 0 - незачет, 1 - зачет: ");
+		mark = EditMark.getData(editType::onlyDigit, 0, 5);
 		menuStudent.exam.addLesson(numSessia, nameLesson, mark, _lessonNum);
 		firstEditSes = false;
 		skipInput = true;
@@ -399,7 +402,8 @@ private:
 			cout << "Фамилия: " << menuStudent.firstname << " Имя: " << menuStudent.name << " Отчество: " << menuStudent.patronymic << endl;
 			cout << "Дата рождения: "; printDate(menuStudent.dayBirth, menuStudent.monthBirth, menuStudent.yearBirth, 7);
 			cout << " Год начала обучения: " << menuStudent.yearStart << " Пол: " << (settingSex ? (menuStudent.sex == 0 ? "Женский" : "Мужской") : "") << endl;
-			cout << "Номер зачетной книжки: " << menuStudent.id << " Группа: " << menuStudent.group << " Институт: " << menuStudent.faculty << " Кафедра: " << menuStudent.department << endl;
+			cout << "Номер зачетной книжки: " << menuStudent.id << " Группа: " << menuStudent.group;
+			cout << endl << " Институт: " << menuStudent.faculty << " Кафедра: " << menuStudent.department << endl;
 			page2_is_first = false;
 		}
 		len = listMenu.listOne_2.getSize();
@@ -713,7 +717,7 @@ private:
 					if (i + 1 == len) break;
 						
 				}
-				if (page >= 2 * maxCountOfStudents* maxCountOfStudents+1 and page < maxCountOfStudents * maxCountOfStudents + 9) {
+				if (page >= (2 * maxCountOfStudents+11)* maxCountOfStudents+1 and page < (2*maxCountOfStudents+11) * maxCountOfStudents + 9) {
 					setExam();
 					page = 2;
 					
