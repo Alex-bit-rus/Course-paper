@@ -1,16 +1,14 @@
 #pragma once
-//класс ввода данных 
 #pragma once
 #include "windows.h"
 #include <iostream>
 #include <string.h>
 #include <conio.h>
 #include <stdio.h>
-//#include "ClassMenu.h"
-
+ 
 using namespace std;
 
-enum class editType : char { onlyDigit, onlyAlpha, all };
+enum class editType : char { onlyDigit, onlyAlpha, alphaAndSpace ,all };
 
 
 class ClassEditData
@@ -64,6 +62,13 @@ public:
 		else
 			return false;
 	}
+	
+	bool isControl(char ch) {
+		if ((ch <= 13 and ch >= 0) or ch == 31)
+			return true;
+		else
+			return false;
+	}
 	void clear(string _data = "") {
 		system("cls");
 		data = _data;
@@ -93,9 +98,16 @@ public:
 					cout << ch;
 					data = data + ch;
 				}
+			if (et == editType::alphaAndSpace)
+				if (isAlpha(ch) or isSpace(ch)) {
+					cout << ch;
+					data = data + ch;
+				}
 			if (et == editType::all) {
-				cout << ch;
-				data = data + ch;
+				if (!isControl(ch)) {
+					cout << ch;
+					data = data + ch;
+				}
 			}
 		}
 		return data;
@@ -117,6 +129,14 @@ public:
 	}
 	string getData(enum class editType et, int len) {
 		if (et == editType::onlyAlpha) {
+			getData(et);
+			if (data.length() > len) {
+				cout << endl << "Ошибка: Длина строки больше чем допускается: " << data.length() << " Разрешено: " << len << " ";
+				getData(et, len);
+			}
+			return data;
+		}
+		if (et == editType::alphaAndSpace) {
 			getData(et);
 			if (data.length() > len) {
 				cout << endl << "Ошибка: Длина строки больше чем допускается: " << data.length() << " Разрешено: " << len << " ";

@@ -48,7 +48,8 @@ public:
     void printDate();
     void printAllData();
     unsigned short getStartYear() { return yearStart; }
-    char* getID() { return id; }
+    char* getID() { 
+        return id; }
     bool operator== (const Student&);
     bool operator< (const Student&);
     Student operator= (const Student&);

@@ -64,7 +64,7 @@ private:
 	StructStudent menuStudent;
 	MenuClass() {
 		
-		for (int i = 0; i < 76; i++) startYears[i] = 0;
+		
 
 		listMenu.listOne.addElem("Выход");
 		listMenu.listOne.addElem("Выполнить вариант 75");
@@ -122,9 +122,20 @@ private:
 
 	}
 
-	
+	void maxCounterYear() {
+		for (int i = 0; i < 76; i++) startYears[i] = 0;
+		maxCount = 0;
+		for (int i = 0; i < students.getSize(); i++) {
+			startYears[students[i].getStartYear() - 1947]++;
+			if (startYears[students[i].getStartYear() - 1947] > maxCount) {
+				maxCount = startYears[students[i].getStartYear() - 1947];
+				yearMaxCount = students[i].getStartYear();
+			}
+		}
+	}
 
 	void var75() {
+		maxCounterYear();
 		List <Student> GroupMax;
 		List <Student> GroupOther;
 		unsigned short countStudents = students.getSize();
@@ -144,7 +155,10 @@ private:
 			system("cls");
 			cout << "Для возвращения назад нажмите Enter\n";
 			cout << "\nСтуденты, поступившие в ВУЗ в " << yearMaxCount << " :\n";
-			for (int i = 0; i < lenMax; i++) cout << GroupMax[i] << " " << GroupMax[i].getID() << "\n";
+			for (int i = 0; i < lenMax; i++) {
+				cout << GroupMax[i] ;
+				cout << " " << GroupMax[i].getID() << "\n";
+			}
 			cout << "\nСтуденты, поступившие в ВУЗ в других годах:\n";
 			for (int i = 0; i < lenOthers; i++) cout << GroupOther[i] << " " << GroupOther[i].getID() << "\n";
 			_key = _getch();
@@ -332,7 +346,7 @@ private:
 		char nameLesson[40] = "";
 		ClassEditData EditLesson;
 		EditLesson.setLabel("Введите название дисциплины: ");
-		strcpy_s(nameLesson, EditLesson.getData(editType::onlyAlpha, 40).c_str());
+		strcpy_s(nameLesson, EditLesson.getData(editType::alphaAndSpace, 40).c_str());
 
 		ClassEditData EditMark;
 		EditMark.setLabel("\nВведите оценку за экзамен от 2 до 5 или 0 - незачет, 1 - зачет: ");
@@ -448,6 +462,7 @@ private:
 		
 
 	}
+	
 
 	void draw(FILE* file) {
 		fopen_s(&file, "file.bin", "a+");
@@ -460,12 +475,10 @@ private:
 			Student tempStudent;
 			fread(&tempStudent, sizeof(Student), 1, file);
 			students.addElem(tempStudent);
-			startYears[tempStudent.getStartYear() - 1947]++;
-			if (startYears[tempStudent.getStartYear() - 1947] > maxCount) {
-				maxCount = startYears[tempStudent.getStartYear() - 1947];
-				yearMaxCount = tempStudent.getStartYear();
-			}
+			
 		}
+
+		
 
 		
 		
@@ -752,6 +765,7 @@ private:
 
 			}
 			page2_is_first = true;
+			page2012_is_first = true;
 			if (skipInput) continue;
 			
 			// ждем нажатия клавиши

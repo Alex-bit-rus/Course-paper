@@ -140,4 +140,5 @@ int main()
 	MenuClass menu;
 	menu.draw(file);
 	crypt();
+	
 }
