@@ -136,6 +136,14 @@ public:
 			}
 			return data;
 		}
+		if (et == editType::all) {
+			getData(et);
+			if (data.length() > len) {
+				cout << endl << "Ошибка: Длина строки больше чем допускается: " << data.length() << " Разрешено: " << len << " ";
+				getData(et, len);
+			}
+			return data;
+		}
 		if (et == editType::alphaAndSpace) {
 			getData(et);
 			if (data.length() > len) {

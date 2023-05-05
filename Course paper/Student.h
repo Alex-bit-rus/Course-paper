@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <iomanip>
 #include <string.h>
 #include <string>
 #include "Exams.h"
@@ -180,8 +181,13 @@ Student Student::operator=(const Student& student) {
 
 std::ostream& operator<<(std::ostream& out, const Student& student)
 {
-    out << student.firstname << " " << student.name \
-        << " " << student.patronymic << " " << student.group;
+    out << student.firstname << ' ';
+    out << "" << student.name[0] << '.';
+    out << "" << student.patronymic[0] << '.';
+    out.fill(' ');
+    out.width(10 - strlen(student.firstname));
+    std::ios::left;
+    out << "" << student.group;
     return out;
 }
 

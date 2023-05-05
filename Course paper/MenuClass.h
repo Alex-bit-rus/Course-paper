@@ -5,6 +5,7 @@
 #include <time.h>
 #include <windows.h>
 #include "ClassEditData.h"
+#include "EditStudent.h"
 using namespace std;
 struct ListMenu {
 	List <string> listOne;
@@ -16,25 +17,9 @@ struct ListMenu {
 	List <string> listExams;
 	List <string> AddLast;
 	};
-struct StructStudent {
-	char firstname[40] = "";
-	char name[40] = "";
-	char patronymic[40] = "";
-	unsigned short dayBirth = 0;
-	unsigned short monthBirth = 0;
-	unsigned short yearBirth = 0;
-	unsigned short yearStart = 0;
-	char faculty[40] = "";
-	char department[40] = "";
-	char group[40] = "";
-	char id[40] = "";
-	bool sex;
-	Exams exam;
-	int countFill = 0;
-};
 
-class MenuClass
-{
+
+class MenuClass: public EditStudent {
 private:
 	List<Student> students;
 	bool firstEditSes = true;
@@ -61,7 +46,6 @@ private:
 	char key;
 	public:
 	ListMenu listMenu;
-	StructStudent menuStudent;
 	MenuClass() {
 		
 		
@@ -155,12 +139,38 @@ private:
 			system("cls");
 			cout << "Для возвращения назад нажмите Enter\n";
 			cout << "\nСтуденты, поступившие в ВУЗ в " << yearMaxCount << " :\n";
+			cout << "ФИО";
+			cout.fill(' ');
+			cout.width(18);
+			ios::left;
+			cout << "Группа";
+			cout.fill(' ');
+			cout.width(30);
+			cout << "Номер зачётной книжки\n";
 			for (int i = 0; i < lenMax; i++) {
 				cout << GroupMax[i] ;
-				cout << " " << GroupMax[i].getID() << "\n";
+				cout.fill(' ');
+				cout.width(4);
+				ios::left;
+				cout << "" << GroupMax[i].getID() << "\n";
 			}
 			cout << "\nСтуденты, поступившие в ВУЗ в других годах:\n";
-			for (int i = 0; i < lenOthers; i++) cout << GroupOther[i] << " " << GroupOther[i].getID() << "\n";
+			cout << "ФИО";
+			cout.fill(' ');
+			cout.width(18);
+			ios::left;
+			cout << "Группа";
+			cout.fill(' ');
+			cout.width(30);
+			cout << "Номер зачётной книжки\n";
+			for (int i = 0; i < lenOthers; i++)
+			{
+				cout << GroupOther[i];
+				cout.fill(' ');
+				cout.width(4);
+				ios::left;
+				cout << "" << GroupOther[i].getID() << "\n";
+			}
 			_key = _getch();
 		}
 		page = 0;
@@ -168,153 +178,6 @@ private:
 	}
 
 
-	void clearStudent() {
-		strcpy_s(menuStudent.firstname,"");
-		strcpy_s(menuStudent.name,"");
-		strcpy_s(menuStudent.patronymic, "");
-		menuStudent.dayBirth = 0;
-		menuStudent.monthBirth = 0;
-		menuStudent.yearBirth = 0;
-		menuStudent.yearStart = 0;
-		strcpy_s(menuStudent.faculty,"");
-		strcpy_s(menuStudent.department,"");
-		strcpy_s(menuStudent.group,"");
-		strcpy_s(menuStudent.id, "");
-		menuStudent.sex = 0;
-		menuStudent.exam.clear();
-		menuStudent.countFill = 0;
-	}
-	bool correctString(char _string []) {
-		unsigned short _len = strlen(_string);
-		for (unsigned short i = 0; i < _len; i++) {
-			if ((unsigned int)_string[i] < 192) {
-				return false;
-			}
-		}
-		return true;
-	}
-	void printDate(const unsigned short& day, const unsigned short& month,const unsigned short& year, int wLine) {
-		int w = 10;
-		int delta = (wLine - w) / 2 - 1;
-		cout.width(delta); cout << " ";
-		if (day > 9) {
-			cout << day;
-		}
-		else {
-			cout << "0" << day;
-		}
-		cout << ".";
-		if (month > 9) {
-			cout << month;
-		}
-		else {
-			cout << "0" << month;
-		}
-		cout << ".";
-		cout << year;
-		cout.width(delta); cout << " ";
-	}
-
-
-
-	void setFirstname() {
-		/*cout << "Введите фамилию студента: ";
-		cin.getline(menuStudent.firstname, 40);
-		
-		while (!correctString(menuStudent.firstname)) {
-			cout << "фамилия должна состоять из кириллических символов! Повторите попытку: ";
-			cin.getline(menuStudent.firstname, 40);
-		}*/
-		ClassEditData EditFirstname;
-		EditFirstname.setLabel("Введите фамилию студента: ");
-		strcpy_s(menuStudent.firstname, EditFirstname.getData(editType::onlyAlpha, 40).c_str());
-		EditFirstname.clear();
-		menuStudent.countFill++;
-		CHOICE = page % maxCountOfStudents;
-		system("cls");
-		skipInput = true;
-	}
-	void setName() {
-		/*cout << "Введите имя студента: ";
-		cin.getline(menuStudent.name, 40);
-		while (!correctString(menuStudent.name)) {
-			cout << "Имя должнo состоять из кириллических символов! Повторите попытку: ";
-			cin.getline(menuStudent.name, 40);
-		}*/
-		ClassEditData EditName;
-		EditName.setLabel("Введите имя студента: ");
-		strcpy_s(menuStudent.name, EditName.getData(editType::onlyAlpha, 40).c_str());
-		menuStudent.countFill++;
-		CHOICE = page % maxCountOfStudents;
-		system("cls");
-		skipInput = true;
-	}
-	void setPatronymic() {
-		/*cout << "Введите отчество студента: ";
-		cin.getline(menuStudent.patronymic, 40);
-		while (!correctString(menuStudent.patronymic)) {
-			cout << "Отчество должнo состоять из кириллических символов! Повторите попытку: ";
-			cin.getline(menuStudent.patronymic, 40);
-		}*/
-		ClassEditData EditPatronymic;
-		EditPatronymic.setLabel("Введите отчечтво студента: ");
-		strcpy_s(menuStudent.patronymic, EditPatronymic.getData(editType::onlyAlpha, 40).c_str());
-		menuStudent.countFill++;
-		CHOICE = page % maxCountOfStudents;
-		system("cls");
-		skipInput = true;
-	}
-	void setBirthday() {
-		ClassEditData EditBirth;
-		EditBirth.setLabel("Введите день рождения студента: ");
-		menuStudent.dayBirth = EditBirth.getData(editType::onlyDigit, 1, 31);
-		EditBirth.clear();
-		EditBirth.setLabel("Введите месяц рождения студента: ");
-		menuStudent.monthBirth = EditBirth.getData(editType::onlyDigit, 1, 12);
-		EditBirth.clear();
-		EditBirth.setLabel("Введите год рождения студента: ");
-		menuStudent.yearBirth = EditBirth.getData(editType::onlyDigit, 1920, 2010);
-		menuStudent.countFill += 3;
-		CHOICE = page % maxCountOfStudents;
-		system("cls");
-		skipInput = true;
-	}
-	void setStartYear() {
-		ClassEditData EditYearStart;
-		EditYearStart.setLabel("Введите год начала обучения студента: ");
-		menuStudent.yearStart = EditYearStart.getData(editType::onlyDigit, 1947, 2023);
-		menuStudent.countFill++;
-		CHOICE = page % maxCountOfStudents;
-		system("cls");
-		skipInput = true;
-	}
-	void setGroup() {
-		ClassEditData EditGroup;
-		EditGroup.setLabel("Введите группу студента: ");
-		strcpy_s(menuStudent.group, EditGroup.getData(editType::all).c_str());
-		menuStudent.countFill++;
-		CHOICE = page % maxCountOfStudents;
-		system("cls");
-		skipInput = true;
-	}
-	void setDepartment() {
-		ClassEditData EditDepartment;
-		EditDepartment.setLabel("Введите кафедру студента: ");
-		strcpy_s(menuStudent.department, EditDepartment.getData(editType::all).c_str());
-		menuStudent.countFill++;
-		CHOICE = page % maxCountOfStudents;
-		system("cls");
-		skipInput = true;
-	}
-	void setFaculty() {
-		ClassEditData EditFaculty;
-		EditFaculty.setLabel("Введите институт студента: ");
-		strcpy_s(menuStudent.faculty, EditFaculty.getData(editType::onlyAlpha, 40).c_str());
-		menuStudent.countFill++;
-		CHOICE = page % maxCountOfStudents;
-		system("cls");
-		skipInput = true;
-	}
 	void setID() {
 		cout << "Введите номер зачетной книжки студента: ";
 		cin.getline(menuStudent.id, 40);
@@ -331,7 +194,8 @@ private:
 		system("cls");
 		skipInput = true;
 
-	}void setSex() {
+	}
+	void setSex() {
 		if (page % 10 == 1) menuStudent.sex = 0;
 		else menuStudent.sex = 1;
 		menuStudent.countFill++;
@@ -370,24 +234,8 @@ private:
 	}
 
 
-	size_t findMaxLen(List<string>& str) {
-		size_t maxLen = 0;
-		for (int i = 0; i < str.getSize(); i++) {
-			if (maxLen < str[i].size()) maxLen = str[i].size();
-		}
-		return maxLen;
-
-	}
-
-	void drawTopLine(size_t lenTopLine) {
-		for (int i = 0; i < lenTopLine; i++) cout << '_';
-	}
-
-	void printStudents(const unsigned int& _currentChoice) {
-
-	}
-
 	bool page_0(const unsigned int& _currentChoice) {
+		
 		len = listMenu.listOne.getSize();
 		(CHOICE == _currentChoice + 1 ? SetConsoleTextAttribute(h, 0x000A) : SetConsoleTextAttribute(h, 0x0007));
 		cout << listMenu.listOne[_currentChoice] << endl;
@@ -414,7 +262,7 @@ private:
 	bool page_2(const unsigned int& _currentChoice) {
 		if (page2_is_first) {
 			cout << "Фамилия: " << menuStudent.firstname << " Имя: " << menuStudent.name << " Отчество: " << menuStudent.patronymic << endl;
-			cout << "Дата рождения: "; printDate(menuStudent.dayBirth, menuStudent.monthBirth, menuStudent.yearBirth, 7);
+			cout << "Дата рождения: "; printDate(7);
 			cout << " Год начала обучения: " << menuStudent.yearStart << " Пол: " << (settingSex ? (menuStudent.sex == 0 ? "Женский" : "Мужской") : "") << endl;
 			cout << "Номер зачетной книжки: " << menuStudent.id << " Группа: " << menuStudent.group;
 			cout << endl << " Институт: " << menuStudent.faculty << " Кафедра: " << menuStudent.department << endl;
@@ -477,13 +325,7 @@ private:
 			students.addElem(tempStudent);
 			
 		}
-
 		
-
-		
-		
-
-	
 		
 		while (true) {
 			system("cls"); // очищаем экран
@@ -574,55 +416,80 @@ private:
 
 				}
 				else if (page % 1000 == 1) {
-					setFirstname();	
+					EditStudent::setFirstname();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editFirstname(menuStudent.firstname);
 					page = page / maxCountOfStudents;
 					break;
 				}
 				else if (page % maxCountOfStudents == 2) {
-					setName();
+					EditStudent::setName();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editName(menuStudent.name);
 					page = page / maxCountOfStudents;
 					break;
 				}
 				else if (page % maxCountOfStudents == 3) {
-					setPatronymic();
+					EditStudent::setPatronymic();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editPatronymic(menuStudent.patronymic);
 					page = page / maxCountOfStudents;
 					break;
 				}
 				else if (page % maxCountOfStudents == 4) {
-					setBirthday();
+					EditStudent::setBirthday();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editBirth(menuStudent.dayBirth, menuStudent.monthBirth, menuStudent.yearBirth);
 					page = page / maxCountOfStudents;
 					break;
 				}
 				else if (page % maxCountOfStudents == 5) {
-					setStartYear();
+					EditStudent::setStartYear();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editYearStart(menuStudent.yearStart);
 					page = page / maxCountOfStudents;
 					break;
 				}
 				else if (page % maxCountOfStudents == 6) {
-					setGroup();
+					EditStudent::setGroup();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editGroup(menuStudent.group);
 					page = page / maxCountOfStudents;
 					break;
 				}
 				else if (page % maxCountOfStudents == 7) {
-					setDepartment();
+					EditStudent::setDepartment();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editDepartment(menuStudent.department);
 					page = page / maxCountOfStudents;
 					break;
 				}
 				else if (page % maxCountOfStudents == 8) {
-					setFaculty();
+					EditStudent::setFaculty();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editFaculty(menuStudent.faculty);
 					page = page / maxCountOfStudents;
 					break;
 				}
 				else if (page % maxCountOfStudents == 9) {
 					setID();
+					skipInput = true;
 					students[(int)(page / maxCountOfStudents % maxCountOfStudents - 2)].editID(menuStudent.id);
 					page = page / maxCountOfStudents;
 					break;
@@ -674,40 +541,64 @@ private:
 			}
 			if (page > 2*maxCountOfStudents) {
 				if (page == 2 * maxCountOfStudents+1) {
-					setFirstname();
+					EditStudent::setFirstname();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					page = 2;
 				}
 				if (page == 2 * maxCountOfStudents+2) {
-					setName();
+					EditStudent::setName();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					page = 2;
 				}
 				if (page == 2 * maxCountOfStudents+3) {
-					setPatronymic();
+					EditStudent::setPatronymic();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					page = 2;
 				}
 				if (page == 2 * maxCountOfStudents+4) {
-					setBirthday();
+					EditStudent::setBirthday();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					page = 2;
 				}
 				if (page == 2 * maxCountOfStudents+5) {
-					setStartYear();
+					EditStudent::setStartYear();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					page = 2;
 				}
 				if (page == 2 * maxCountOfStudents+6) {
-					setGroup();
+					EditStudent::setGroup();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					page = 2;
 				}
 				if (page == 2 * maxCountOfStudents+7) {
-					setDepartment();
+					EditStudent::setDepartment();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					page = 2;
 				}
 				if (page == 2 * maxCountOfStudents+8) {
-					setFaculty();
+					EditStudent::setFaculty();
+					CHOICE = page % maxCountOfStudents;
+					system("cls");
+					skipInput = true;
 					page = 2;
 				}
 				if (page == 2 * maxCountOfStudents+9) {
 					setID();
-					page = 2;
+					page = 2; 
 				}
 				if (page == 2 * maxCountOfStudents+10) {
 					len = 3;
@@ -793,7 +684,7 @@ private:
 						page = 2*maxCountOfStudents+12;
 					}
 					else if (page == 2* maxCountOfStudents+12) {
-						clearStudent();
+						EditStudent::clearStudent();
 						page = 0;
 					}
 					else if (time_to_exam) {
