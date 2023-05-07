@@ -40,12 +40,13 @@ private:
 	unsigned short yearMaxCount = 0;
 	const unsigned short maxCountOfStudents = 1000;
 	size_t len;
-	size_t CHOICE = 1, choice = 1;
+	size_t CHOICE = 1, choice;
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	COORD c;
 	char key;
-	public:
 	ListMenu listMenu;
+	public:
+	
 	MenuClass() {
 		
 		
@@ -141,35 +142,27 @@ private:
 			cout << "\nСтуденты, поступившие в ВУЗ в " << yearMaxCount << " :\n";
 			cout << "ФИО";
 			cout.fill(' ');
-			cout.width(18);
+			cout.width(23);
 			ios::left;
 			cout << "Группа";
 			cout.fill(' ');
-			cout.width(30);
+			cout.width(31);
 			cout << "Номер зачётной книжки\n";
 			for (int i = 0; i < lenMax; i++) {
-				cout << GroupMax[i] ;
-				cout.fill(' ');
-				cout.width(4);
-				ios::left;
-				cout << "" << GroupMax[i].getID() << "\n";
+				cout << GroupMax[i] << "\n";
 			}
 			cout << "\nСтуденты, поступившие в ВУЗ в других годах:\n";
 			cout << "ФИО";
 			cout.fill(' ');
-			cout.width(18);
+			cout.width(23);
 			ios::left;
 			cout << "Группа";
 			cout.fill(' ');
-			cout.width(30);
+			cout.width(31);
 			cout << "Номер зачётной книжки\n";
 			for (int i = 0; i < lenOthers; i++)
 			{
-				cout << GroupOther[i];
-				cout.fill(' ');
-				cout.width(4);
-				ios::left;
-				cout << "" << GroupOther[i].getID() << "\n";
+				cout << GroupOther[i] << "\n";
 			}
 			_key = _getch();
 		}
@@ -178,14 +171,15 @@ private:
 	}
 
 
+
 	void setID() {
 		cout << "Введите номер зачетной книжки студента: ";
-		cin.getline(menuStudent.id, 40);
+		cin.getline(menuStudent.id, 15);
 		Student tempStudent(menuStudent.id);
 		int find = students.findElem(tempStudent);
 		while (find != -1) {
 			cout << "Студент с таким номером зачетной книжки уже есть! Повторите попытку: ";
-			cin.getline(menuStudent.id, 40);
+			cin.getline(menuStudent.id, 15);
 			Student tempStudent(menuStudent.id);
 			find = students.findElem(tempStudent);
 		}
@@ -655,6 +649,7 @@ private:
 
 
 			}
+			page1Exam_is_first = true;
 			page2_is_first = true;
 			page2012_is_first = true;
 			if (skipInput) continue;

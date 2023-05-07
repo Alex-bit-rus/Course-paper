@@ -15,10 +15,7 @@ public:
     int firstEmpty(const unsigned short);
     unsigned short countLessons(const unsigned short);
     int addLesson(const unsigned short, const char[], const unsigned short, const int);
-    unsigned short getSizeSess(const unsigned short);
-    void writeExamsToFile(FILE*);
     void print();
-    void readExamsToFile(FILE*);
     void clear();
     Exams operator= (const Exams&);
     ~Exams();
@@ -84,17 +81,7 @@ void Exams::clear()
             }
         }
 }
-void Exams::writeExamsToFile(FILE* file) {
-    fwrite(lessons, sizeof(lessons), 1, file);
-    /*for (int i = 0; i < 9; i++)
-        for (int j = 0; j < 10; j++) {*/
-            
-}void Exams::readExamsToFile(FILE* file) {
-    fread(lessons, sizeof(lessons), 1, file);
-    /*for (int i = 0; i < 9; i++)
-        for (int j = 0; j < 10; j++) {*/
-            
-}
+
 
 Exams Exams::operator=(const Exams& exam) {
     for (int i = 0; i < 9; i++) {

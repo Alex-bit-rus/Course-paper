@@ -10,7 +10,7 @@
   <Class Name="Exams">
     <Position X="6.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>INQAAAAAAAAAABAAABAAAAAAAAAAABQAAAAgBAAAAAA=</HashCode>
+      <HashCode>INQAAAAAAAAAAAAAAAAAAAAAAAAAABQAAAAgAAAAAAA=</HashCode>
       <FileName>Exams.h</FileName>
     </TypeIdentifier>
   </Class>

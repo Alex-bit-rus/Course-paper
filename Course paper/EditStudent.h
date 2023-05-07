@@ -5,17 +5,17 @@
 #include "Exams.h"
 
 struct StructStudent {
-	char firstname[40] = "";
-	char name[40] = "";
-	char patronymic[40] = "";
+	char firstname[15] = "";
+	char name[15] = "";
+	char patronymic[15] = "";
 	unsigned short dayBirth = 0;
 	unsigned short monthBirth = 0;
 	unsigned short yearBirth = 0;
 	unsigned short yearStart = 0;
-	char faculty[40] = "";
-	char department[40] = "";
-	char group[40] = "";
-	char id[40] = "";
+	char faculty[15] = "";
+	char department[15] = "";
+	char group[15] = "";
+	char id[15] = "";
 	bool sex;
 	Exams exam;
 	int countFill = 0;
@@ -69,20 +69,20 @@ public:
 	void setFirstname() {
 		ClassEditData EditFirstname;
 		EditFirstname.setLabel("¬ведите фамилию студента: ");
-		strcpy_s(menuStudent.firstname, EditFirstname.getData(editType::onlyAlpha, 40).c_str());
+		strcpy_s(menuStudent.firstname, EditFirstname.getData(editType::onlyAlpha, 15).c_str());
 		EditFirstname.clear();
 		menuStudent.countFill++;
 	}
 	void setName() {
 		ClassEditData EditName;
 		EditName.setLabel("¬ведите им€ студента: ");
-		strcpy_s(menuStudent.name, EditName.getData(editType::onlyAlpha, 40).c_str());
+		strcpy_s(menuStudent.name, EditName.getData(editType::onlyAlpha, 15).c_str());
 		menuStudent.countFill++;
 	}
 	void setPatronymic() {
 		ClassEditData EditPatronymic;
 		EditPatronymic.setLabel("¬ведите отчечтво студента: ");
-		strcpy_s(menuStudent.patronymic, EditPatronymic.getData(editType::onlyAlpha, 40).c_str());
+		strcpy_s(menuStudent.patronymic, EditPatronymic.getData(editType::onlyAlpha, 15).c_str());
 		menuStudent.countFill++;
 	}
 	void setBirthday() {

@@ -11,17 +11,17 @@
 
 class Student {
 private:
-    char firstname[40];
-    char name[40];
-    char patronymic[40];
+    char firstname[15];
+    char name[15];
+    char patronymic[15];
     unsigned short dayBirth;
     unsigned short monthBirth;
     unsigned short yearBirth;
     unsigned short yearStart;
-    char faculty[40];
-    char department[40];
-    char group[40];
-    char id[40];
+    char faculty[15];
+    char department[15];
+    char group[15];
+    char id[15];
     bool sex = 0; 
     Exams exam;
     
@@ -74,7 +74,7 @@ Student::Student() {
     sex = 0;
     
 }
-Student::Student(char id[40]) {
+Student::Student(char id[15]) {
     strcpy_s(this->firstname, "f");
     strcpy_s(this->name, "n");
     strcpy_s(this->patronymic, "p");
@@ -185,13 +185,16 @@ std::ostream& operator<<(std::ostream& out, const Student& student)
     out << "" << student.name[0] << '.';
     out << "" << student.patronymic[0] << '.';
     out.fill(' ');
-    out.width(10 - strlen(student.firstname));
+    out.width(15 - strlen(student.firstname));
     std::ios::left;
     out << "" << student.group;
+    out.width(15 - strlen(student.group));
+    std::ios::left;
+    out << "" << student.id;
     return out;
 }
 
-int Student::addExam(const unsigned short _numSess, const char _nameLesson[40], const unsigned short _mark, const int _lessonNum = -1) {
+int Student::addExam(const unsigned short _numSess, const char _nameLesson[15], const unsigned short _mark, const int _lessonNum = -1) {
     return exam.addLesson(_numSess, _nameLesson, _mark, _lessonNum);
 }
 

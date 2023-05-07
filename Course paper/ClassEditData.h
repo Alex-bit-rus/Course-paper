@@ -134,6 +134,10 @@ public:
 				cout << endl << "Ошибка: Длина строки больше чем допускается: " << data.length() << " Разрешено: " << len << " ";
 				getData(et, len);
 			}
+			if (data.length() == 0) {
+				cout << endl << "Вы ввели строку длины 0: ";
+				getData(et, len);
+			}
 			return data;
 		}
 		if (et == editType::all) {
